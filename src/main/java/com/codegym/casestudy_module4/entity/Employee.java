@@ -38,9 +38,9 @@ public class Employee {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate dob;
 
-    @Column(name = "hired_date")
+    @Column(name = "hire_date")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate hiredDate;
+    private LocalDate hireDate;
 
     @Column(name = "created_at")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
