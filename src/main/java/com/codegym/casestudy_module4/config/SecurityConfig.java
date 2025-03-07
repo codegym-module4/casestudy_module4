@@ -42,25 +42,25 @@ public class SecurityConfig {
 //                Config các đường dẫn không cần đăng nhập
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-                                .requestMatchers("/login",  "/img/**",
+                                .requestMatchers("/login","/img/**",
                                         "/css/**", "/plugins/**", "/js/**","/dist/**", "/resources/**")
-                                .permitAll());
-//                .authorizeHttpRequests((authorizeHttpRequests) ->
-//                        authorizeHttpRequests
-//                                .requestMatchers("/student/**", "/logout").authenticated())
-//                .formLogin((formLogin) ->
-//                        formLogin
-//                                .usernameParameter("email")
-//                                .passwordParameter("password")
-//                                .loginPage("/login")
-//                                .failureUrl("/login?error=true")
-//                                .loginProcessingUrl("/login")
-//                                .defaultSuccessUrl("/student"))
-//                .logout((logout) ->
-//                        logout.deleteCookies("remove")
-//                                .invalidateHttpSession(false)
-//                                .logoutUrl("/logout")
-//                                .logoutSuccessUrl("/login"));
+                                .permitAll())
+                .authorizeHttpRequests((authorizeHttpRequests) ->
+                        authorizeHttpRequests
+                                .requestMatchers("/","receipt/order/**", "/logout").authenticated())
+                .formLogin((formLogin) ->
+                        formLogin
+                                .usernameParameter("username")
+                                .passwordParameter("password")
+                                .loginPage("/login")
+                                .failureUrl("/login?error=true")
+                                .loginProcessingUrl("/login")
+                                .defaultSuccessUrl("/", true))
+                .logout((logout) ->
+                        logout.deleteCookies("remove")
+                                .invalidateHttpSession(false)
+                                .logoutUrl("/logout")
+                                .logoutSuccessUrl("/login"));
         return http.build();
     }
 }
