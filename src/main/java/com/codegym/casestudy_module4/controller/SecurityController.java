@@ -38,16 +38,9 @@ public class SecurityController {
     public String loginPage(Model model, @RequestParam(value = "error", defaultValue = "")String error) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         if (!username.equals("anonymousUser")) {
-            return "redirect:/student";
+            return "redirect:/";
         }
         model.addAttribute("error", error);
-        return "security/login";
-    }
-
-    @GetMapping(value = "/logoutSuccessful")
-    public String logoutSuccessfulPage(Model model) {
-
-        model.addAttribute("title", "Logout");
-        return "security/logoutSuccessfulPage";
+        return "login/login";
     }
 }

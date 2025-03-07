@@ -22,6 +22,7 @@ public class UserInfoUserDetails implements UserDetails {
         // ROLE_USER, ROLE_ADMIN,..
         GrantedAuthority authority = new SimpleGrantedAuthority(appUser.getRole().getAppName());
         authorities.add(authority);
+        fullName = appUser.getEmployee().getFullName();
     }
 
     @Override
