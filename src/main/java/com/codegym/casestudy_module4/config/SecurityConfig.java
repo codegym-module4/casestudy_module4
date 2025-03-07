@@ -42,7 +42,7 @@ public class SecurityConfig {
 //                Config các đường dẫn không cần đăng nhập
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-                                .requestMatchers("/login",  "/img/**",
+                                .requestMatchers("/login",  "receipt/order","/img/**",
                                         "/css/**", "/plugins/**", "/js/**","/dist/**", "/resources/**")
                                 .permitAll());
 //                .authorizeHttpRequests((authorizeHttpRequests) ->
