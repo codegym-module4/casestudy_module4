@@ -37,6 +37,6 @@ public class Supplier {
     private String note;
 
     @Column(name = "created_at")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime createdAt;
 }

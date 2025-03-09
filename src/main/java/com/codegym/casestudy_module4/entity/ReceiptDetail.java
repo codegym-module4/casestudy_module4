@@ -39,6 +39,6 @@ public class ReceiptDetail {
     private Integer quantity;
 
     @Column(name = "created_at")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime createdAt;
 }

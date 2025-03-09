@@ -6,8 +6,13 @@ import com.codegym.casestudy_module4.repository.IMedicineRepository;
 import com.codegym.casestudy_module4.service.ICustomerService;
 import com.codegym.casestudy_module4.service.IMedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -18,8 +23,7 @@ public class MedicineService implements IMedicineService {
 
     @Override
     public List<Medicine> getAll() {
-        List<Medicine> listMedicines = medicineRepository.findAll();
-        return listMedicines;
+        return medicineRepository.findAll();
     }
 
     @Override
@@ -45,7 +49,12 @@ public class MedicineService implements IMedicineService {
 
     @Override
     public List<Medicine> findByName(String name) {
-        List<Medicine> listMedicines = medicineRepository.findByName(name);
-        return listMedicines;
+        return List.of();
     }
+
+    @Override
+    public Page<Medicine> findByName(String name, PageRequest of) {
+        return medicineRepository.findAllByNameContaining(name, of);
+    }
+
 }

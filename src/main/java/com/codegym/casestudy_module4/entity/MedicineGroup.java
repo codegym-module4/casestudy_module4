@@ -30,7 +30,4 @@ public class MedicineGroup {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "created_at")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDateTime createdAt;
 }

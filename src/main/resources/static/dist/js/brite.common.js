@@ -18,14 +18,12 @@ $(function () {
     
     //Date & time picker
     $('.datetimepicker').datetimepicker({
-        locale: 'ja',
         allowInputToggle: true,
         sideBySide: true,
         icons: { time: 'far fa-clock' }
     });
 
     $('.monthpicker').datetimepicker({
-        locale: 'ja',
         allowInputToggle: true,
         viewMode: 'months',
         format: 'YYYY年MM月01日'
@@ -33,16 +31,14 @@ $(function () {
 
     //Date & time picker
     $('.datepicker2').datetimepicker({
-        locale: 'ja',
         allowInputToggle: true,
         format: 'YYYY年MM月DD日 (ddd)',
     });
 
     //Date & time picker
     $('.timepicker').datetimepicker({
-        locale: 'ja',
         allowInputToggle: true,
-        format: 'LT',
+        format: 'HH:mm:ss'
     });
 
     //increase z-index for open multi modal
