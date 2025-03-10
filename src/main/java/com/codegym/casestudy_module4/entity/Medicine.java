@@ -64,10 +64,10 @@ public class Medicine {
     @Column(name = "wholesale_price")
     private Integer wholesalePrice;
 
-    @Column(name = "quatity")
-    private Integer quatity;
+    @Column(name = "quantity")
+    private Integer quantity;
 
-    @Column(name = "expired_date")
+    @Column(name = "expiry_date")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate expiredDate;
 

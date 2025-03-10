@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IReceiptRepository extends JpaRepository<Receipt, Long>, JpaSpecificationExecutor<Receipt> {
+    Receipt findFirstByOrderByIdDesc();
 }
