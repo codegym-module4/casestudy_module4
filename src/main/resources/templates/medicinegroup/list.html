@@ -125,6 +125,9 @@
                                 <div class="mt-2">
                                     <div class="mt-4">
                                         <div class="table-responsive" style="max-height: 600px;">
+                                            <button class="btn btn-primary"
+                                                    onclick="window.location.href='/medicinegroup/create'">Thêm mới
+                                            </button>
                                             <table class="table table-bordered table-hover table-valign-middle table-head-fixed text-nowrap text-center">
                                                 <thead>
                                                 <tr>
@@ -146,9 +149,16 @@
                                                     <td th:text="${medicineGroup.name}"></td>
                                                     <td th:text="${medicineGroup.description}"></td>
                                                     <td th:text="${#temporals.format(medicineGroup.createdAt, 'dd/MM/yyyy')}"></td>
+                                                    <td>
+                                                        <button class="btn btn-danger" data-toggle="modal"
+                                                                th:attr="data-target='#modalDelete' + ${medicineGroup.id}">
+                                                            Xóa
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
+
                                         </div>
                                         <div th:insert="~{layout/paginator :: pagination(
                           page=${medicineGroups},
