@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông tin nhân viên</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2 class="text-center">Thông tin nhân viên</h2>
+    <form th:action="@{/employee/save}" method="post" th:object="${employee}">
+        <div class="form-group">
+            <label>Mã nhân viên</label>
+            <input type="text" class="form-control" th:field="*{code}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>Tên nhân viên</label>
+            <input type="text" class="form-control" th:field="*{fullName}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Địa chỉ</label>
+            <textarea class="form-control" th:field="*{address}"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Điện thoại</label>
+            <input type="text" class="form-control" th:field="*{phone}">
+        </div>
+
+        <div class="form-group">
+            <label>Ngày vào làm</label>
+            <input type="date" class="form-control" th:field="*{hireDate}">
+        </div>
+
+        <div class="form-group">
+            <label>Ngày sinh</label>
+            <input type="date" class="form-control" th:field="*{dob}">
+        </div>
+
+        <div class="form-group">
+            <label>Tên tài khoản</label>
+            <input type="text" class="form-control" th:field="*{username}">
+        </div>
+
+        <div class="form-group">
+            <label>Chức vụ</label>
+            <select class="form-control" th:field="*{role}">
+                <option value="Nhân viên">Nhân viên</option>
+                <option value="Quản lý">Quản lý</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Thêm</button>
+        <button type="reset" class="btn btn-warning">Reset</button>
+        <a href="/employee/list" class="btn btn-default">Trở về</a>
+    </form>
+</div>
+</body>
+</html>
