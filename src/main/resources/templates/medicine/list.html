@@ -24,13 +24,13 @@
                         <div class="card card-default">
                             <div class="card-body">
                                 <!--                                Bộ lọc-->
-                                <div class="mt-2">
+                                <div class="d-flex align-items-baseline mt-2 w-100">
                                     <!--                                    <span style="font-style: italic; font-weight: bold;">Bộ lọc thuốc</span>-->
                                     <form th:action="@{/filter}" method="get" class="form-inline">
                                         <div class="form-group mb-2">
                                             <label for="filterBy" class="mr-2"> Lọc theo:</label>
                                             <select id="filterBy" name="filterBy" class="form-control">
-                                                <option value="maThuoc">Mã thuốc</option>
+                                                <option value="code">Mã thuốc</option>
                                                 <option value="nhomThuoc">Nhóm thuốc</option>
                                                 <option value="nhomThuoc">Tên thuốc</option>
                                                 <option value="nhomThuoc">Hoạt chất</option>
@@ -60,13 +60,17 @@
                                             Lọc kết quả
                                         </button>
                                     </form>
-
+                                    <a th:onclick="|window.location.href='/medicines/createView'|"
+                                       class="btn btn-success ml-3">
+                                        <i class="fas fa-plus"></i>
+                                        Thêm mới
+                                    </a>
                                 </div>
 
                                 <!---->
                                 <div class="mt-2">
                                     <div class="mt-4">
-                                        <div class="table-responsive" style="max-height: 600px;">
+                                        <div class="table-responsive" style="max-height: 1200px;">
                                             <table class="table table-bordered table-hover table-valign-middle table-head-fixed text-nowrap text-center">
                                                 <thead>
                                                 <tr>
@@ -84,7 +88,7 @@
                                                     <th class="bg-light">% LN XC</th>
                                                     <th class="bg-light">% LN XL</th>
                                                     <th class="bg-light">VAT</th>
-
+                                                    <th class="bg-light">Tác vụ</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -93,8 +97,8 @@
                                                 </tr>
                                                 <tr th:each="medicine : ${listMedicines}">
                                                     <td th:text="${medicine.code}"></td>
+                                                    <td th:text="${medicine.medicineGroup.name}"></td>
                                                     <td th:text="${medicine.name}"></td>
-                                                    <td th:text="${medicine.activeIngredient}"></td>
                                                     <td th:text="${medicine.activeIngredient}"></td>
                                                     <td th:text="${medicine.unit}"></td>
                                                     <td th:text="${medicine.conversionUnit}"></td>
@@ -106,6 +110,14 @@
                                                     <td th:text="${medicine.wholesaleProfitRate}"></td>
                                                     <td th:text="${medicine.retailProfitRate}"></td>
                                                     <td th:text="${medicine.vatRate}"></td>
+                                                    <td>
+                                                        <button type="button"
+                                                                class="btn btn-primary"
+                                                                th:attr="data-id=${medicine.id}"
+                                                                th:onclick="|window.location.href='/medicines/details/' + ${medicine.id} |">
+                                                            Xem chi tiết
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -129,15 +141,7 @@
                                         </nav>
                                     </div>
                                 </div>
-                                <div class="container mt-3">
-                                    <div class="button-container">
-                                        <button class="btn btn-success"><i class="fas fa-plus"></i> Thêm</button>
-                                        <button class="btn btn-warning"><i class="fas fa-edit"></i> Sửa</button>
-                                        <button class="btn btn-danger"><i class="fas fa-trash-alt"></i> Xóa</button>
-                                        <button class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Trở về
-                                        </button>
-                                    </div>
-                                </div>
+
                             </div>
                             <!-- /.card-body -->
                         </div>

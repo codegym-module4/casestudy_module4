@@ -1,5 +1,6 @@
 package com.codegym.casestudy_module4.service.impl;
 
+import com.codegym.casestudy_module4.dto.MedicineDTO;
 import com.codegym.casestudy_module4.entity.Customer;
 import com.codegym.casestudy_module4.entity.Medicine;
 import com.codegym.casestudy_module4.repository.IMedicineRepository;
@@ -44,7 +45,7 @@ public class MedicineService implements IMedicineService {
 
     @Override
     public Medicine findById(long id) {
-        return medicineRepository.findById(id).get();
+        return medicineRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -56,5 +57,6 @@ public class MedicineService implements IMedicineService {
     public Page<Medicine> findByName(String name, PageRequest of) {
         return medicineRepository.findAllByNameContaining(name, of);
     }
+
 
 }
