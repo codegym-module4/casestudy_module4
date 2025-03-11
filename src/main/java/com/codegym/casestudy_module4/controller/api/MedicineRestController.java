@@ -18,7 +18,7 @@ public class MedicineRestController {
     @Autowired
     private IMedicineService medicineService;
 
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<List<Medicine>> getMedicines() {
         List<Medicine> medicines = medicineService.getAll();
         return new ResponseEntity<>(medicines, HttpStatus.OK);

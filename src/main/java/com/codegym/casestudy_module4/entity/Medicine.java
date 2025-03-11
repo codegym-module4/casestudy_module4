@@ -1,10 +1,12 @@
 package com.codegym.casestudy_module4.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -20,7 +22,7 @@ public class Medicine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "code")
     private String code;
@@ -61,6 +63,12 @@ public class Medicine {
     @Column(name = "retail_profit_rate")
     private Integer retailProfitRate;
 
+    @Column(name = "retail_price")
+    private Integer retailPrice;
+
+    @Column(name = "wholesale_profit_rate")
+    private Integer wholesaleProfitRate;
+
     @Column(name = "wholesale_price")
     private Integer wholesalePrice;
 
@@ -75,7 +83,7 @@ public class Medicine {
     private String description;
 
     @Column(name = "status")
-    private Integer status;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "medicine_group_id")
@@ -88,4 +96,6 @@ public class Medicine {
     @Column(name = "created_at")
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime createdAt;
+
+
 }

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/head::head ('Thêm thông tin chi tiết thuốc')}">
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+    <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="page-title m-0">Thêm mới thuốc</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-default">
+                            <div class="card-body">
+                                <form th:action="@{/medicines/created}" th:object="${medicine}" method="post">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="code">Mã thuốc</label>
+                                            <input type="text" class="form-control" id="code" name="code"
+                                                   th:field="*{code}"
+                                                   placeholder="Nhập mã thuốc">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="name">Tên thuốc</label>
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                   th:field="*{name}"
+                                                   placeholder="Nhập tên thuốc">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="activeIngredient">Hoạt chất</label>
+                                            <input type="text" class="form-control" id="activeIngredient"
+                                                   th:field="*{activeIngredient}"
+                                                   name="activeIngredient"
+                                                   placeholder="Nhập hoạt chất">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label>Nhóm thuốc</label>
+                                            <select th:field="*{medicineGroup}" id="medicineGroup" class="form-control">
+                                                <option value="" disabled selected>Chọn nhóm thuốc</option>
+                                                <option th:each="group : ${medicineGroups}" th:value="${group.id}"
+                                                        th:text="${group.name}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="unit">Đơn vị</label>
+                                            <select id="unit" class="form-control" name="unit">
+                                                <option value="" disabled selected>Chọn đơn vị</option>
+                                                <option>Hộp</option>
+                                                <option>Vỉ</option>
+                                                <option>Viên</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="conversionUnit">ĐVT quy đổi</label>
+                                            <select id="conversionUnit" class="form-control"
+                                                    name="conversionUnit">
+                                                <option disabled
+                                                        selected>Chọn đơn vị quy đổi
+                                                </option>
+                                                <option>Gói</option>
+                                                <option>Viên</option>
+                                                <option>Lọ</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="conversionRate">Tỷ lệ quy đổi</label>
+                                            <input type="text" class="form-control" id="conversionRate"
+                                                   name="conversionRate" th:field="*{conversionRate}"
+                                                   placeholder="Tỷ lệ quy đổi">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="importPrice">Giá nhập (đồng/hộp)</label>
+                                            <input type="text" class="form-control" id="importPrice"
+                                                   name="importPrice" th:field="*{importPrice}"
+                                                   placeholder="Giá nhập">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="convertedImportPrice">Giá nhập quy đổi</label>
+                                            <input type="text" class="form-control" id="convertedImportPrice"
+
+                                                   name="convertedImportPrice" th:field="*{convertedImportPrice}"
+                                                   placeholder="Giá nhập quy đổi">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="discountRate">Tỷ lệ chiết khấu (%)</label>
+                                            <input type="text" class="form-control" id="discountRate"
+                                                   name="discountRate" th:field="*{discountRate}"
+                                                   placeholder="Tỷ lệ chiết khấu">
+
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="vatRate">VAT (%)</label>
+                                            <input type="text" class="form-control" id="vatRate"
+
+                                                   name="vatRate" th:field="*{vatRate}"
+                                                   placeholder="VAT">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="priceWithVat">Nhập có VAT</label>
+                                            <input type="text" class="form-control" id="priceWithVat"
+                                                   name="priceWithVat" th:field="*{priceWithVat}"
+                                                   placeholder="Nhập có VAT ">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="convertedPriceWithVat">Nhập quy đổi có VAT</label>
+                                            <input type="text" class="form-control" id="convertedPriceWithVat"
+                                                   name="convertedPriceWithVat" th:field="*{convertedPriceWithVat}"
+                                                   placeholder="Nhập quy đổi có VAT">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="retailProfitRate">% Lợi nhuận xuất chẵn</label>
+                                            <input type="text" class="form-control" id="retailProfitRate"
+                                                   name="retailProfitRate" th:field="*{retailProfitRate}"
+                                                   placeholder="% Lợi nhuận xuất chẵn">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="wholesaleProfitRate">% Lợi nhuận xuất lẻ</label>
+                                            <input type="text" class="form-control" id="wholesaleProfitRate"
+                                                   name="wholesaleProfitRate" th:field="*{wholesaleProfitRate}"
+                                                   placeholder="% Lợi nhuận xuất lẻ">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="retailPrice">Giá bán lẻ (đồng/hộp)</label>
+                                            <input type="text" class="form-control" id="retailPrice"
+                                                   name="retailPrice" th:field="*{retailPrice}"
+                                                   placeholder="Giá bán lẻ (đồng/hộp)">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="wholesalePrice">Giá bán sỉ (đồng/hộp)</label>
+                                            <input type="text" class="form-control" id="wholesalePrice"
+                                                   name="wholesalePrice" th:field="*{wholesalePrice}"
+                                                   placeholder="Giá bán sỉ (đồng/hộp)">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="supplier">Nhà sản xuất</label>
+                                            <input type="text" class="form-control" id="supplier"
+                                                   name="supplier" th:field="*{supplier}"
+                                                   placeholder="Nhà sản xuất">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="madein">Xuất xứ</label>
+                                            <select id="madein" class="form-control">
+                                                <option value="Việt Nam" selected>Việt Nam</option>
+                                                <option>Nhật Bản</option>
+                                                <option>Hàn Quốc</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12 note">
+                                            <label for="description">Ghi chú</label>
+                                            <textarea class="form-control" id="description" rows="3" name="description"
+                                                      th:field="*{description}"
+                                                      placeholder="Nhập ghi chú"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row d-flex justify-content-end">
+                                        <div class="form-group d-inline-block mr-4">
+                                            <button type="submit"
+                                                    class="btn btn-success">
+                                                <i class="fa-solid fa-check"></i>
+                                                Hoàn tất thêm mới
+                                                <!--                                                    th:onclick="|window.location.href='/medicines/created'|"-->
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+</div>
+</body>
+<th:block th:replace="~{layout/script::script}">
+</th:block>
+</html>
