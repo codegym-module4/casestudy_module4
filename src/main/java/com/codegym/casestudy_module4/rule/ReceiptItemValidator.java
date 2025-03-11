@@ -45,21 +45,21 @@ public class ReceiptItemValidator implements ConstraintValidator<ValidReceiptIte
             isValid = false;
         }
 
-        // Nếu có price, thì các trường khác không được rỗng
-        if (hasPrice && (!hasId || !hasUnit || !hasQuantity)) {
-            if (!hasId) addConstraintViolation(context, "medicineId", "Vui lòng chọn thuốc.");
-            if (!hasUnit) addConstraintViolation(context, "unit", "Vui lòng chọn đơn vị.");
-            if (!hasQuantity) addConstraintViolation(context, "quantity", "Vui lòng nhập số lượng.");
-            isValid = false;
-        }
-
-        // Nếu có unit, thì các trường khác không được rỗng
-        if (hasUnit && (!hasId || !hasQuantity || !hasPrice)) {
-            if (!hasId) addConstraintViolation(context, "medicineId", "Vui lòng chọn thuốc.");
-            if (!hasQuantity) addConstraintViolation(context, "quantity", "Vui lòng nhập số lượng.");
-            if (!hasPrice) addConstraintViolation(context, "price", "Vui lòng nhập giá.");
-            isValid = false;
-        }
+//        // Nếu có price, thì các trường khác không được rỗng
+//        if (hasPrice && (!hasId || !hasUnit || !hasQuantity)) {
+//            if (!hasId) addConstraintViolation(context, "medicineId", "Vui lòng chọn thuốc.");
+//            if (!hasUnit) addConstraintViolation(context, "unit", "Vui lòng chọn đơn vị.");
+//            if (!hasQuantity) addConstraintViolation(context, "quantity", "Vui lòng nhập số lượng.");
+//            isValid = false;
+//        }
+//
+//        // Nếu có unit, thì các trường khác không được rỗng
+//        if (hasUnit && (!hasId || !hasQuantity || !hasPrice)) {
+//            if (!hasId) addConstraintViolation(context, "medicineId", "Vui lòng chọn thuốc.");
+//            if (!hasQuantity) addConstraintViolation(context, "quantity", "Vui lòng nhập số lượng.");
+//            if (!hasPrice) addConstraintViolation(context, "price", "Vui lòng nhập giá.");
+//            isValid = false;
+//        }
 
         return isValid;
     }

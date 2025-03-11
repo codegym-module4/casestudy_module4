@@ -1,15 +1,17 @@
 package com.codegym.casestudy_module4.dto;
 
 import com.codegym.casestudy_module4.annotation.ValidReceiptItem;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @ValidReceiptItem
 public class MedicineDTO {
 
-    private Integer medicineId; // Nếu có dữ liệu, các trường khác không được rỗng
+    private Integer medicineId;
 
-    private String unit; // Nếu có dữ liệu, các trường khác không được rỗng
+    private String unit;
 
-    private Integer quantity; // Nếu có dữ liệu, phải là số nguyên > 0
+    private Integer quantity;
 
     private Integer price;
 
