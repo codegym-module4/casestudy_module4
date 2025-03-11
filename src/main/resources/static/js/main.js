@@ -3,21 +3,23 @@
 
     $(document).on("click", "#btnAddMedicine", function (e) {
         let num = $('input[name="item_row"]').val();
-        let medicines, option;
+        let option = '';
         $.ajax({
             type: 'GET',
-            url: '/api/medicines/all',
+            url: '/api/medicines',
             async:false,
         }).done(function (data) {
-            medicines = data.medicines;
+            let medicines = data;
+            $.each(medicines, function (key, medicine) {
+               option  += '<option value="'+medicine.id+'">'+medicine.name+'</option>';
+            });
         }).fail(function (jqXhr, json, errorThrown) {
             if (jqXhr.responseJSON.errors) {
                 alert(jqXhr.responseJSON.message);
             }
         });
-        console.log(medicines);
         let html =
-            `<div class="row no-gutters flex-nowrap item-row" id="row${num}">
+            `<div class="row no-gutters flex-nowrap item-row" data-row="${num}" id="row${num}">
                 <div class="col-auto">
                     <div class="text-center w-50px pt-3">
                         <button type="button" class="border-0 bg-transparent p-0 fs-6 delete-row text-danger" data-row="${num}"><i class="fas fa-minus-circle"></i></button>
@@ -25,8 +27,9 @@
                 </div>
                 <div class="col-3">
                     <div class="text-center border p-2 h-100">
-                        <select class="form-control form-control-sm" id="items${num}.medicineId" name="items[${num}].medicineId">
+                        <select class="form-control form-control-sm medicine-select" id="items${num}.medicineId" name="items[${num}].medicineId">
                             <option value="">Vui lòng chọn thuốc</option>
+                            ${option}
                         </select>
                     </div>
                 </div>
@@ -36,7 +39,7 @@
                 </div>
                 <div class="col-2">
                     <div class="text-center border p-2 h-100">
-                        <input type="text" class="form-control form-control-sm quantity-input" id="items${num}.quantity" name="items[${num}].quantity" placeholder=""/>
+                        <input type="text" class="form-control form-control-sm quantity-input" id="quantity${num}" name="items[${num}].quantity" placeholder=""/>
                     </div>
                 </div>
                 <div class="col-2">
@@ -50,5 +53,72 @@
         num++;
         $('input[name="item_row"]').val(num);
         $('.item-table').append(html);
+    });
+
+    $(document).on("change", ".medicine-select", function (e) {
+        let dataRow = $(this).closest(".item-row");
+        let index = dataRow.data("row");
+        let medicineId = $(this).val();
+        medicineId = parseInt(medicineId);
+        $.ajax({
+            type: 'GET',
+            url: '/api/medicines/' + medicineId,
+        }).done(function (data) {
+            let priceDiv = dataRow.find(".text-price");
+            let unitDiv = dataRow.find(".text-unit");
+            if (data != "") {
+                $('#unit' + index).val(data.conversionUnit);
+                unitDiv.text(data.conversionUnit);
+                $('#quantity' + index).val(1);
+                $('#price' + index).val(data.retailPrice);
+                priceDiv.text(data.retailPrice);
+                $('#medicine_total'+index).text(data.retailPrice);
+            } else {
+                alert("Không tìm thấy thuốc");
+                $('#unit' + index).val('');
+                unitDiv.text('');
+                $('#quantity' + index).val('');
+                $('#price' + index).val('');
+                priceDiv.text('');
+                $('#medicine_total'+index).text('');
+            }
+        }).fail(function (jqXhr, json, errorThrown) {
+            if (jqXhr.responseJSON.errors) {
+                alert(jqXhr.responseJSON.message);
+            }
+        });
+    });
+
+    $(document).on("click", ".delete-row", function (e) {
+        let index = $(this).data("row");
+        let row = $("#row"+index);
+        if (row.length) {
+            row.remove();
+        }
+        let totalRow = $('input[name="item_row"]').val();
+        index++;
+        if (totalRow == index) {
+            totalRow--;
+            $('input[name="item_row"]').val(totalRow);
+        }
+    });
+
+    $(document).on("change", ".quantity-input", function (e) {
+        let value = $(this).val();
+        if (isNaN(value) || value < 0) {
+            alert("Số lượng phải là số nguyên dương và lớn hơn 1");
+            return;
+        }
+        let dataRow = $(this).closest(".item-row");
+        let index = dataRow.data("row");
+        let medicineId = dataRow.find(".medicine-select").val();
+        let total = 0;
+        if (medicineId != "") {
+            let unitPrice = $("#price" + index).val();
+            total = unitPrice * value;
+            $("#medicine_total" + index).text(total);
+        } else {
+            alert("Vui lòng chọn thuốc trước");
+        }
     });
 })();
