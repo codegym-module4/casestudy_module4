@@ -1,7 +1,9 @@
 package com.codegym.casestudy_module4.service.impl;
 
 import com.codegym.casestudy_module4.entity.Employee;
+import com.codegym.casestudy_module4.entity.User;
 import com.codegym.casestudy_module4.repository.IEmployeeRepository;
+import com.codegym.casestudy_module4.repository.IUserRepository;
 import com.codegym.casestudy_module4.service.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,9 @@ public class EmployeeService implements IEmployeeService {
 
     @Autowired
     private IEmployeeRepository employeeRepository;
+
+    @Autowired
+    private IUserRepository userRepository;
 
     @Override
     public List<Employee> getAll() {
@@ -33,7 +38,7 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public void remove(Long id) {
-
+        employeeRepository.deleteById(id);
     }
 
     @Override
@@ -48,6 +53,40 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public Page<Employee> findByFullNameContainingIgnoreCase(String name, Pageable pageable) {
-        return employeeRepository.findByFullNameContainingIgnoreCase(name, pageable);
+        return employeeRepository.findAllByFullNameContainingIgnoreCase(name, pageable);
+    }
+
+    @Override
+    public Page<Employee> findByCodeContainingIgnoreCase(String code, Pageable pageable) {
+        return employeeRepository.findAllByCodeContainingIgnoreCase(code, pageable);
+    }
+
+    @Override
+    public Page<Employee> findByRoleNameContainingIgnoreCase(String roleName, Pageable pageable) {
+        return employeeRepository.findAllByRoleNameContainingIgnoreCase(roleName, pageable);
+    }
+
+    @Override
+    public Page<Employee> findByAddressContainingIgnoreCase(String address, Pageable pageable) {
+        return employeeRepository.findAllByAddressContainingIgnoreCase(address, pageable);
+    }
+
+    @Override
+    public Page<Employee> findByPhoneContainingIgnoreCase(String phone, Pageable pageable) {
+        return employeeRepository.findAllByPhoneContainingIgnoreCase(phone, pageable);
+    }
+
+    @Override
+    public String generateCode() {
+        Integer maxCode = employeeRepository.findMaxCode();
+        if (maxCode == null) {
+            return "EMP001";
+        }
+        return "EMP" + String.format("%03d", maxCode + 1);
+    }
+
+    @Override
+    public String getEmployeeRole (Long id) {
+        return userRepository.findRoleNameById(id);
     }
 }

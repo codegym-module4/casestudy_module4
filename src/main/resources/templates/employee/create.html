@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Thông tin nhân viên</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/employee/create.css">
 </head>
 <body>
 <div class="container">
@@ -11,7 +12,8 @@
     <form th:action="@{/employee/save}" method="post" th:object="${employee}">
         <div class="form-group">
             <label>Mã nhân viên</label>
-            <input type="text" class="form-control" th:field="*{code}" readonly>
+            <input type="text" class="form-control" th:value="${employee.code}" readonly>
+            <input type="hidden" th:field="*{code}">
         </div>
 
         <div class="form-group">
@@ -21,12 +23,17 @@
 
         <div class="form-group">
             <label>Địa chỉ</label>
-            <textarea class="form-control" th:field="*{address}"></textarea>
+            <textarea class="form-control" th:field="*{address}" required></textarea>
         </div>
 
         <div class="form-group">
             <label>Điện thoại</label>
-            <input type="text" class="form-control" th:field="*{phone}">
+            <input type="text" class="form-control" th:field="*{phone}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Ngày sinh</label>
+            <input type="date" class="form-control" th:field="*{dob}" required>
         </div>
 
         <div class="form-group">
@@ -34,27 +41,23 @@
             <input type="date" class="form-control" th:field="*{hireDate}">
         </div>
 
-        <div class="form-group">
-            <label>Ngày sinh</label>
-            <input type="date" class="form-control" th:field="*{dob}">
-        </div>
 
         <div class="form-group">
             <label>Tên tài khoản</label>
-            <input type="text" class="form-control" th:field="*{username}">
+            <input type="text" class="form-control" name="username" required>
         </div>
 
         <div class="form-group">
             <label>Chức vụ</label>
-            <select class="form-control" th:field="*{role}">
-                <option value="Nhân viên">Nhân viên</option>
-                <option value="Quản lý">Quản lý</option>
+            <select class="form-control" name="role" required>
+                <option value="1">Nhân viên</option>
+                <option value="2">Quản lý</option>
             </select>
         </div>
 
         <button type="submit" class="btn btn-primary">Thêm</button>
         <button type="reset" class="btn btn-warning">Reset</button>
-        <a href="/employee/list" class="btn btn-default">Trở về</a>
+        <a href="/employee" class="btn btn-default">Trở về</a>
     </form>
 </div>
 </body>
