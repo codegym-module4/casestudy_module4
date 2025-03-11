@@ -52,19 +52,19 @@ public class EmployeeController {
         Page<Employee> employees;
         switch (filterBy) {
             case "code":
-                employees = employeeService.findByCodeContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
+                employees = employeeService.findByCodeContainingIgnoreCase(searchInput, PageRequest.of(page, 5, Sort.by(sortBy)));
                 break;
             case "fullName":
-                employees = employeeService.findByFullNameContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
+                employees = employeeService.findByFullNameContainingIgnoreCase(searchInput, PageRequest.of(page, 5, Sort.by(sortBy)));
                 break;
             case "role":
-                employees = employeeService.findByRoleNameContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
+                employees = employeeService.findByRoleNameContainingIgnoreCase(searchInput, PageRequest.of(page, 5, Sort.by(sortBy)));
                 break;
             case "address":
-                employees = employeeService.findByAddressContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
+                employees = employeeService.findByAddressContainingIgnoreCase(searchInput, PageRequest.of(page, 5, Sort.by(sortBy)));
                 break;
             case "phone":
-                employees = employeeService.findByPhoneContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
+                employees = employeeService.findByPhoneContainingIgnoreCase(searchInput, PageRequest.of(page, 5, Sort.by(sortBy)));
                 break;
             default:
                 employees = Page.empty();
@@ -83,8 +83,15 @@ public class EmployeeController {
             System.out.println("Employee ID: " + id + " - Role: " + roleName);
         }
 
+        String queryParams = "searchInput=" + searchInput + "&filterBy=" + filterBy + "&sortBy=" + sortBy;
+
         model.addAttribute("employeeRoles", employeeRoles);
         model.addAttribute("employees", employees);
+        model.addAttribute("searchInput", searchInput);
+        model.addAttribute("filterBy", filterBy);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("queryParams", queryParams);
+
         return "employee/list";
     }
 
