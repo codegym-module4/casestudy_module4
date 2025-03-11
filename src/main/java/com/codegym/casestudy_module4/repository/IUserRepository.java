@@ -18,4 +18,6 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT MAX(CAST(SUBSTRING(u.code, 4) AS int)) FROM User u")
     Integer findMaxCode();
+
+    User findByEmployeeId(Long id);
 }

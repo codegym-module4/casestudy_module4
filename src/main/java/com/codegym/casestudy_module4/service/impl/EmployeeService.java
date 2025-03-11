@@ -33,7 +33,8 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public void update(long id, Employee s) {
-
+        s.setId(id);
+        employeeRepository.save(s);
     }
 
     @Override

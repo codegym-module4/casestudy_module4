@@ -98,8 +98,10 @@ public class EmployeeController {
         }
 
         @GetMapping("/edit/{id}")
-        public String edit (@RequestParam Long id, Model model){
+        public String edit (@PathVariable Long id, Model model){
             Employee employee = employeeService.findById(id);
+            User user = userRepository.findByEmployeeId(id);
+            model.addAttribute("user", user);
             model.addAttribute("employee", employee);
             return "employee/edit";
         }
@@ -144,7 +146,7 @@ public class EmployeeController {
         }
 
         @PostMapping("/edit/{id}")
-        public String updateEmployee ( @PathVariable("id") long id, @ModelAttribute Employee employee){
+        public String updateEmployee ( @PathVariable("id") long id, @ModelAttribute Employee employee ){
             employeeService.update(id, employee);
             return "redirect:/employee";
         }
