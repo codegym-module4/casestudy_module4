@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
 <head th:replace="~{layout/head::head ('Tạo mới hóa đơn theo đơn thuốc')}">
 <body class="hold-transition sidebar-mini layout-fixed text-sm">
     <div class="wrapper">
@@ -21,38 +21,33 @@
                         <div class="col-12">
                             <div class="card card-default">
                                 <div class="card-body">
-                                    <form method="post" action="receipt/order/create" id="form-receipt" th:object="${receipt}">
+                                    <form method="post" th:action="@{/receipt/order/create}" id="form-receipt" th:object="${receipt}">
                                         <div class="row align-items-start">
                                             <div class="col-md-4">
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label">Số phiếu</label>
                                                     <div class="col-sm-9 col-xl-7">
-                                                        <input type="text" readonly class="form-control form-control-sm " name="code" value="" placeholder="">
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong></strong>
-                                                        </span>
+                                                        <input type="text" readonly class="form-control form-control-sm" th:value="*{code}" placeholder="">
+                                                        <input type="hidden" th:field="*{code}">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label">Nhân viên</label>
                                                     <div class="col-sm-9 col-xl-7">
-                                                        <input type="text" readonly class="form-control form-control-sm" value="" placeholder="">
-<!--                                                        <input type="hidden" th:field="*{employee}">-->
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong></strong>
-                                                        </span>
+                                                        <input type="text" readonly class="form-control form-control-sm" th:value="*{employee.fullName}" placeholder="">
+                                                        <input type="hidden" th:field="*{employee}">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label">Ngày lập</label>
                                                     <div class="col-sm-8 col-xl-7">
                                                         <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                                            <input type="text" class="form-control datepicker datetimepicker-input" name="created_from" data-toggle="datetimepicker"/>
+                                                            <input type="text" class="form-control datetimepicker datetimepicker-input" th:classappend="${#fields.hasErrors('createdAt')} ? 'is-invalid' : ''" th:field="*{createdAt}" data-toggle="datetimepicker"/>
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                             </div>
                                                             <span class="invalid-feedback" role="alert">
-                                                                <strong></strong>
+                                                                <strong th:if="${#fields.hasErrors('createdAt')}" th:text="${#fields.errors('createdAt')[0]}"></strong>
                                                             </span>
                                                         </div>
                                                     </div>
@@ -67,7 +62,7 @@
                                                             <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
                                                         </select>
                                                         <span class="text-danger" role="alert">
-                                                            <strong></strong>
+                                                            <strong th:if="${#fields.hasErrors('customer')}" th:text="${#fields.errors('customer')[0]}"></strong>
                                                         </span>
                                                     </div>
                                                     <div class="col-1">
@@ -79,9 +74,9 @@
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label">Triệu chứng</label>
                                                     <div class="col-sm-9 col-xl-8">
-                                                        <textarea class="form-control form-control-sm" name="symptoms" rows="5"></textarea>
+                                                        <textarea class="form-control form-control-sm" th:classappend="${#fields.hasErrors('symptoms')} ? 'is-invalid' : ''" th:field="*{symptoms}" rows="5"></textarea>
                                                         <span class="invalid-feedback" role="alert">
-                                                            <strong></strong>
+                                                            <strong th:if="${#fields.hasErrors('symptoms')}" th:text="${#fields.errors('symptoms')[0]}"></strong>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -90,27 +85,27 @@
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label">Tên BS</label>
                                                     <div class="col-sm-8 col-xl-7">
-                                                        <input type="text" class="form-control form-control-sm" name="doctor" value="" placeholder="">
+                                                        <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('doctor')} ? 'is-invalid' : ''" th:field="*{doctor}" placeholder="">
                                                         <span class="invalid-feedback" role="alert">
-                                                            <strong></strong>
+                                                            <strong th:if="${#fields.hasErrors('doctor')}" th:text="${#fields.errors('doctor')[0]}"></strong>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label">Địa chỉ BS</label>
                                                     <div class="col-sm-8 col-xl-7">
-                                                        <input type="text" class="form-control form-control-sm " name="doctor_address" value="" placeholder="">
+                                                        <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('doctor')} ? 'is-invalid' : ''" th:field="*{doctor_address}" placeholder="">
                                                         <span class="invalid-feedback" role="alert">
-                                                            <strong></strong>
+                                                            <strong th:if="${#fields.hasErrors('doctor_address')}" th:text="${#fields.errors('doctor_address')[0]}"></strong>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label">Chuẩn đoán</label>
                                                     <div class="col-sm-8 col-xl-7">
-                                                        <input type="text" class="form-control form-control-sm " name="diagnose" value="" placeholder="">
+                                                        <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('diagnose')} ? 'is-invalid' : ''" th:field="*{diagnose}" value="" placeholder="">
                                                         <span class="invalid-feedback" role="alert">
-                                                            <strong></strong>
+                                                            <strong th:if="${#fields.hasErrors('diagnose')}" th:text="${#fields.errors('diagnose')[0]}"></strong>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -119,7 +114,10 @@
                                         <div class="row align-items-center">
                                             <div class="col-md-5">
                                                 <div class="form-group row">
-                                                    <label class="col-12 col-form-label">Danh sách thuốc</label>
+                                                    <label class="col-12 col-sm-4 col-form-label">Danh sách thuốc</label>
+                                                    <div class="col-auto">
+                                                        <button class="btn-sm btn-primary px-2">Thêm thuốc</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -132,115 +130,116 @@
                                                 <div class="col-2"><div class="bg-light text-center font-weight-bold border text-nowrap p-2">Đơn giá</div></div>
                                                 <div class="col"><div class="bg-light text-center font-weight-bold border text-nowrap p-2">Thành tiền</div></div>
                                             </div>
-                                            <div class="row no-gutters flex-nowrap item-row" id="item-row-1">
+                                            <div th:each="item, stat : ${receipt.items}" class="row no-gutters flex-nowrap item-row">
                                                 <div class="col-auto">
                                                     <div class="text-center w-50px pt-3">
+                                                        <button th:if="${stat.index != 0}" type="button" class="border-0 bg-transparent p-0 fs-6 delete-row text-danger" data-row="2"><i class="fas fa-minus-circle"></i></button>
                                                         &nbsp;
                                                     </div>
                                                 </div>
                                                 <div class="col-3">
                                                     <div class="text-center border p-2 h-100">
-                                                        <select class="form-control form-control-sm" name="medicine_2">
+                                                        <select class="form-control form-control-sm" th:field="*{items[__${stat.index}__].medicineId}">
                                                             <option value="">Vui lòng chọn thuốc</option>
                                                             <option th:each="medicine : ${medicines}" th:value="${medicine.id}" th:text="${medicine.name}"></option>
                                                         </select>
                                                         <span class="text-danger" role="alert">
-                                                            <strong></strong>
+                                                            <strong th:if="${#fields.hasErrors('items[__${stat.index}__].medicineId')}" th:text="${#fields.errors('items[__${stat.index}__].medicineId')[0]}"></strong>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="col-2">
                                                     <div class="text-center border p-2 h-100">
-                                                        <select class="form-control form-control-sm" name="unit_1">
-                                                            <option>Vui lòng chọn đơn vị tính</option>
-                                                            <option value="">Viên</option>
-                                                            <option value="">Hộp</option>
-                                                        </select>
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong></strong>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-2">
-                                                    <div class="text-center border p-2 h-100">
-                                                        <input type="text" class="form-control form-control-sm quantity-input" data-row="1" name="quantity_1" value="" placeholder="">
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>
-                                                            </strong>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-2">
-                                                    <div class="text-center border p-2 h-100">
-                                                        <input type="text" class="form-control form-control-sm unit-price-input" data-row="1" name="unit_price_1" value="" placeholder="">
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>
-                                                            </strong>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="border px-2 pt-3 py-2 h-100 text-right total-without-tax" id="total-without-tax-1"></div>
-                                                    <input type="hidden" class="total-input" name="total_1" value="">
-                                                </div>
-                                            </div>
-                                            <div class="row no-gutters flex-nowrap item-row" id="item-row-2">
-                                                <div class="col-auto">
-                                                    <div class="text-center w-50px pt-3">
-                                                        <button type="button" class="border-0 bg-transparent p-0 fs-6 delete-row text-danger" data-row="2"><i class="fas fa-minus-circle"></i></button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-3">
-                                                    <div class="text-center border p-2 h-100">
-                                                        <select class="form-control form-control-sm" name="medicine_2">
-                                                            <option value="">Vui lòng chọn thuốc</option>
+                                                        <select class="form-control form-control-sm" th:field="*{items[__${stat.index}__].unit}">
+                                                            <option value="">Vui lòng chọn đơn vị tính</option>
+                                                            <option value="1">Viên</option>
+                                                            <option value="2">Hộp</option>
                                                         </select>
                                                         <span class="text-danger" role="alert">
-                                                            <strong></strong>
+                                                            <strong th:if="${#fields.hasErrors('items[__${stat.index}__].unit')}" th:text="${#fields.errors('items[__${stat.index}__].unit')[0]}"></strong>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="col-2">
                                                     <div class="text-center border p-2 h-100">
-                                                        <select class="form-control form-control-sm" name="unit_2">
-                                                            <option value="">Viên</option>
-                                                            <option value="">Hộp</option>
-                                                        </select>
+                                                        <input type="text" class="form-control form-control-sm quantity-input" th:classappend="${#fields.hasErrors('items[__${stat.index}__].quantity')} ? 'is-invalid' : ''" th:field="*{items[__${stat.index}__].quantity}" placeholder="">
                                                         <span class="invalid-feedback" role="alert">
-                                                            <strong></strong>
+                                                            <strong th:if="${#fields.hasErrors('items[__${stat.index}__].quantity')}" th:text="${#fields.errors('items[__${stat.index}__].quantity')[0]}"></strong>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="col-2">
                                                     <div class="text-center border p-2 h-100">
-                                                        <input type="text" class="form-control form-control-sm quantity-input" data-row="2" name="quantity_2" value="" placeholder="">
+                                                        <input type="text" class="form-control form-control-sm unit-price-input" th:classappend="${#fields.hasErrors('items[__${stat.index}__].price')} ? 'is-invalid' : ''" th:field="*{items[__${stat.index}__].price}" placeholder="">
                                                         <span class="invalid-feedback" role="alert">
-                                                            <strong>
-                                                            </strong>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-2">
-                                                    <div class="text-center border p-2 h-100">
-                                                        <input type="text" class="form-control form-control-sm unit-price-input" data-row="2" name="unit_price_2" value="" placeholder="">
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>
-                                                            </strong>
+                                                            <strong th:if="${#fields.hasErrors('items[__${stat.index}__].price')}" th:text="${#fields.errors('items[__${stat.index}__].price')[0]}"></strong>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="border px-2 pt-3 py-2 h-100 text-right total-without-tax" id="total-without-tax-2"></div>
-                                                    <input type="hidden" class="total-input" name="total_2" value="">
+                                                    <div class="border px-2 pt-3 py-2 h-100 text-right receipt-total" th:id="'receipt-total' + ${stat.index}"></div>
                                                 </div>
                                             </div>
+                                            <th:block th:if="${receipt.items == null}">
+                                                <div class="row no-gutters flex-nowrap item-row" id="row1">
+                                                    <div class="col-auto">
+                                                        <div class="text-center w-50px pt-3">
+                                                            &nbsp;
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="text-center border p-2 h-100">
+                                                            <select class="form-control form-control-sm" th:field="*{items[0].medicineId}">
+                                                                <option value="">Vui lòng chọn thuốc</option>
+                                                                <option th:each="medicine : ${medicines}" th:value="${medicine.id}" th:text="${medicine.name}"></option>
+                                                            </select>
+                                                            <span class="text-danger" role="alert">
+                                                                <strong></strong>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="text-center border p-2 h-100">
+                                                            <select class="form-control form-control-sm" th:field="*{items[0].unit}">
+                                                                <option value="">Vui lòng chọn đơn vị tính</option>
+                                                                <option value="">Viên</option>
+                                                                <option value="">Hộp</option>
+                                                            </select>
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong></strong>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="text-center border p-2 h-100">
+                                                            <input type="text" class="form-control form-control-sm quantity-input" th:field="*{items[0].quantity}" placeholder="">
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>
+                                                                </strong>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="text-center border p-2 h-100">
+                                                            <input type="text" class="form-control form-control-sm unit-price-input" th:field="*{items[0].price}" placeholder="">
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>
+                                                                </strong>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="border px-2 pt-3 py-2 h-100 text-right receipt-total" id="receipt-total0"></div>
+                                                    </div>
+                                                </div>
+                                            </th:block>
                                         </div>
                                         <input type="hidden" name="item_row" value="1">
                                         <div class="text-center mt-3">
                                             <div class="row align-items-center">
                                                 <div class="col-6 text-right">
                                                     <div class="mt-2">
-                                                        <button type="button" class="btn btn-info w-120px" data-url="#" data-form_id="#form-receipt" id="btnCreateReceipt">
+                                                        <button type="submit" class="btn btn-info w-120px" data-url="#" data-form_id="#form-receipt" id="btnCreateReceipt">
                                                             <i class="fa-solid fa-circle-plus"></i>
                                                             Thanh toán
                                                         </button>

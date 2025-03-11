@@ -20,12 +20,20 @@ public class ReceiptItemValidator implements ConstraintValidator<ValidReceiptIte
 
         boolean hasId = item.getMedicineId() != null;
         boolean hasQuantity = item.getQuantity() != null && item.getQuantity() > 0;
-        boolean hasUnit = item.getUnit() != null && !item.getUnit().trim().isEmpty();
+        boolean hasUnit = item.getUnit() != null && !item.getUnit().trim().isEmpty() && !item.getUnit().equals("");
         boolean hasPrice = item.getPrice() != null && item.getPrice() > 0;
 
         Medicine medicine = hasId ? medicineService.findById(item.getMedicineId()) : null;
         if (hasId && medicine == null) {
             addConstraintViolation(context, "medicineId", "Thuốc không tồn tại.");
+            isValid = false;
+        }
+
+        // Nếu có productId, các trường khác không được rỗng
+        if (hasId && (!hasQuantity || !hasUnit || !hasPrice)) {
+            if (!hasQuantity) addConstraintViolation(context, "quantity", "Vui lòng nhập số lượng.");
+            if (!hasUnit) addConstraintViolation(context, "unit", "Vui lòng chọn đơn vị.");
+            if (!hasPrice) addConstraintViolation(context, "price", "Vui lòng nhập giá.");
             isValid = false;
         }
 

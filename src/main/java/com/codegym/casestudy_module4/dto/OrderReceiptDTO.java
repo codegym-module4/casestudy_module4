@@ -3,6 +3,7 @@ package com.codegym.casestudy_module4.dto;
 import com.codegym.casestudy_module4.entity.Customer;
 import com.codegym.casestudy_module4.entity.Employee;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,11 +38,12 @@ public class OrderReceiptDTO {
 
     private String note;
 
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
+    @Valid
     private List<MedicineDTO> items;
 
-    public OrderReceiptDTO(String code, Customer customer, Employee employee, String symptoms, String doctor, String doctor_address, String diagnose, String note, LocalDate createdAt, List<MedicineDTO> items) {
+    public OrderReceiptDTO(String code, Customer customer, Employee employee, String symptoms, String doctor, String doctor_address, String diagnose, String note, LocalDateTime createdAt, List<MedicineDTO> items) {
         this.code = code;
         this.customer = customer;
         this.employee = employee;
