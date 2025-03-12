@@ -47,6 +47,7 @@ public class ReceiptController {
         model.addAttribute("receipt_type", GlobalConstants.RECEIPT_TYPES);
         model.addAttribute("receipt_sortBy", GlobalConstants.RECEIPT_SORTBY);
         model.addAttribute("queryParams", queryParams);
+
         return "receipt/list";
     }
 }
