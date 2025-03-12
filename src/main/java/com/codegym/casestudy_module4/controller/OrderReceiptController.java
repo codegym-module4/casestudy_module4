@@ -1,11 +1,9 @@
 package com.codegym.casestudy_module4.controller;
 
+import com.codegym.casestudy_module4.dto.MedicineDTO;
 import com.codegym.casestudy_module4.dto.OrderReceiptDTO;
 import com.codegym.casestudy_module4.entity.*;
-import com.codegym.casestudy_module4.service.ICustomerService;
-import com.codegym.casestudy_module4.service.IMedicineService;
-import com.codegym.casestudy_module4.service.IReceiptService;
-import com.codegym.casestudy_module4.service.IUserService;
+import com.codegym.casestudy_module4.service.*;
 import com.codegym.casestudy_module4.ulti.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,6 +32,9 @@ public class OrderReceiptController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IReceiptDetailService receiptDetailService;
 
     @GetMapping("/create")
     public String create(
@@ -92,7 +93,13 @@ public class OrderReceiptController {
                 1,
                 receipt.getCreatedAt()
         );
-//        newReceipt = receiptService.updateOrCreate(newReceipt);
+        newReceipt = receiptService.updateOrCreate(newReceipt);
+        List<MedicineDTO> list = receipt.getItems();
+        for (MedicineDTO medicineDTO : list) {
+            ReceiptDetail detail = new ReceiptDetail(newReceipt, medicineDTO.getMedicine(), medicineDTO.getUnit(), medicineDTO.getPrice(), medicineDTO.getQuantity());
+            receiptDetailService.updateOrCreate(detail);
+        }
+        redirectAttributes.addFlashAttribute("message", "Thêm mới hóa đơn thành công");
 
         return "redirect:/receipt";
     }

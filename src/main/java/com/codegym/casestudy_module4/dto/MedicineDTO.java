@@ -1,13 +1,14 @@
 package com.codegym.casestudy_module4.dto;
 
 import com.codegym.casestudy_module4.annotation.ValidReceiptItem;
+import com.codegym.casestudy_module4.entity.Medicine;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @ValidReceiptItem
 public class MedicineDTO {
 
-    private Integer medicineId;
+    private Medicine medicine;
 
     private String unit;
 
@@ -15,12 +16,12 @@ public class MedicineDTO {
 
     private Integer price;
 
-    public Integer getMedicineId() {
-        return medicineId;
+    public Medicine getMedicine() {
+        return medicine;
     }
 
-    public void setMedicineId(Integer medicineId) {
-        this.medicineId = medicineId;
+    public void setMedicine(Medicine medicine) {
+        this.medicine = medicine;
     }
 
     public String getUnit() {

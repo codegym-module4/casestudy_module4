@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    $(function() {
+        $('.flash_message').fadeOut(5000);
+    });
+
     $(document).on("click", "#btnAddMedicine", function (e) {
         let num = $('input[name="item_row"]').val();
         let option = '';
@@ -27,7 +31,7 @@
                 </div>
                 <div class="col-3">
                     <div class="text-center border p-2 h-100">
-                        <select class="form-control form-control-sm medicine-select" id="items${num}.medicineId" name="items[${num}].medicineId">
+                        <select class="form-control form-control-sm medicine-select" id="items${num}.medicine" name="items[${num}].medicine">
                             <option value="">Vui lòng chọn thuốc</option>
                             ${option}
                         </select>
@@ -82,6 +86,7 @@
                 priceDiv.text('');
                 $('#medicine_total'+index).text('');
             }
+            calculateTotal();
         }).fail(function (jqXhr, json, errorThrown) {
             if (jqXhr.responseJSON.errors) {
                 alert(jqXhr.responseJSON.message);
@@ -101,6 +106,7 @@
             totalRow--;
             $('input[name="item_row"]').val(totalRow);
         }
+        calculateTotal();
     });
 
     $(document).on("change", ".quantity-input", function (e) {
@@ -120,5 +126,19 @@
         } else {
             alert("Vui lòng chọn thuốc trước");
         }
+        calculateTotal();
     });
 })();
+
+function calculateTotal() {
+    let total = 0;
+    $(".item-row").each(function(index, element) {
+        let $element = $(element);
+        let medicineTotal = $element.find('.medicine-total').text();
+        medicineTotal = parseFloat(medicineTotal);
+        if (medicineTotal != "" && $.isNumeric(medicineTotal)) {
+            total += medicineTotal;
+        }
+    });
+    $('#receipt_total').val(total);
+}

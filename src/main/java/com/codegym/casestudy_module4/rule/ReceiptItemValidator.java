@@ -18,16 +18,16 @@ public class ReceiptItemValidator implements ConstraintValidator<ValidReceiptIte
         if (item == null) return true;
         boolean isValid = true;
 
-        boolean hasId = item.getMedicineId() != null;
+        boolean hasId = item.getMedicine() != null;
         boolean hasQuantity = item.getQuantity() != null && item.getQuantity() > 0;
         boolean hasUnit = item.getUnit() != null && !item.getUnit().trim().isEmpty() && !item.getUnit().equals("");
         boolean hasPrice = item.getPrice() != null && item.getPrice() > 0;
 
-        Medicine medicine = hasId ? medicineService.findById(item.getMedicineId()) : null;
-        if (hasId && medicine == null) {
-            addConstraintViolation(context, "medicineId", "Thuốc không tồn tại.");
-            isValid = false;
-        }
+//        Medicine medicine = hasId ? medicineService.findById(item.getMedicineId()) : null;
+//        if (hasId && medicine == null) {
+//            addConstraintViolation(context, "medicineId", "Thuốc không tồn tại.");
+//            isValid = false;
+//        }
 
         // Nếu có productId, các trường khác không được rỗng
         if (hasId && (!hasQuantity || !hasUnit || !hasPrice)) {
