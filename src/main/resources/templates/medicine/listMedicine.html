@@ -26,29 +26,29 @@
                                 <!--                                Bộ lọc-->
                                 <div class="d-flex align-items-baseline mt-2 w-100">
                                     <!--                                    <span style="font-style: italic; font-weight: bold;">Bộ lọc thuốc</span>-->
-                                    <form th:action="@{/filter}" method="get" class="form-inline">
+                                    <form method="get" class="form-inline">
                                         <div class="form-group mb-2">
                                             <label for="filterBy" class="mr-2"> Lọc theo:</label>
                                             <select id="filterBy" name="filterBy" class="form-control">
                                                 <option value="code">Mã thuốc</option>
-                                                <option value="nhomThuoc">Nhóm thuốc</option>
-                                                <option value="nhomThuoc">Tên thuốc</option>
-                                                <option value="nhomThuoc">Hoạt chất</option>
-                                                <option value="nhomThuoc">Giá nhập</option>
-                                                <option value="nhomThuoc">Giá bán lẻ</option>
-                                                <option value="nhomThuoc">Giá bán sỉ</option>
+                                                <option value="group">Nhóm thuốc</option>
+                                                <option value="name">Tên thuốc</option>
+                                                <option value="ingredient">Hoạt chất</option>
+                                                <option value="importPrice">Giá nhập</option>
+                                                <option value="retailPrice">Giá bán lẻ</option>
+                                                <option value="wholesalePrice">Giá bán sỉ</option>
                                             </select>
                                         </div>
                                         <div class="form-group mx-sm-3 mb-2">
                                             <select id="condition" name="condition" class="form-control">
-                                                <option value="equals">Điều kiện</option>
-                                                <option value="greaterThan">Bằng</option>
-                                                <option value="greaterThan">Lớn hơn</option>
-                                                <option value="greaterThan">Nhỏ hơn</option>
+                                                <option selected>Điều kiện</option>
+                                                <option value="equal">Bằng</option>
+                                                <option value="greater">Lớn hơn</option>
+                                                <option value="less">Nhỏ hơn</option>
                                                 <option value="greaterThan">Lớn hơn bằng</option>
-                                                <option value="greaterThan">Nhỏ hơn bằng</option>
-                                                <option value="greaterThan">Khác</option>
-                                                <option value="greaterThan">Tất cả</option>
+                                                <option value="lessThan">Nhỏ hơn bằng</option>
+                                                <option value=other>Khác</option>
+                                                <option value="all">Tất cả</option>
                                             </select>
                                         </div>
                                         <div class="form-group mx-sm-3 mb-2">
@@ -93,7 +93,7 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr th:if="${listMedicines.isEmpty()}">
-                                                    <td colspan="14">${errorMessage}</td>
+                                                    <td th:text="${errorMessage}" colspan="14"></td>
                                                 </tr>
                                                 <tr th:each="medicine : ${listMedicines}">
                                                     <td th:text="${medicine.code}"></td>
@@ -122,23 +122,8 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <nav aria-label="Page navigation example">
-                                            <ul class="pagination">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" aria-label="Previous">
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
+                                        <div th:insert="~{layout/paginator :: pagination(page=${listMedicines},url='/medicines/list',queryParams=${queryParams})}">
+                                        </div>
                                     </div>
                                 </div>
 
@@ -155,4 +140,75 @@
 </body>
 <th:block th:replace="~{layout/script::script}">
 </th:block>
+<script>
+    $(document).ready(function () {
+        $('form').on('submit', function (event) {
+            event.preventDefault(); // Ngăn chặn hành động submit mặc định của form
+
+            var filterBy = $('#filterBy').val();
+            var condition = $('#condition').val();
+            var search = $('#search').val();
+
+            // Xác định key tương ứng dựa trên giá trị của filterBy và condition
+            var key;
+            if (filterBy === "importPrice") {
+                switch (condition) {
+                    case "equal":
+                        key = "equal_import_price";
+                        break;
+                    case "greater":
+                        key = "max_import_price";
+                        break;
+                    case "less":
+                        key = "min_import_price";
+                        break;
+                    // Thêm các điều kiện khác nếu cần
+                    default:
+                        key = "importPrice";
+                        break;
+                }
+            } else if (filterBy === "retailPrice") {
+                switch (condition) {
+                    case "equal":
+                        key = "equal_retail_price";
+                        break;
+                    case "greater":
+                        key = "max_retail_price";
+                        break;
+                    case "less":
+                        key = "min_retail_price";
+                        break;
+                    // Thêm các điều kiện khác nếu cần
+                    default:
+                        key = "retailPrice";
+                        break;
+                }
+            } else if (filterBy === "wholesalePrice") {
+                switch (condition) {
+                    case "equal":
+                        key = "equal_wholesale_price";
+                        break;
+                    case "greater":
+                        key = "max_wholesale_price";
+                        break;
+                    case "less":
+                        key = "min_wholesale_price";
+                        break;
+                    // Thêm các điều kiện khác nếu cần
+                    default:
+                        key = "wholesalePrice";
+                        break;
+                }
+            } else {
+                key = filterBy;
+            }
+
+            // Xây dựng URL với key và giá trị của ô input
+            var url = '/medicines/search?' + key + '=' + encodeURIComponent(search);
+
+            // Điều hướng đến URL mới
+            window.location.href = url;
+        });
+    });
+</script>
 </html>

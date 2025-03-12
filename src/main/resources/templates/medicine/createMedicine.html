@@ -47,7 +47,7 @@
                                     </div>
 
                                     <div class="form-row">
-                                        <div class="form-group col-md-12">
+                                        <div class="form-group col-md-6">
                                             <label>Nhóm thuốc</label>
                                             <select th:field="*{medicineGroup}" id="medicineGroup" class="form-control">
                                                 <option value="" disabled selected>Chọn nhóm thuốc</option>
@@ -55,10 +55,16 @@
                                                         th:text="${group.name}"></option>
                                             </select>
                                         </div>
+                                        <div class="form-group col-md-6">
+                                            <label for=expiredDate>Ngày hết hạn</label>
+                                            <input type="text" class="form-control" id="expiredDate"
+                                                   name="expiredDate" th:field="*{expiredDate}"
+                                                   placeholder="Ngày hết hạn">
+                                        </div>
                                     </div>
 
                                     <div class="form-row">
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label for="unit">Đơn vị</label>
                                             <select id="unit" class="form-control" name="unit">
                                                 <option value="" disabled selected>Chọn đơn vị</option>
@@ -67,7 +73,7 @@
                                                 <option>Viên</option>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label for="conversionUnit">ĐVT quy đổi</label>
                                             <select id="conversionUnit" class="form-control"
                                                     name="conversionUnit">
@@ -79,12 +85,22 @@
                                                 <option>Lọ</option>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-4">
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
                                             <label for="conversionRate">Tỷ lệ quy đổi</label>
                                             <input type="text" class="form-control" id="conversionRate"
                                                    name="conversionRate" th:field="*{conversionRate}"
                                                    placeholder="Tỷ lệ quy đổi">
                                         </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="quantity">Số lượng</label>
+                                            <input type="text" class="form-control" id="quantity" name="quantity"
+                                                   th:value="${medicine.quantity}"
+                                                   placeholder="Số lượng">
+                                        </div>
+
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
@@ -96,7 +112,6 @@
                                         <div class="form-group col-md-6">
                                             <label for="convertedImportPrice">Giá nhập quy đổi</label>
                                             <input type="text" class="form-control" id="convertedImportPrice"
-
                                                    name="convertedImportPrice" th:field="*{convertedImportPrice}"
                                                    placeholder="Giá nhập quy đổi">
                                         </div>
@@ -162,9 +177,11 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="supplier">Nhà sản xuất</label>
-                                            <input type="text" class="form-control" id="supplier"
-                                                   name="supplier" th:field="*{supplier}"
-                                                   placeholder="Nhà sản xuất">
+                                            <select th:field="*{supplier}" id="supplier" class="form-control">
+                                                <option value="" disabled selected>Chọn nhà sản xuất</option>
+                                                <option th:each="group : ${suppliers}" th:value="${group.id}"
+                                                        th:text="${group.name}"></option>
+                                            </select>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="madein">Xuất xứ</label>

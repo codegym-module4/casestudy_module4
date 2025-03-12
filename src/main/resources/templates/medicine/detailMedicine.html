@@ -46,7 +46,7 @@
                                     </div>
 
                                     <div class="form-row">
-                                        <div class="form-group col-md-12">
+                                        <div class="form-group col-md-6">
                                             <label for="medicineGroup">Nhóm thuốc</label>
                                             <select disabled id="medicineGroup" class="form-control">
                                                 <option th:text="${medicine.medicineGroup.name}"
@@ -55,10 +55,16 @@
                                                 <option>Nhóm 3</option>
                                             </select>
                                         </div>
+                                        <div class="form-group col-md-6">
+                                            <label for=expiredDate>Ngày hết hạn</label>
+                                            <input disabled type="text" class="form-control" id="expiredDate"
+                                                   name="expiredDate" th:field="${medicine.expiredDate}"
+                                                   placeholder="Ngày hết hạn">
+                                        </div>
                                     </div>
 
                                     <div class="form-row">
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label for="unit">Đơn vị</label>
                                             <select disabled id="unit" class="form-control">
                                                 <option th:text="${medicine.unit}" selected></option>
@@ -68,7 +74,7 @@
                                             </select>
                                             <!--                                            <input type="text" class="form-control" id="field1" placeholder="Field 1">-->
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label for="conversionUnit">ĐVT quy đổi</label>
                                             <select disabled id="conversionUnit" class="form-control">
                                                 <option disabled th:text="${medicine.conversionUnit}"
@@ -78,12 +84,23 @@
                                                 <option>Nhóm 3</option>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-4">
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="quantity">Số lượng</label>
+                                            <input disabled type="text" class="form-control" id="quantity"
+                                                   th:value="${medicine.quantity}"
+                                                   placeholder="Số lượng">
+                                        </div>
+
+                                        <div class="form-group col-md-6">
                                             <label for="conversionRate">Tỷ lệ quy đổi</label>
                                             <input disabled type="text" class="form-control" id="conversionRate"
                                                    th:value="${medicine.conversionRate}"
                                                    placeholder="Tỷ lệ quy đổi">
                                         </div>
+
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
@@ -179,7 +196,8 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-12 note">
                                             <label for="note">Ghi chú</label>
-                                            <textarea class="form-control" id="note" rows="5"
+                                            <textarea name="description" class="form-control" id="note" rows="5"
+                                                      th:text="${medicine.description}"
                                                       placeholder="Nhập ghi chú"></textarea>
                                         </div>
                                     </div>
@@ -197,7 +215,7 @@
                                             </a>
                                         </div>
                                         <div class="form-group d-inline-block mr-4">
-                                            <a th:onclick="|window.location.href='/medicines/list'|"
+                                            <a th:onclick="|window.location.href='/medicines/details/delete/' + ${medicine.id}|"
                                                class="btn btn-danger">
                                                 <i class="fas fa-trash-alt"></i>
                                                 Xóa
