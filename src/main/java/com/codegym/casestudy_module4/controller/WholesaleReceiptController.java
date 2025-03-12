@@ -7,19 +7,21 @@ import com.codegym.casestudy_module4.service.*;
 import com.codegym.casestudy_module4.ulti.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/receipt/order")
-public class OrderReceiptController {
+@RequestMapping("/receipt/wholesale")
+public class WholesaleReceiptController {
 
     @Autowired
     private IReceiptService receiptService;
@@ -48,7 +50,7 @@ public class OrderReceiptController {
         Customer lastCustomer = customerService.findLastCustomer();
         long lastCustomerId = lastCustomer == null?0:lastCustomer.getId();
         String customerCode = "KTD" + String.valueOf(lastCustomerId + 1);
-        List<Customer> customers = customerService.findAllByCustomerType(2);
+        List<Customer> customers = customerService.findAllByCustomerType(3);
         List<Medicine> medicines = medicineService.getAll();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByUsername(username);
@@ -58,7 +60,7 @@ public class OrderReceiptController {
         model.addAttribute("customers", customers);
         model.addAttribute("medicines", medicines);
 
-        return "/receipt/order_receipt/create";
+        return "/receipt/wholesale/create";
     }
 
     @PostMapping("/create")
@@ -79,7 +81,7 @@ public class OrderReceiptController {
             List<Medicine> medicines = medicineService.getAll();
             model.addAttribute("customers", customers);
             model.addAttribute("medicines", medicines);
-            return "/receipt/order_receipt/create";
+            return "/receipt/wholesale/create";
         }
         Receipt newReceipt = new Receipt(
                 receipt.getCode(),
@@ -89,7 +91,7 @@ public class OrderReceiptController {
                 receipt.getDiagnose(),
                 receipt.getDoctor(),
                 receipt.getDoctor_address(),
-                2,
+                3,
                 1,
                 receipt.getCreatedAt()
         );
