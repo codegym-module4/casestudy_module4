@@ -1,7 +1,9 @@
 package com.codegym.casestudy_module4.service.impl;
 
 import com.codegym.casestudy_module4.entity.Customer;
+import com.codegym.casestudy_module4.repository.ICustomerRepository;
 import com.codegym.casestudy_module4.service.ICustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +11,12 @@ import java.util.List;
 @Service
 public class CustomerService implements ICustomerService {
 
+    @Autowired
+    private ICustomerRepository customerRepository;
+
     @Override
     public List<Customer> getAll() {
-        return List.of();
+        return customerRepository.findAll();
     }
 
     @Override
@@ -37,5 +42,13 @@ public class CustomerService implements ICustomerService {
     @Override
     public List<Customer> findByName(String name) {
         return List.of();
+    }
+
+    public Customer findLastCustomer() {
+        return customerRepository.findFirstByOrderByIdDesc();
+    }
+
+    public List<Customer> findAllByCustomerType(int customerType) {
+        return customerRepository.findAllByCustomerType(customerType);
     }
 }

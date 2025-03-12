@@ -20,7 +20,8 @@ $(function () {
     $('.datetimepicker').datetimepicker({
         allowInputToggle: true,
         sideBySide: true,
-        icons: { time: 'far fa-clock' }
+        icons: { time: 'far fa-clock' },
+        format: 'DD/MM/YYYY HH:mm:ss'
     });
 
     $('.monthpicker').datetimepicker({
