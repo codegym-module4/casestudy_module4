@@ -16,7 +16,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query("SELECT r.roleName FROM User u JOIN u.role r WHERE u.employee.id = :id")
     String findRoleNameById(@Param("id") Long id);
 
-    @Query("SELECT MAX(CAST(SUBSTRING(u.code, 4) AS int)) FROM User u")
+    @Query("SELECT MAX(CAST(SUBSTRING(u.code, 2) AS int)) FROM User u")
     Integer findMaxCode();
 
     User findByEmployeeId(Long id);

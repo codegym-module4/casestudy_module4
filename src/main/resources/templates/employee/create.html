@@ -8,7 +8,15 @@
 </head>
 <body>
 <div class="container">
+
     <h2 class="text-center">Thông tin nhân viên</h2>
+
+    <div id="error-message">
+        <ul>
+            <li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
+        </ul>
+    </div>
+
     <form th:action="@{/employee/save}" method="post" th:object="${employee}">
         <div class="form-group">
             <label>Mã nhân viên</label>
@@ -18,7 +26,8 @@
 
         <div class="form-group">
             <label>Tên nhân viên</label>
-            <input type="text" class="form-control" th:field="*{fullName}" required>
+            <input type="text" class="form-control" th:field="*{fullName}" maxlength="255" pattern="^[a-zA-ZÀ-ỹ0-9\s]+$"
+                   title="Tên chỉ được chứa chữ cái, số và khoảng trắng, không có ký tự đặc biệt" required>
         </div>
 
         <div class="form-group">
@@ -28,7 +37,8 @@
 
         <div class="form-group">
             <label>Điện thoại</label>
-            <input type="text" class="form-control" th:field="*{phone}" required>
+            <input type="text" class="form-control" th:field="*{phone}" maxlength="20" pattern="^\d{9,}$"
+                   title="Số điện thoại phải có ít nhất 9 chữ số và chỉ chứa số" required>
         </div>
 
         <div class="form-group">

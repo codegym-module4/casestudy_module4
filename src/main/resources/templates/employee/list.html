@@ -129,7 +129,36 @@
     </div>
 </div>
 
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+                <h4 class="modal-title text-center">Thông báo</h4>
+            </div>
+            <div class="modal-body">
+                <p th:text="${success}"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href='/employee'">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 <th:block th:replace="~{layout/script::script}">
 </th:block>
+<script>
+    $(document).ready(function() {
+        // Kiểm tra nếu biến success có giá trị thì hiển thị modal
+        if ($.trim($("#successModal .modal-body p").text()) !== "") {
+            $("#successModal").modal("show");
+        }
+    });
+</script>
+
 </html>

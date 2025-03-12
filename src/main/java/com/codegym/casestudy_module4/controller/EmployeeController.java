@@ -15,9 +15,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,19 +56,19 @@ public class EmployeeController {
         Page<Employee> employees;
         switch (filterBy) {
             case "code":
-                employees = employeeService.findByCodeContainingIgnoreCase(searchInput, PageRequest.of(page, 5, Sort.by(sortBy)));
+                employees = employeeService.findByCodeContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
                 break;
             case "fullName":
-                employees = employeeService.findByFullNameContainingIgnoreCase(searchInput, PageRequest.of(page, 5, Sort.by(sortBy)));
+                employees = employeeService.findByFullNameContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
                 break;
             case "role":
-                employees = employeeService.findByRoleNameContainingIgnoreCase(searchInput, PageRequest.of(page, 5, Sort.by(sortBy)));
+                employees = employeeService.findByRoleNameContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
                 break;
             case "address":
-                employees = employeeService.findByAddressContainingIgnoreCase(searchInput, PageRequest.of(page, 5, Sort.by(sortBy)));
+                employees = employeeService.findByAddressContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
                 break;
             case "phone":
-                employees = employeeService.findByPhoneContainingIgnoreCase(searchInput, PageRequest.of(page, 5, Sort.by(sortBy)));
+                employees = employeeService.findByPhoneContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
                 break;
             default:
                 employees = Page.empty();
@@ -117,8 +121,16 @@ public class EmployeeController {
         public String save (
                 @RequestParam(name = "username") String username,
                 @RequestParam(name = "role") Long roleID,
-                @ModelAttribute Employee employee,
-                RedirectAttributes redirect){
+                @Validated @ModelAttribute Employee employee,
+                BindingResult bindingResult,
+                RedirectAttributes redirect,
+                Model model){
+
+            if (bindingResult.hasErrors()) {
+                model.addAttribute("employee", employee);
+                model.addAttribute("errors", bindingResult.getAllErrors());
+                return "employee/create";
+            }
 
             employee.setCreatedAt(LocalDateTime.now());
             employeeService.save(employee);
@@ -142,19 +154,21 @@ public class EmployeeController {
             user.setRole(role);
             userRepository.save(user);
 
-            redirect.addFlashAttribute("success", "Saved employee and user successfully!");
+            redirect.addFlashAttribute("success", "Đã thêm mới thành công");
             return "redirect:/employee";
         }
 
         @GetMapping("/delete/{id}")
-        public String delete (@PathVariable("id") long id){
+        public String delete (@PathVariable("id") long id, RedirectAttributes redirectAttributes){
             employeeService.remove(id);
+            redirectAttributes.addFlashAttribute("success", "Đã xóa thành công");
             return "redirect:/employee";
         }
 
         @PostMapping("/edit/{id}")
-        public String updateEmployee ( @PathVariable("id") long id, @ModelAttribute Employee employee ){
+        public String updateEmployee ( @PathVariable("id") long id, @ModelAttribute Employee employee, RedirectAttributes redirectAttributes){
             employeeService.update(id, employee);
+            redirectAttributes.addFlashAttribute("success", "Đã cập nhật thành công");
             return "redirect:/employee";
         }
 
