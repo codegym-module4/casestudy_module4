@@ -94,9 +94,9 @@
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label">Địa chỉ BS</label>
                                                     <div class="col-sm-8 col-xl-7">
-                                                        <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('doctor')} ? 'is-invalid' : ''" th:field="*{doctor_address}" placeholder="">
+                                                        <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('doctor')} ? 'is-invalid' : ''" th:field="*{doctorAddress}" placeholder="">
                                                         <span class="invalid-feedback" role="alert">
-                                                            <strong th:if="${#fields.hasErrors('doctor_address')}" th:text="${#fields.errors('doctor_address')[0]}"></strong>
+                                                            <strong th:if="${#fields.hasErrors('doctorAddress')}" th:text="${#fields.errors('doctorAddress')[0]}"></strong>
                                                         </span>
                                                     </div>
                                                 </div>
