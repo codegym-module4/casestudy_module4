@@ -21,7 +21,8 @@
                         <div class="col-12">
                             <div class="card card-default">
                                 <div class="card-body">
-                                    <form method="post" th:action="@{/receipt/order/create}" id="form-receipt" th:object="${receipt}">
+                                    <form method="post" th:action="@{/receipt/wholesale/create}" id="form-receipt" th:object="${receipt}">
+                                        <input type="hidden" id="wholesale" value="1">
                                         <div class="row align-items-start">
                                             <div class="col-md-4">
                                                 <div class="form-group row">
