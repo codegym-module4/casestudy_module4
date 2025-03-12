@@ -56,4 +56,13 @@ public class ReceiptService implements IReceiptService {
 
         return receiptRepository.findAll(spec, pageable);
     }
+
+    public Receipt findLastReceipt() {
+        return receiptRepository.findFirstByOrderByIdDesc();
+    }
+
+    @Override
+    public Receipt updateOrCreate(Receipt s) {
+        return receiptRepository.save(s);
+    }
 }

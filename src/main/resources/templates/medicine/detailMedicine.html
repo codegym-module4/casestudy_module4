@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{layout/head::head ('Thông tin chi tiết thuốc')}">
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+    <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="page-title m-0">Thông tin chi tiết thuốc</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-default">
+                            <div class="card-body">
+                                <form>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="code">Mã thuốc</label>
+                                            <input disabled type="text" class="form-control" id="code"
+                                                   th:value="${medicine.code}"
+                                                   placeholder="Nhập mã thuốc">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="name">Tên thuốc</label>
+                                            <input disabled type="text" class="form-control" id="name"
+                                                   th:value="${medicine.name}"
+                                                   placeholder="Nhập tên thuốc">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="activeIngredient">Hoạt chất</label>
+                                            <input disabled type="text" class="form-control" id="activeIngredient"
+                                                   th:value="${medicine.activeIngredient}"
+                                                   placeholder="Nhập hoạt chất">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label for="medicineGroup">Nhóm thuốc</label>
+                                            <select disabled id="medicineGroup" class="form-control">
+                                                <option th:text="${medicine.medicineGroup.name}"
+                                                        selected></option>
+                                                <option>Nhóm 2</option>
+                                                <option>Nhóm 3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="unit">Đơn vị</label>
+                                            <select disabled id="unit" class="form-control">
+                                                <option th:text="${medicine.unit}" selected></option>
+                                                <option>Nhóm 1</option>
+                                                <option>Nhóm 2</option>
+                                                <option>Nhóm 3</option>
+                                            </select>
+                                            <!--                                            <input type="text" class="form-control" id="field1" placeholder="Field 1">-->
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="conversionUnit">ĐVT quy đổi</label>
+                                            <select disabled id="conversionUnit" class="form-control">
+                                                <option disabled th:text="${medicine.conversionUnit}"
+                                                        selected></option>
+                                                <option>Nhóm 1</option>
+                                                <option>Nhóm 2</option>
+                                                <option>Nhóm 3</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="conversionRate">Tỷ lệ quy đổi</label>
+                                            <input disabled type="text" class="form-control" id="conversionRate"
+                                                   th:value="${medicine.conversionRate}"
+                                                   placeholder="Tỷ lệ quy đổi">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="importPrice">Giá nhập (đồng/hộp)</label>
+                                            <input disabled type="text" class="form-control" id="importPrice"
+                                                   th:value="${medicine.importPrice}"
+                                                   placeholder="Giá nhập">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="convertedImportPrice">Giá nhập quy đổi</label>
+                                            <input disabled type="text" class="form-control"
+                                                   id="convertedImportPrice"
+                                                   th:value="${medicine.convertedImportPrice}"
+                                                   placeholder="Giá nhập quy đổi">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="discountRate">Tỷ lệ chiết khấu (%)</label>
+                                            <input disabled type="text" class="form-control" id="discountRate"
+                                                   th:value="${medicine.discountRate}"
+                                                   placeholder="Tỷ lệ chiết khấu">
+
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="vatRate">VAT (%)</label>
+                                            <input disabled type="text" class="form-control" id="vatRate"
+                                                   placeholder="VAT" th:value="${medicine.vatRate}">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="priceWithVat">Nhập có VAT</label>
+                                            <input disabled type="text" class="form-control" id="priceWithVat"
+                                                   th:value="${medicine.priceWithVat}"
+                                                   placeholder="Nhập có VAT ">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="convertedPriceWithVat">Nhập quy đổi có VAT</label>
+                                            <input disabled type="text" class="form-control"
+                                                   id="convertedPriceWithVat"
+                                                   th:value="${medicine.convertedPriceWithVat}"
+                                                   placeholder="Nhập quy đổi có VAT">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="retailProfitRate">% Lợi nhuận xuất chẵn</label>
+                                            <input disabled type="text" class="form-control" id="retailProfitRate"
+                                                   th:value="${medicine.retailProfitRate}"
+                                                   placeholder="% Lợi nhuận xuất chẵn">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="wholesaleProfitRate">% Lợi nhuận xuất lẻ</label>
+                                            <input disabled type="text" class="form-control"
+                                                   id="wholesaleProfitRate"
+                                                   th:value="${medicine.wholesaleProfitRate}"
+                                                   placeholder="% Lợi nhuận xuất lẻ">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="retailPrice">Giá bán lẻ (đồng/hộp)</label>
+                                            <input disabled type="text" class="form-control" id="retailPrice"
+                                                   th:value="${medicine.retailPrice}"
+                                                   placeholder="Giá bán lẻ (đồng/hộp)">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="wholesalePrice">Giá bán sỉ (đồng/hộp)</label>
+                                            <input disabled type="text" class="form-control" id="wholesalePrice"
+                                                   th:value="${medicine.wholesalePrice}"
+                                                   placeholder="Giá bán sỉ (đồng/hộp)">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="supplier">Nhà sản xuất</label>
+                                            <input disabled type="text" class="form-control" id="supplier"
+                                                   th:value="${medicine.supplier.name}"
+                                                   placeholder="Nhà sản xuất">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="madein">Xuất xứ</label>
+                                            <select disabled id="madein" class="form-control">
+                                                <option value="Việt Nam" selected>Việt Nam</option>
+                                                <option>Nhật Bản</option>
+                                                <option>Hàn Quốc</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12 note">
+                                            <label for="note">Ghi chú</label>
+                                            <textarea class="form-control" id="note" rows="5"
+                                                      placeholder="Nhập ghi chú"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row d-flex justify-content-end">
+                                        <!--                                    <div class="form-group d-inline-block mr-4">-->
+                                        <!--                                        <button class="btn btn-success"><i class="fas fa-plus"></i> Thêm-->
+                                        <!--                                        </button>-->
+                                        <!--                                    </div>-->
+                                        <div class="form-group d-inline-block mr-4">
+                                            <a th:attr="data-id=${medicine.id}"
+                                               th:onclick="|window.location.href='/medicines/details/update/' + ${medicine.id} |"
+                                               class="btn btn-warning"
+                                            ><i class="fas fa-edit"></i> Sửa
+                                            </a>
+                                        </div>
+                                        <div class="form-group d-inline-block mr-4">
+                                            <a th:onclick="|window.location.href='/medicines/list'|"
+                                               class="btn btn-danger">
+                                                <i class="fas fa-trash-alt"></i>
+                                                Xóa
+                                            </a>
+                                        </div>
+                                        <div class="form-group d-inline-block">
+                                            <a th:onclick="|window.location.href='/medicines/list'|"
+                                               class="btn btn-secondary">
+                                                <i class="fas fa-arrow-left"></i>
+                                                Trở về
+                                            </a>
+                                        </div>
+
+                                    </div>
+
+                                </form>
+                            </div>
+                            <!-- /.card-body -->
+
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+</div>
+</body>
+<th:block th:replace="~{layout/script::script}">
+</th:block>
+</html>

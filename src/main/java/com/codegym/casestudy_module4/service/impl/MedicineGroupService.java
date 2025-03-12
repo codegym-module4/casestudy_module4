@@ -16,11 +16,17 @@ public class MedicineGroupService implements IMedicineGroupService {
     @Autowired
     private IMedicineGroupRepository medicineGroupRepository;
 
+<<<<<<< HEAD
 
     @Override
     public List<MedicineGroup> getAll() {
         List<MedicineGroup> medicineGroups = medicineGroupRepository.findAll();
         return medicineGroups;
+=======
+    @Override
+    public List<MedicineGroup> getAll() {
+        return medicineGroupRepository.findAll();
+>>>>>>> 732731e2ebe6e4f8a01f855637362f4172ca8e92
     }
 
     @Override
