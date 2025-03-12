@@ -8,4 +8,6 @@ public interface IReceiptDetailService extends IService<ReceiptDetail> {
     ReceiptDetail updateOrCreate(ReceiptDetail receiptDetail);
 
     List<ReceiptDetail> getReceiptDetailsByReceiptId(Long receiptId);
+
+    void deleteAllReceiptDetails(List<ReceiptDetail> receiptDetails);
 }

@@ -43,7 +43,7 @@ public class ReceiptService implements IReceiptService {
 
     @Override
     public Receipt findById(long id) {
-        return null;
+        return receiptRepository.findById(id).orElse(null);
     }
 
     @Override

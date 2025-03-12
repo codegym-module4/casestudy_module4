@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/html">
-<head th:replace="~{layout/head::head ('Tạo mới hóa đơn theo đơn thuốc')}">
+<head th:replace="~{layout/head::head (${title})}">
 <body class="hold-transition sidebar-mini layout-fixed text-sm">
     <div class="wrapper">
         <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
@@ -21,7 +21,7 @@
                         <div class="col-12">
                             <div class="card card-default">
                                 <div class="card-body">
-                                    <form method="post" th:action="@{/receipt/order/create}" id="form-receipt" th:object="${receipt}">
+                                    <form method="post" th:action="${action}" id="form-receipt" th:object="${receipt}">
                                         <div class="row align-items-start">
                                             <div class="col-md-4">
                                                 <div class="form-group row">

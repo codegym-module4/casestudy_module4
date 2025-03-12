@@ -55,4 +55,9 @@ public class ReceiptDetailService implements IReceiptDetailService {
     public List<ReceiptDetail> getReceiptDetailsByReceiptId(Long id) {
         return receiptDetailRepository.findByReceiptId(id);
     }
+
+    @Override
+    public void deleteAllReceiptDetails(List<ReceiptDetail> receiptDetails) {
+        receiptDetailRepository.deleteAll(receiptDetails);
+    }
 }

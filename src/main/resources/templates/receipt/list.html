@@ -16,7 +16,7 @@
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
       </div>
-
+      <th:block th:insert="~{layout/flash::flash}"></th:block>
       <section class="content">
         <div class="container-fluid">
           <div class="row">
@@ -153,8 +153,12 @@
                               <td th:text="${receipt.total}"></td>
                               <td th:text="${receipt.note}"></td>
                               <td>
-                                <a th:href="@{'/receipt/edit/' + ${receipt.id}}" class="btn btn-sm btn-warning" style="margin-right: 40px;">Sửa</a>
-                                <a th:href="@{'/receipt/delete/' + ${receipt.id}}" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa không?')">Xóa</a>
+                                <a th:href="${receipt.receiptType == 2
+                                      ? '/receipt/order/edit/' + receipt.id
+                                      : (receipt.receiptType == 3
+                                         ? '/receipt/wholesale/edit/' + receipt.id
+                                         : '#')}"
+                                   class="btn btn-sm btn-warning" style="margin-right: 40px;">Sửa</a>                                <a th:href="@{'/receipt/delete/' + ${receipt.id}}" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa không?')">Xóa</a>
                               </td>
 
                             </tr>
