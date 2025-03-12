@@ -50,4 +50,13 @@ public class UserService implements IUserService {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    @Override
+    public String generateCode() {
+        Integer maxCode = userRepository.findMaxCode();
+        if (maxCode == null) {
+            return "U001";
+        }
+        return "U" + String.format("%03d", maxCode + 1);
+    }
 }

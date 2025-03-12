@@ -1,0 +1,112 @@
+
+body {
+    background-color: #f4f6f9;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+
+h2 {
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.form-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    font-size: 14px;
+    width: 100%; /* Đảm bảo input rộng bằng khung */
+    box-sizing: border-box; /* Tránh tràn ra ngoài */
+}
+
+
+select.form-control {
+    appearance: none;
+    background-color: white;
+    border: 1px solid #ced4da;
+}
+
+
+.btn {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    width: 100px;
+    margin-right: 5px;
+}
+
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+
+.btn-default {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+.btn-default:hover {
+    background-color: #5a6268;
+}
+
+
+.text-center {
+    text-align: center;
+}
+
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
