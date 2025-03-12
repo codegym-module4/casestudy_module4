@@ -6,6 +6,8 @@ import com.codegym.casestudy_module4.repository.IMedicineGroupRepository;
 import com.codegym.casestudy_module4.service.IMedicineGroupService;
 import com.codegym.casestudy_module4.service.IMedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,12 +31,10 @@ public class MedicineGroupService implements IMedicineGroupService {
     }
 
     @Override
-    public void update(long id, MedicineGroup s) {
-        MedicineGroup medicineGroup = medicineGroupRepository.findById(id).orElse(null);
-        if(medicineGroup != null) {
-            s.setId(id);
-            medicineGroupRepository.save(s);
-        }
+    public void update(long id, MedicineGroup medicineGroup) {
+        medicineGroup.setId(id);
+        medicineGroup.setCreatedAt(findById(id).getCreatedAt());
+        medicineGroupRepository.save(medicineGroup);
     }
 
     @Override
@@ -51,4 +51,15 @@ public class MedicineGroupService implements IMedicineGroupService {
     public List<MedicineGroup> findByName(String name) {
         return medicineGroupRepository.findAllByNameContaining(name);
     }
+
+    @Override
+    public List<MedicineGroup> findByCode(String code) {
+        return medicineGroupRepository.findAllByCodeContaining(code);
+    }
+
+
+//    @Override
+//    public Page<MedicineGroup> findByName(String name, PageRequest of){
+//        return medicineGroupRepository.findAllByNameContaining(name, of);
+//    }
 }

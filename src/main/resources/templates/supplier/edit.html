@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{layout/head::head ('Danh sách nhóm thuốc')}">
+<head th:replace="~{layout/head::head ('Chào mừng')}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed text-sm">
 <div class="wrapper">
@@ -10,7 +10,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="page-title m-0">Thêm mới</h1>
+                        <h1 class="page-title m-0">Sửa</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -32,27 +32,39 @@
                                                 </ul>
                                             </div>
 
-                                            <form th:action="@{/medicinegroup/create}" th:object="${medicineGroup}"
+                                            <form th:action="@{/supplier/edit/{id}(id=${supplier.id})}" th:object="${supplier}"
                                                   method="post">
                                                 <div class="mb-3">
-                                                    <label for="code" class="form-label">Mã nhóm thuốc: </label>
+                                                    <label for="code" class="form-label">Mã NCC: </label>
                                                     <input type="text" class="form-control" id="code" name="code"
                                                            th:field="*{code}" maxlength="50" required/>
                                                     <p style="color: grey" th:errors="*{code}"></p>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="name" class="form-label">Tên nhóm thuốc: </label>
+                                                    <label for="name" class="form-label">Tên NCC: </label>
                                                     <input type="text" class="form-control" id="name" name="name"
                                                            th:field="*{name}" required/>
                                                     <p style="color: grey" th:errors="*{name}"></p>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="description" class="form-label">Mô tả: </label>
-                                                    <input type="text" class="form-control" id="description"
-                                                           name="description" th:field="*{description}"/>
-                                                    <p style="color: grey" th:errors="*{description}"></p>
+                                                    <label for="address" class="form-label">Địa chỉ: </label>
+                                                    <input type="text" class="form-control" id="address"
+                                                           name="address" th:field="*{address}"/>
+                                                    <p style="color: grey" th:errors="*{address}"></p>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                                                <div class="mb-3">
+                                                    <label for="phone" class="form-label">SĐT: </label>
+                                                    <input type="text" class="form-control" id="phone"
+                                                           name="phone" th:field="*{phone}"/>
+                                                    <p style="color: grey" th:errors="*{phone}"></p>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="note" class="form-label">Mô tả: </label>
+                                                    <input type="text" class="form-control" id="note"
+                                                           name="note" th:field="*{note}"/>
+                                                    <p style="color: grey" th:errors="*{note}"></p>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
                                             </form>
                                         </div>
                                     </div>

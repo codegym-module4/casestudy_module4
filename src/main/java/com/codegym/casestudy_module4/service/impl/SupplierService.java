@@ -29,11 +29,9 @@ public class SupplierService implements ISupplierService {
 
     @Override
     public void update(long id, Supplier s) {
-        Supplier supplier = supplierRepository.findById(id).orElse(null);
-        if (supplier != null){
-            s.setId(id);
-            supplierRepository.save(s);
-        }
+        s.setId(id);
+        s.setCreatedAt(findById(id).getCreatedAt());
+        supplierRepository.save(s);
     }
 
     @Override
@@ -49,5 +47,10 @@ public class SupplierService implements ISupplierService {
     @Override
     public List<Supplier> findByName(String name) {
         return supplierRepository.findAllByNameContaining(name);
+    }
+
+    @Override
+    public List<Supplier> findByCode(String code) {
+        return supplierRepository.findAllByCodeContaining(code);
     }
 }
