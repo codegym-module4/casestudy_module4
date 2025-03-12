@@ -121,6 +121,7 @@
                     <div class="text-right">
                       <button type="submit" class="btn btn-sm btn-primary w-120px">Xem</button>
                     </div>
+
                   </form>
 
                   <div class="mt-2">
@@ -151,7 +152,11 @@
                               <td th:text="${receipt.employee.fullName}"></td>
                               <td th:text="${receipt.total}"></td>
                               <td th:text="${receipt.note}"></td>
-                              <td th:text="${receipt.note}"></td>
+                              <td>
+                                <a th:href="@{'/receipt/edit/' + ${receipt.id}}" class="btn btn-sm btn-warning" style="margin-right: 40px;">Sửa</a>
+                                <a th:href="@{'/receipt/delete/' + ${receipt.id}}" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa không?')">Xóa</a>
+                              </td>
+
                             </tr>
                           </tbody>
                         </table>
