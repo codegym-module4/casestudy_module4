@@ -125,6 +125,7 @@
                                 <div class="mt-2">
                                     <div class="mt-4">
                                         <div class="table-responsive" style="max-height: 600px;">
+                                            <button class="btn btn-warning">Sửa</button>
                                             <button class="btn btn-primary"
                                                     onclick="window.location.href='/medicinegroup/create'">Thêm mới
                                             </button>
@@ -158,7 +159,36 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-
+                                            <!--                                            modal delete-->
+                                            <div th:each="medicineGroup : ${medicineGroups}">
+                                                <div class="modal" th:id="'modalDelete' + ${medicineGroup.id}"
+                                                     tabindex="-1">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Xóa nhóm thuốc</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p th:text="'Bạn có chắc muốn xóa nhóm thuốc có tên là ' + ${medicineGroup.name} + ' và ID là ' + ${medicineGroup.id} + '?'"></p>
+                                                                <small style="color: red; font-style: italic">Lưu ý:
+                                                                    Hành động này không thể hoàn tác!</small>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Đóng
+                                                                </button>
+                                                                <a class="btn btn-danger"
+                                                                   th:href="@{/medicinegroup/delete/{id}/(id=${medicineGroup.id})}">Xác
+                                                                    nhận</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div th:insert="~{layout/paginator :: pagination(
                           page=${medicineGroups},
