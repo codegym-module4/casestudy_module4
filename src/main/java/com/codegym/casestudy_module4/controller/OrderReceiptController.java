@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -58,7 +59,7 @@ public class OrderReceiptController {
         model.addAttribute("customers", customers);
         model.addAttribute("medicines", medicines);
 
-        return "/receipt/order_receipt/create";
+        return "/receipt/order_receipt/form";
     }
 
     @PostMapping("/create")
@@ -79,7 +80,7 @@ public class OrderReceiptController {
             List<Medicine> medicines = medicineService.getAll();
             model.addAttribute("customers", customers);
             model.addAttribute("medicines", medicines);
-            return "/receipt/order_receipt/create";
+            return "/receipt/order_receipt/form";
         }
         Receipt newReceipt = new Receipt(
                 receipt.getCode(),
@@ -88,7 +89,7 @@ public class OrderReceiptController {
                 receipt.getSymptoms(),
                 receipt.getDiagnose(),
                 receipt.getDoctor(),
-                receipt.getDoctor_address(),
+                receipt.getDoctorAddress(),
                 2,
                 1,
                 receipt.getCreatedAt()
@@ -102,5 +103,46 @@ public class OrderReceiptController {
         redirectAttributes.addFlashAttribute("message", "Thêm mới hóa đơn thành công");
 
         return "redirect:/receipt";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(
+            Model model,
+            @PathVariable("id") Long id
+    ) {
+        Receipt receipt = receiptService.findById(id);
+        List<ReceiptDetail> list = receiptDetailService.getReceiptDetailsByReceiptId(id);
+        List<MedicineDTO> items = new ArrayList<>();
+        for (ReceiptDetail receiptDetail : list) {
+            MedicineDTO medicineDTO = new MedicineDTO(receiptDetail.getId(), receiptDetail.getMedicine(), receiptDetail.getUnit(), receiptDetail.getQuantity(), receiptDetail.getPrice());
+            items.add(medicineDTO);
+        }
+        OrderReceiptDTO receiptDTO = new OrderReceiptDTO(
+                receipt.getId(),
+                receipt.getCode(),
+                receipt.getCustomer(),
+                receipt.getEmployee(),
+                receipt.getSymptoms(),
+                receipt.getDoctor(),
+                receipt.getDoctor_address(),
+                receipt.getDiagnose(),
+                receipt.getCreatedAt(),
+                items
+        );
+
+        Customer lastCustomer = customerService.findLastCustomer();
+        long lastCustomerId = lastCustomer == null?0:lastCustomer.getId();
+        String customerCode = "KTD" + String.valueOf(lastCustomerId + 1);
+        List<Customer> customers = customerService.findAllByCustomerType(2);
+        List<Medicine> medicines = medicineService.getAll();
+//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//        User user = userService.findByUsername(username);
+//        receipt.setEmployee(user.getEmployee());
+        model.addAttribute("receipt", receiptDTO);
+        model.addAttribute("customerCode", customerCode);
+        model.addAttribute("customers", customers);
+        model.addAttribute("medicines", medicines);
+
+        return "/receipt/order_receipt/form";
     }
 }

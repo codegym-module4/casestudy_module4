@@ -4,9 +4,15 @@ import com.codegym.casestudy_module4.annotation.ValidReceiptItem;
 import com.codegym.casestudy_module4.entity.Medicine;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @ValidReceiptItem
+@AllArgsConstructor
+@NoArgsConstructor
 public class MedicineDTO {
+
+    private Long id;
 
     private Medicine medicine;
 
@@ -15,6 +21,14 @@ public class MedicineDTO {
     private Integer quantity;
 
     private Integer price;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Medicine getMedicine() {
         return medicine;

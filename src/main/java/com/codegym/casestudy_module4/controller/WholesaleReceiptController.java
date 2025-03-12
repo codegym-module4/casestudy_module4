@@ -90,7 +90,7 @@ public class WholesaleReceiptController {
                 receipt.getSymptoms(),
                 receipt.getDiagnose(),
                 receipt.getDoctor(),
-                receipt.getDoctor_address(),
+                receipt.getDoctorAddress(),
                 3,
                 1,
                 receipt.getCreatedAt()

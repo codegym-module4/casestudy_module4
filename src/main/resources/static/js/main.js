@@ -4,7 +4,7 @@
     $(function() {
         $('.flash_message').fadeOut(5000);
     });
-
+    updateTotal();
     $(document).on("click", "#btnAddMedicine", function (e) {
         let num = $('input[name="item_row"]').val();
         let option = '';
@@ -53,6 +53,7 @@
                 <div class="col">
                     <div class="border px-2 pt-3 py-2 h-100 text-right medicine-total" id="medicine_total${num}"></div>
                 </div>
+                <input type="hidden" name="items[${num}].id" id="id${num}">
             </div>`;
         num++;
         $('input[name="item_row"]').val(num);
@@ -137,6 +138,23 @@
         }
         calculateTotal();
     });
+
+    $(document).on("click", "#btnSaveReceipt", function (e) {
+        let isMedicineNull = true;
+        $(".item-row").each(function(index, element) {
+            let $element = $(element);
+            let medicineId = $element.find('.medicine-select').val();
+            if (medicineId != "") {
+                isMedicineNull = false;
+            }
+        });
+        if (!isMedicineNull) {
+            $('#form-receipt').submit();
+        } else {
+            $('.medicine-list-error strong').text("Hãy chọn ít nhất 1 loại thuốc để tạo hóa đơn");
+        }
+    });
+    calculateTotal();
 })();
 
 function calculateTotal() {
@@ -150,4 +168,15 @@ function calculateTotal() {
         }
     });
     $('#receipt_total').val(total);
+}
+
+function updateTotal() {
+    $(".item-row").each(function(index, element) {
+        let $element = $(element);
+        let quantity = $element.find('.quantity-input').val();
+        let price = $element.find('.unit-price-input').val()
+        if ($.isNumeric(quantity) && $.isNumeric(price)) {
+            $element.find('.medicine-total').text(quantity * price);
+        }
+    });
 }
