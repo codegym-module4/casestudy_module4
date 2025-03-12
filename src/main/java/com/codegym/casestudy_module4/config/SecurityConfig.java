@@ -43,12 +43,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
                                 .requestMatchers("/login","/img/**",
-                                        "/css/**", "/plugins/**", "/js/**","/dist/**", "/resources/**", "/employee/list", "/employee/**")
+                                        "/css/**", "/plugins/**", "/js/**","/dist/**", "/resources/**")
                                 .permitAll())
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-                                .requestMatchers("/","/receipt/**", "/logout", "/receipt/order/**").authenticated())
-//                                .requestMatchers("/employee/**").hasAnyRole("ADMIN", "EMPLOYEE"))
+                               .requestMatchers("/","/receipt/**", "/logout", "/receipt/order/**","/medicines/**", "/api/medicines/**","/employee/**").authenticated())
                 .formLogin((formLogin) ->
                         formLogin
                                 .usernameParameter("username")
