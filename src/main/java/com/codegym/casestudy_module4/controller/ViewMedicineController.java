@@ -81,7 +81,7 @@ public class ViewMedicineController {
     public String deleteStudent(@PathVariable("id") Long id,
                                 RedirectAttributes redirectAttributes) {
         medicineService.remove(id);
-        redirectAttributes.addFlashAttribute("message", "Xóa thành công");
+        redirectAttributes.addFlashAttribute("message", "Xóa thành công!");
         return "redirect:/medicines/list";
     }
 

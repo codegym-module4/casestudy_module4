@@ -1,10 +1,23 @@
 package com.codegym.casestudy_module4.specification;
 
 import com.codegym.casestudy_module4.entity.Medicine;
+import com.codegym.casestudy_module4.entity.MedicineGroup;
+import com.codegym.casestudy_module4.entity.MedicineGroup_;
 import com.codegym.casestudy_module4.entity.Medicine_;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
+
 public class MedicineSpecification {
+
+//    @PersistenceContext
+//    public static EntityManager entityManager;
 
     // Filter: "="
     public static Specification<Medicine> nameLike(String name) {
@@ -18,8 +31,10 @@ public class MedicineSpecification {
     }
 
     public static Specification<Medicine> groupLike(String group) {
-        return (root, query, criteriaBuilder)
-                -> criteriaBuilder.like(root.get(Medicine_.MEDICINE_GROUP), "%" + group + "%");
+        return (root, query, builder) -> {
+            Join<Medicine, MedicineGroup> medicineGroup = root.join("medicineGroup");
+            return builder.like(medicineGroup.get("name"), "%" + group + "%");
+        };
     }
 
     public static Specification<Medicine> ingredientsLike(String ingredients) {
