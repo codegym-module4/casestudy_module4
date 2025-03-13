@@ -87,4 +87,14 @@ public class Receipt {
         this.status = status;
         this.createdAt = createdAt;
     }
+    public Receipt( String code, Customer customer, Employee employee, String note , Integer receiptType, Integer status,LocalDateTime createdAt) {
+        this.code = code;
+        this.customer = customer;
+        this.employee = employee;
+        this.note=note;
+        this.receiptType = receiptType;
+        this.status = status;
+        this.createdAt = createdAt;
+    }
+
 }
