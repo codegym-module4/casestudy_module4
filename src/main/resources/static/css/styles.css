@@ -4,3 +4,8 @@
     justify-content: end;
     gap: 20px;
 }
+
+.error {
+    color: red;
+}
+

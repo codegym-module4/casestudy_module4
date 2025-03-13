@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{layout/head::head ('Quản lý thuốc')}">
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+    <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="page-title m-0">QUẢN LÝ THUỐC</h1>
+
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="card card-default">
+                            <div class="card-body">
+                                <!--                                Bộ lọc-->
+                                <div class="d-flex align-items-baseline mt-2 w-100 position-relative">
+                                    <!--                                    <span style="font-style: italic; font-weight: bold;">Bộ lọc thuốc</span>-->
+                                    <form method="get" class="form-inline">
+                                        <div class="form-group mb-2">
+                                            <label for="filterBy" class="mr-2"> Lọc theo:</label>
+                                            <select id="filterBy" name="filterBy" class="form-control">
+                                                <option selected value="code">Mã thuốc</option>
+                                                <option value="group">Nhóm thuốc</option>
+                                                <option value="name">Tên thuốc</option>
+                                                <option value="ingredients">Hoạt chất</option>
+                                                <option value="importPrice">Giá nhập</option>
+                                                <option value="retailPrice">Giá bán lẻ</option>
+                                                <option value="wholesalePrice">Giá bán sỉ</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group mx-sm-3 mb-2">
+                                            <select id="condition" name="condition" class="form-control">
+                                                <option selected>Điều kiện</option>
+                                                <option value="equal">Bằng</option>
+                                                <option value="greater">Lớn hơn</option>
+                                                <option value="less">Nhỏ hơn</option>
+                                                <option value="greaterThan">Lớn hơn bằng</option>
+                                                <option value="lessThan">Nhỏ hơn bằng</option>
+                                                <option value="all">Tất cả</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group mx-sm-3 mb-2">
+                                            <label for="search" class="mr-2">Tìm kiếm:</label>
+                                            <input type="text" id="search" name="search" class="form-control"/>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mb-2">
+                                            <i class="fa-solid fa-magnifying-glass"> </i>
+                                            Lọc kết quả
+                                        </button>
+                                    </form>
+                                    <a th:onclick="|window.location.href='/medicines/createView'|"
+                                       class="btn btn-success ml-3">
+                                        <i class="fas fa-plus"></i>
+                                        Thêm mới
+                                    </a>
+                                    <div class="toast-container position-absolute top-0 end-0 p-3"
+                                         th:attr="style='right: -60px; width: 27%; top: -20px;'"
+                                         th:if="${message != null || errorMessage != null}">
+                                        <div class="toast text-center fade"
+                                             role="alert" aria-live="assertive"
+                                             aria-atomic="true" id="toast">
+                                            <div id="message"
+                                                 class="toast-body d-flex justify-content-start align-items-baseline">
+                                                <i th:if="${errorMessage == null}" class="fa-solid fa-check"
+                                                   th:attr="style='color: #28a745; font-size: 1.2em; margin-right: 10px;'"></i>
+                                                <i th:if="${errorMessage != null}"
+                                                   class="fa-solid fa-exclamation-circle"
+                                                   th:attr="style='color: #dc3545; font-size: 1.2em; margin-right: 10px;'"></i>
+                                                <strong th:if="${message != null}" th:text="${message}"
+                                                        th:attr="style='font-style: italic; color: #28a745; font-size: 1.1em;'"
+                                                        class="text">
+                                                </strong>
+                                                <strong th:if="${errorMessage != null}" th:text="${errorMessage}"
+                                                        th:attr="style='font-style: italic; color: #dc3545; font-size: 1.1em;'"
+                                                        class="text">
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!---->
+                                <div class="mt-2">
+                                    <div class="mt-4">
+                                        <div class="table-responsive" style="max-height: 1200px;">
+                                            <table class="table table-bordered table-hover table-valign-middle table-head-fixed text-nowrap text-center">
+                                                <thead>
+                                                <tr>
+                                                    <th class="bg-light">Mã thuốc</th>
+                                                    <th class="bg-light">Nhóm thuốc</th>
+                                                    <th class="bg-light">Tên thuốc</th>
+                                                    <th class="bg-light">Hoạt chất</th>
+                                                    <th class="bg-light">ĐVT</th>
+                                                    <th class="bg-light">ĐV QĐ</th>
+                                                    <th class="bg-light">Số lượng</th>
+                                                    <th class="bg-light">Giá nhập</th>
+                                                    <th class="bg-light">Giá sỉ</th>
+                                                    <th class="bg-light">Giá lẻ</th>
+                                                    <th class="bg-light">% CK</th>
+                                                    <th class="bg-light">% LN XC</th>
+                                                    <th class="bg-light">% LN XL</th>
+                                                    <th class="bg-light">VAT</th>
+                                                    <th class="bg-light">Tác vụ</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:if="${listMedicines.isEmpty()}">
+                                                    <td th:text="${errorMessage}" colspan="14"></td>
+                                                </tr>
+                                                <tr th:each="medicine : ${listMedicines}">
+                                                    <td th:text="${medicine.code}"></td>
+                                                    <td th:text="${medicine.medicineGroup.name}"></td>
+                                                    <td th:text="${medicine.name}"></td>
+                                                    <td th:text="${medicine.activeIngredient}"></td>
+                                                    <td th:text="${medicine.unit}"></td>
+                                                    <td th:text="${medicine.conversionUnit}"></td>
+                                                    <td th:text="${medicine.quantity}"></td>
+                                                    <td th:text="${medicine.importPrice}"></td>
+                                                    <td th:text="${medicine.wholesalePrice}"></td>
+                                                    <td th:text="${medicine.retailPrice}"></td>
+                                                    <td th:text="${medicine.discountRate}"></td>
+                                                    <td th:text="${medicine.wholesaleProfitRate}"></td>
+                                                    <td th:text="${medicine.retailProfitRate}"></td>
+                                                    <td th:text="${medicine.vatRate}"></td>
+                                                    <td>
+                                                        <button type="button"
+                                                                class="btn btn-primary"
+                                                                th:attr="data-id=${medicine.id}"
+                                                                th:onclick="|window.location.href='/medicines/details/' + ${medicine.id} |">
+                                                            Xem chi tiết
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div th:insert="~{layout/paginator :: pagination(page=${listMedicines},url='/medicines/list',queryParams=${queryParams})}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+</div>
+</body>
+<th:block th:replace="~{layout/script::script}">
+</th:block>
+<script>
+    $(document).ready(function () {
+        $('form').on('submit', function (event) {
+            event.preventDefault();
+
+            let filterBy = $('#filterBy').val();
+            let condition = $('#condition').val();
+            let search = $('#search').val();
+
+            let key;
+
+            if (filterBy === 'code') {
+                switch (condition) {
+                    case "equal":
+                        key = "code";
+                        break;
+                    case "greater":
+                        key = "code";
+                        break;
+                    case "less":
+                        key = "code";
+                        break;
+                    case "greaterThan":
+                        key = "code";
+                        break;
+                    case "lessThan":
+                        key = "code";
+                        break;
+                    case "all":
+                        key = "code";
+                        break;
+                    default:
+                        key = "code";
+                        break;
+                }
+            }
+
+            if (filterBy === 'name') {
+                switch (condition) {
+                    case "equal":
+                        key = "name";
+                        break;
+                    case "greater":
+                        key = "name";
+                        break;
+                    case "less":
+                        key = "name";
+                        break;
+                    case "greaterThan":
+                        key = "name";
+                        break;
+                    case "lessThan":
+                        key = "name";
+                        break;
+                    case "all":
+                        key = "name";
+                        break;
+                    default:
+                        key = "name";
+                        break;
+                }
+            }
+
+            if (filterBy === 'group') {
+                switch (condition) {
+                    case "equal":
+                        key = "group";
+                        break;
+                    case "greater":
+                        key = "group";
+                        break;
+                    case "less":
+                        key = "group";
+                        break;
+                    case "greaterThan":
+                        key = "group";
+                        break;
+                    case "lessThan":
+                        key = "group";
+                        break;
+                    case "all":
+                        key = "group";
+                        break;
+                    default:
+                        key = "group";
+                        break;
+                }
+            }
+
+            if (filterBy === 'ingredients') {
+                switch (condition) {
+                    case "equal":
+                        key = "ingredients";
+                        break;
+                    case "greater":
+                        key = "ingredients";
+                        break;
+                    case "less":
+                        key = "ingredients";
+                        break;
+                    case "greaterThan":
+                        key = "ingredients";
+                        break;
+                    case "lessThan":
+                        key = "ingredients";
+                        break;
+                    case "all":
+                        key = "ingredients";
+                        break;
+                    default:
+                        key = "ingredients";
+                        break;
+                }
+            }
+
+            if (filterBy === "importPrice") {
+                switch (condition) {
+                    case "equal":
+                        key = "equal_import_price";
+                        break;
+                    case "greater":
+                        key = "min_import_price";
+                        break;
+                    case "less":
+                        key = "max_import_price";
+                        break;
+                    case "greaterThan":
+                        key = "min_import_price";
+                        break;
+                    case "lessThan":
+                        key = "max_import_price";
+                        break;
+                    case "all":
+                        key = "equal_import_price";
+                        break;
+                    default:
+                        key = "equal_import_price";
+                        break;
+                }
+            }
+
+            if (filterBy === "retailPrice") {
+                switch (condition) {
+                    case "equal":
+                        key = "equal_import_price";
+                        break;
+                    case "greater":
+                        key = "min_import_price";
+                        break;
+                    case "less":
+                        key = "max_import_price";
+                        break;
+                    case "greaterThan":
+                        key = "min_import_price";
+                        break;
+                    case "lessThan":
+                        key = "max_import_price";
+                        break;
+                    case "all":
+                        key = "equal_import_price";
+                        break;
+                    default:
+                        key = "equal_import_price";
+                        break;
+                }
+            }
+
+            if (filterBy === "wholesalePrice") {
+                switch (condition) {
+                    case "equal":
+                        key = "equal_import_price";
+                        break;
+                    case "greater":
+                        key = "min_import_price";
+                        break;
+                    case "less":
+                        key = "max_import_price";
+                        break;
+                    case "greaterThan":
+                        key = "min_import_price";
+                        break;
+                    case "lessThan":
+                        key = "max_import_price";
+                        break;
+                    case "all":
+                        key = "max_import_price";
+                        break;
+                    default:
+                        key = "max_import_price";
+                        break;
+                }
+            }
+
+            let url = '/medicines/search?' + key + '=' + encodeURIComponent(search);
+            window.location.href = url;
+        });
+
+
+    });
+
+    function checkMes() {
+        let mes = document.getElementById("message");
+        if (mes && mes.querySelector(".text").textContent.trim() !== "") {
+            return mes;
+        }
+        return null;
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let mes = checkMes();
+        if (mes) {
+            let toast = new bootstrap.Toast(document.getElementById('toast'));
+            toast.show();
+            setTimeout(() => {
+                toast.hide();
+            }, 3500);
+        } else {
+            let toast = new bootstrap.Toast(document.getElementById('toast'));
+            toast.hide();
+        }
+    });
+
+
+</script>
+</html>
