@@ -25,12 +25,6 @@
                                 <div class="mt-2">
                                     <div class="mt-4">
                                         <div class="container">
-                                            <div class="alert alert-danger"  th:if="${errors != null and not #lists.isEmpty(errors)}">
-                                                <ul>
-                                                    <li th:each="error : ${errors}"
-                                                        th:text="${error.defaultMessage}"></li>
-                                                </ul>
-                                            </div>
 
                                             <form th:action="@{/supplier/edit/{id}(id=${supplier.id})}" th:object="${supplier}"
                                                   method="post">

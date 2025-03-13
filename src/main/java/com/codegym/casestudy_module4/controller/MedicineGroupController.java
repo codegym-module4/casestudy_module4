@@ -93,7 +93,12 @@ public class MedicineGroupController {
 
 
     @PostMapping("/edit/{id}")
-    public String editMedicineGroup ( @ModelAttribute @Valid MedicineGroup medicineGroup, @PathVariable("id") long id, RedirectAttributes redirectAttributes) {
+    public String editMedicineGroup ( @ModelAttribute @Valid MedicineGroup medicineGroup, BindingResult bindingResult, @PathVariable("id") long id, RedirectAttributes redirectAttributes,  Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errors", bindingResult.getAllErrors());
+            model.addAttribute("medicineGroup", medicineGroup);
+            return "medicinegroup/edit";
+        }
         medicineGroupService.update(id, medicineGroup);
         redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thành công");
         return "redirect:/medicinegroup/list";

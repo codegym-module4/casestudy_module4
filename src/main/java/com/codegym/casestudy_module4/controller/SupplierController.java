@@ -1,5 +1,6 @@
 package com.codegym.casestudy_module4.controller;
 
+import com.codegym.casestudy_module4.entity.MedicineGroup;
 import com.codegym.casestudy_module4.entity.Supplier;
 import com.codegym.casestudy_module4.service.ISupplierService;
 import jakarta.validation.Valid;
@@ -91,7 +92,12 @@ public class SupplierController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editSupplier( @ModelAttribute @Valid Supplier supplier,@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    public String editSupplier(@ModelAttribute @Valid Supplier supplier, BindingResult bindingResult, @PathVariable("id") long id, RedirectAttributes redirectAttributes, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errors", bindingResult.getAllErrors());
+            model.addAttribute("supplier", supplier);
+            return "supplier/edit";
+        }
         supplierService.update(id, supplier);
         redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thành công");
         return "redirect:/supplier/list";
