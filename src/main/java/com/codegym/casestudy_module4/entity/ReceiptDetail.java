@@ -41,4 +41,12 @@ public class ReceiptDetail {
     @Column(name = "created_at")
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime createdAt;
+
+    public ReceiptDetail(Receipt receipt, Medicine medicine, String unit, Integer price, Integer quantity) {
+        this.receipt = receipt;
+        this.medicine = medicine;
+        this.unit = unit;
+        this.price = price;
+        this.quantity = quantity;
+    }
 }

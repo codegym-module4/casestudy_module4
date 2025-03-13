@@ -47,8 +47,7 @@ public class SecurityConfig {
                                 .permitAll())
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-//                                .anyRequest().authenticated())
-                               .requestMatchers("/","/receipt/**", "/logout", "/receipt/order/**","/medicines/**").authenticated())
+                               .requestMatchers("/","/receipt/**", "/logout", "/receipt/order/**","/medicines/**", "/api/medicines/**").authenticated())
                 .formLogin((formLogin) ->
                         formLogin
                                 .usernameParameter("username")

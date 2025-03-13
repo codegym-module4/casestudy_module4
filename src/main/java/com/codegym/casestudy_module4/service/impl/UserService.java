@@ -2,14 +2,19 @@ package com.codegym.casestudy_module4.service.impl;
 
 import com.codegym.casestudy_module4.entity.Role;
 import com.codegym.casestudy_module4.entity.User;
+import com.codegym.casestudy_module4.repository.IUserRepository;
 import com.codegym.casestudy_module4.service.IRoleService;
 import com.codegym.casestudy_module4.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserService implements IUserService {
+
+    @Autowired
+    private IUserRepository userRepository;
 
     @Override
     public List<User> getAll() {
@@ -39,5 +44,10 @@ public class UserService implements IUserService {
     @Override
     public List<User> findByName(String name) {
         return List.of();
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }
