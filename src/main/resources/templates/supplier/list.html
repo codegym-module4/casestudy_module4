@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{layout/head::head ('Danh sách NCC')}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+    <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="page-title m-0">Danh sách nhà cung cấp</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-default">
+                            <div class="card-body">
+
+                                <!--                                tim kiem-->
+                                <div class="container mt-3">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <form method="get" action="/supplier/list" class="d-flex">
+                                                <input type="text" class="form-control mr-2" name="name"
+                                                       placeholder="Tìm kiếm theo tên">
+                                                <button type="submit" class="btn btn-info">Tìm theo tên</button>
+                                            </form>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <form method="get" action="/supplier/list" class="d-flex">
+                                                <input type="text" class="form-control mr-2" name="code"
+                                                       placeholder="Tìm kiếm theo mã">
+                                                <button type="submit" class="btn btn-info">Tìm theo mã</button>
+                                            </form>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <a href="/supplier/create" class="btn btn-success">
+                                                <i class="fas fa-plus"></i> Thêm mới
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-2">
+                                    <div class="mt-4">
+                                        <div class="table-responsive" style="max-height: 600px;">
+
+                                            <table class="table table-bordered table-hover table-valign-middle table-head-fixed text-nowrap text-center">
+                                                <thead>
+                                                <tr th:if="${suppliers.isEmpty()}">
+                                                    <td colspan="8">Không tìm thấy dữ liệu</td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="bg-light">STT</th>
+                                                    <th class="bg-light">Mã NCC</th>
+                                                    <th class="bg-light">Tên NCC</th>
+                                                    <th class="bg-light">Email</th>
+                                                    <th class="bg-light">Địa chỉ</th>
+                                                    <th class="bg-light">SĐT</th>
+                                                    <th class="bg-light">Ghi chú</th>
+                                                    <th class="bg-light">Ngày khởi tạo</th>
+                                                    <th class="bg-light">Chức năng</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:if="${suppliers.isEmpty()}">
+                                                    <td colspan="8">Không tìm thấy dữ liệu</td>
+                                                </tr>
+                                                <tr th:each="supplier, temp : ${suppliers}">
+                                                    <td th:text="${temp.count}"></td>
+                                                    <td th:text="${supplier.code}"></td>
+                                                    <td th:text="${supplier.name}"></td>
+                                                    <td th:text="${supplier.email}"></td>
+                                                    <td th:text="${supplier.address}"></td>
+                                                    <td th:text="${supplier.phone}"></td>
+                                                    <td th:text="${supplier.note}"></td>
+                                                    <td th:text="${#temporals.format(supplier.createdAt, 'dd/MM/yyyy')}"></td>
+                                                    <td>
+                                                        <a th:href="@{/supplier/edit/{id}(id=${supplier.id})}"
+                                                           class="btn btn-sm btn-warning">Sửa</a>
+                                                        <a th:href="@{/supplier/delete/{id}(id=${supplier.id})}"
+                                                           class="btn btn-sm btn-danger"
+                                                           onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</a>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div th:insert="~{layout/paginator :: pagination(
+                          page=${suppliers},
+                          url='/supplier/list',
+                          queryParams=${queryParams})
+                      }">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+</div>
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thông báo</h4>
+            </div>
+            <div class="modal-body">
+                <p th:text="${message}"></p> <!-- Dùng biến `message` từ controller -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href='/supplier/list'">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<th:block th:replace="~{layout/script::script}">
+</th:block>
+<script>
+    $(document).ready(function () {
+        // Kiểm tra nếu biến message có giá trị thì hiển thị modal
+        let message = $("#successModal .modal-body p").text().trim();
+        if (message.length > 0) {
+            $("#successModal").modal("show");
+        }
+    });
+</script>
+<!--<script>-->
+<!--    setTimeout(function () {-->
+<!--        let message = document.getElementById("message");-->
+<!--        if (message) {-->
+<!--            message.remove();-->
+<!--        }-->
+<!--    }, 300);-->
+<!--</script>-->
+</html>
