@@ -39,6 +39,9 @@
                                                         <input type="hidden" th:field="*{employee}">
                                                     </div>
                                                 </div>
+
+                                            </div>
+                                            <div class="col-md-4">
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label">Ngày lập</label>
                                                     <div class="col-sm-8 col-xl-7">
@@ -53,8 +56,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-4">
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label" for="customer">Khách hàng</label>
                                                     <div class="col-sm-8 col-xl-7">
@@ -67,49 +68,50 @@
                                                         </span>
                                                     </div>
                                                     <div class="col-1">
-                                                        <button class="btn btn-primary">
+                                                        <button type="button" class="btn btn-primary">
                                                             <i class="fa-solid fa-plus"></i>
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-3 col-form-label">Triệu chứng</label>
-                                                    <div class="col-sm-9 col-xl-8">
-                                                        <textarea class="form-control form-control-sm" th:classappend="${#fields.hasErrors('symptoms')} ? 'is-invalid' : ''" th:field="*{symptoms}" rows="5"></textarea>
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong th:if="${#fields.hasErrors('symptoms')}" th:text="${#fields.errors('symptoms')[0]}"></strong>
-                                                        </span>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group row">
-                                                    <label class="col-sm-3 col-form-label">Tên BS</label>
-                                                    <div class="col-sm-8 col-xl-7">
-                                                        <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('doctor')} ? 'is-invalid' : ''" th:field="*{doctor}" placeholder="">
+                                                    <label class="col-sm-3 col-form-label">Ghi chú</label>
+                                                    <div class="col-sm-9 col-xl-8">
+                                                        <textarea class="form-control form-control-sm" th:classappend="${#fields.hasErrors('note')} ? 'is-invalid' : ''" th:field="*{note}" rows="5"></textarea>
                                                         <span class="invalid-feedback" role="alert">
-                                                            <strong th:if="${#fields.hasErrors('doctor')}" th:text="${#fields.errors('doctor')[0]}"></strong>
+                                                            <strong th:if="${#fields.hasErrors('note')}" th:text="${#fields.errors('note')[0]}"></strong>
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-3 col-form-label">Địa chỉ BS</label>
-                                                    <div class="col-sm-8 col-xl-7">
-                                                        <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('doctor')} ? 'is-invalid' : ''" th:field="*{doctor_address}" placeholder="">
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong th:if="${#fields.hasErrors('doctor_address')}" th:text="${#fields.errors('doctor_address')[0]}"></strong>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-3 col-form-label">Chuẩn đoán</label>
-                                                    <div class="col-sm-8 col-xl-7">
-                                                        <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('diagnose')} ? 'is-invalid' : ''" th:field="*{diagnose}" value="" placeholder="">
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong th:if="${#fields.hasErrors('diagnose')}" th:text="${#fields.errors('diagnose')[0]}"></strong>
-                                                        </span>
-                                                    </div>
-                                                </div>
+<!--                                                <div class="form-group row">-->
+<!--                                                    <label class="col-sm-3 col-form-label">Tên BS</label>-->
+<!--                                                    <div class="col-sm-8 col-xl-7">-->
+<!--                                                        <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('doctor')} ? 'is-invalid' : ''" th:field="*{doctor}" placeholder="">-->
+<!--                                                        <span class="invalid-feedback" role="alert">-->
+<!--                                                            <strong th:if="${#fields.hasErrors('doctor')}" th:text="${#fields.errors('doctor')[0]}"></strong>-->
+<!--                                                        </span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="form-group row">-->
+<!--                                                    <label class="col-sm-3 col-form-label">Địa chỉ BS</label>-->
+<!--                                                    <div class="col-sm-8 col-xl-7">-->
+<!--                                                        <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('doctor')} ? 'is-invalid' : ''" th:field="*{doctor_address}" placeholder="">-->
+<!--                                                        <span class="invalid-feedback" role="alert">-->
+<!--                                                            <strong th:if="${#fields.hasErrors('doctor_address')}" th:text="${#fields.errors('doctor_address')[0]}"></strong>-->
+<!--                                                        </span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="form-group row">-->
+<!--                                                    <label class="col-sm-3 col-form-label">Chuẩn đoán</label>-->
+<!--                                                    <div class="col-sm-8 col-xl-7">-->
+<!--                                                        <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('diagnose')} ? 'is-invalid' : ''" th:field="*{diagnose}" value="" placeholder="">-->
+<!--                                                        <span class="invalid-feedback" role="alert">-->
+<!--                                                            <strong th:if="${#fields.hasErrors('diagnose')}" th:text="${#fields.errors('diagnose')[0]}"></strong>-->
+<!--                                                        </span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
                                             </div>
                                         </div>
                                         <div class="row align-items-center">
@@ -228,10 +230,20 @@
                                                             Thanh toán
                                                         </button>
                                                     </div>
+
+                                                </div>
+                                                <div class="col-6 text-right">
+                                                    <div class="mt-2">
+                                                        <button type="submit" class="btn btn-info w-120px" data-url="" data-form_id="#form-receipt" id="btnDeleteWholesale">
+                                                            <i class="fa-solid fa-circle-plus"></i>
+                                                            Xóa
+                                                        </button>
+                                                    </div>
+
                                                 </div>
                                                 <div class="col-6 text-left">
                                                     <div class="mt-2">
-                                                        <button type="button" class="btn btn-secondary w-120px">
+                                                        <button type="button" class="btn btn-secondary w-120px" onclick="window.location.href='http://localhost:8080/receipt'">
                                                             <i class="fa-solid fa-reply"></i>
                                                             Trở về
                                                         </button>

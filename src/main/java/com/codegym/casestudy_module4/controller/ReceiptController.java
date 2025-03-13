@@ -10,8 +10,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,5 +51,11 @@ public class ReceiptController {
         model.addAttribute("queryParams", queryParams);
 
         return "receipt/list";
+    }
+    @GetMapping("/delete/{id}")
+    public String deleteReceipt(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        receiptService.deleteById(id);
+        redirectAttributes.addFlashAttribute("message", "Xóa hóa đơn thành công!");
+        return "redirect:/receipt";
     }
 }
