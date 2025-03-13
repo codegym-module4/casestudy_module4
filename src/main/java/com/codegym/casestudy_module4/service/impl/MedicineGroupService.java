@@ -18,7 +18,8 @@ public class MedicineGroupService implements IMedicineGroupService {
 
     @Override
     public List<MedicineGroup> getAll() {
-        return medicineGroupRepository.findAll();
+//        return medicineGroupRepository.findAll();
+        return List.of();
     }
 
     @Override
