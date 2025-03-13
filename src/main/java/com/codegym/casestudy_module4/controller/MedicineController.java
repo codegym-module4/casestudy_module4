@@ -6,6 +6,7 @@ import com.codegym.casestudy_module4.entity.Supplier;
 import com.codegym.casestudy_module4.service.impl.MedicineGroupService;
 import com.codegym.casestudy_module4.service.impl.MedicineService;
 import com.codegym.casestudy_module4.service.impl.SupplierService;
+import com.codegym.casestudy_module4.ulti.ValidationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,10 +15,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -41,14 +44,15 @@ public class MedicineController {
     public String showList(Model model,
                            @RequestParam(value = "name", defaultValue = "") String name,
                            @RequestParam Map<String, String> search,
-                           @RequestParam(name = "page", defaultValue = "0") int page
+                           @RequestParam(name = "page", defaultValue = "1") int page
     ) {
         try {
-            Page<Medicine> listMedicines = medicineService.findByName(name, PageRequest.of(page, 6));
+            Page<Medicine> listMedicines = medicineService.findByName(name, PageRequest.of(page - 1, 6));
             search.remove("page");
             String queryParams = search.entrySet().stream()
                     .map(entry -> entry.getKey() + "=" + entry.getValue())
                     .collect(Collectors.joining("&"));
+            model.addAttribute("page", page - 1);
             model.addAttribute("queryParams", queryParams);
             model.addAttribute("listMedicines", listMedicines);
         } catch (Exception e) {
@@ -255,28 +259,32 @@ public class MedicineController {
 
 
     @GetMapping("/createView")
-    public String createMedicine(Model model) {
+    public String createMedicine(Model model, @ModelAttribute("listErrorMes") List<String> listErrorMes) {
         List<MedicineGroup> medicineGroups = medicineGroupService.getAll();
         List<Supplier> suppliers = supplierService.getAll();
-
         model.addAttribute("medicine", new Medicine());
         model.addAttribute("medicineGroups", medicineGroups);
         model.addAttribute("suppliers", suppliers);
-
+        model.addAttribute("listErrorMes", listErrorMes);
         return "medicine/createMedicine";
+
     }
 
     @PostMapping("/created")
-    public String createMedicine(@ModelAttribute("medicine") Medicine medicine, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+    public String createMedicine(
+            @Validated @ModelAttribute("medicine") Medicine medicine, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         if (bindingResult.hasErrors()) {
             System.out.println(">>>>>>>>>>>>>>" + bindingResult.getAllErrors());
-            model.addAttribute("errors", bindingResult.getAllErrors());
-            return "medicines/createView";
+            List<String> listErrorsMes = ValidationMessage.getErrorMessages(bindingResult);
+            System.out.println("++++++++++++++++++++++++" + listErrorsMes);
+            redirectAttributes.addFlashAttribute("listErrorMes", listErrorsMes);
+//            model.addAttribute("listErrorMes", listErrorsMes);
+//            model.addAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/medicines/createView";
         }
         medicine.setCreatedAt(LocalDateTime.now());
         medicine.setStatus("Available");
         medicineService.save(medicine);
-
         redirectAttributes.addFlashAttribute("message", "Thêm mới thành công!");
         return "redirect:/medicines/list";
     }

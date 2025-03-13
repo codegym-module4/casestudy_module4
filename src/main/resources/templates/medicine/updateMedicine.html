@@ -11,7 +11,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="page-title m-0">Chỉnh sửa thông tin thuốc</h1>
+                        <h1 class="page-title m-0">CHỈNH SỬA THÔNG TIN THUỐC</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -28,21 +28,24 @@
                                 <form th:action="@{/medicines/details/updated}" th:object="${medicine}" method="post">
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
-                                            <label for="code">Mã thuốc</label>
+                                            <label for="code">Mã thuốc <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
                                             <input readonly type="text" class="form-control" id="code" name="code"
                                                    th:field="*{code}"
                                                    th:value="*{code}"
                                                    placeholder="Nhập mã thuốc">
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="name">Tên thuốc</label>
+                                            <label for="name">Tên thuốc <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
                                             <input type="text" class="form-control" id="name" name="name"
                                                    th:field="*{name}"
                                                    th:value="*{name}"
                                                    placeholder="Nhập tên thuốc">
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="activeIngredient">Hoạt chất</label>
+                                            <label for="activeIngredient">Hoạt chất <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
                                             <input type="text" class="form-control" id="activeIngredient" name="activeIngredient"
                                                    th:field="*{activeIngredient}"
                                                    th:value="*{activeIngredient}"
@@ -52,7 +55,8 @@
 
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="medicineGroup">Nhóm thuốc</label>
+                                            <label for="medicineGroup">Nhóm thuốc <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
                                             <select th:field="*{medicineGroup}" id="medicineGroup" class="form-control" name="medicineGroup">
                                                 <option value="" disabled selected>Chọn nhóm thuốc</option>
                                                 <option th:each="group : ${medicineGroups}" th:value="${group.id}"
@@ -61,7 +65,8 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for=expiredDate>Ngày hết hạn</label>
+                                            <label for=expiredDate>Ngày hết hạn <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
                                             <input type="text" class="form-control" id="expiredDate"
                                                    name="expiredDate" th:field="*{expiredDate}"
                                                    placeholder="Ngày hết hạn">
@@ -70,7 +75,8 @@
 
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="unit">Đơn vị</label>
+                                            <label for="unit">Đơn vị <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
                                             <select id="unit" class="form-control"  name="unit">
                                                 <option th:text="*{unit}" selected></option>
                                                 <option>Hộp</option>
@@ -80,7 +86,8 @@
 
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="conversionUnit">ĐVT quy đổi</label>
+                                            <label for="conversionUnit">ĐVT quy đổi <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
                                             <select id="conversionUnit" class="form-control" name="conversionUnit">
                                                 <option disabled th:text="*{conversionUnit}"
                                                         selected></option>
@@ -93,13 +100,15 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="conversionRate">Tỷ lệ quy đổi</label>
+                                            <label for="conversionRate">Tỷ lệ quy đổi <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
                                             <input type="text" class="form-control" id="conversionRate" name="conversionRate"
                                                    th:value="*{conversionRate}"
                                                    placeholder="Tỷ lệ quy đổi">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="quantity">Số lượng</label>
+                                            <label for="quantity">Số lượng <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
                                             <input type="text" class="form-control" id="quantity" name="quantity"
                                                    th:value="*{quantity}"
                                                    placeholder="Số lượng">
@@ -130,20 +139,23 @@
 
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="vatRate">VAT (%)</label>
+                                            <label for="vatRate">VAT (%) <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
                                             <input type="text" class="form-control" id="vatRate" name="vatRate"
                                                    placeholder="VAT" th:value="*{vatRate}">
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="priceWithVat">Nhập có VAT</label>
+                                            <label for="priceWithVat">Nhập có VAT <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
                                             <input type="text" class="form-control" id="priceWithVat" name="priceWithVat"
                                                    th:value="*{priceWithVat}"
                                                    placeholder="Nhập có VAT ">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="convertedPriceWithVat">Nhập quy đổi có VAT</label>
+                                            <label for="convertedPriceWithVat">Nhập quy đổi có VAT <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
                                             <input type="text" class="form-control" id="convertedPriceWithVat"  name="convertedPriceWithVat"
                                                    th:value="*{convertedPriceWithVat}"
                                                    placeholder="Nhập quy đổi có VAT">
@@ -151,7 +163,8 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="retailProfitRate">% Lợi nhuận xuất chẵn</label>
+                                            <label for="retailProfitRate">% Lợi nhuận xuất chẵn <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
                                             <input type="text" class="form-control" id="retailProfitRate"  name="retailProfitRate"
                                                    th:value="*{retailProfitRate}"
                                                    placeholder="% Lợi nhuận xuất chẵn">
@@ -187,12 +200,12 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="madein">Xuất xứ</label>
-                                            <select id="madein" class="form-control" name="madein">
-                                                <option value="Việt Nam" selected>Việt Nam</option>
-                                                <option>Nhật Bản</option>
-                                                <option>Hàn Quốc</option>
-                                            </select>
+                                            <label for="madein">Xuất xứ <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span>
+                                            </label>
+                                            <input type="text" class="form-control" id="madein" name="madein"
+                                                   th:value="${medicine.madein}"
+                                                   placeholder="Xuất xứ">
 
                                         </div>
                                     </div>
@@ -203,6 +216,7 @@
                                             <textarea name="description" class="form-control" id="note" rows="5" th:text="*{description}"
                                                       placeholder="Nhập ghi chú"></textarea>
                                         </div>
+                                        <span th:attr="style='font-style: italic; color: #dc3545; font-size: 1.1em;'">(*) Thông tin tin bắt buộc</span>
                                     </div>
 
                                     <div class="form-row d-flex justify-content-end">
@@ -212,6 +226,13 @@
                                                 <i class="fa-solid fa-check"></i>
                                                 Hoàn tất chỉnh sửa
                                             </button>
+                                        </div>
+                                        <div class="form-group d-inline-block">
+                                            <a th:onclick="|window.location.href='/medicines/list'|"
+                                               class="btn btn-secondary">
+                                                <i class="fas fa-arrow-left"></i>
+                                                Trở về
+                                            </a>
                                         </div>
                                     </div>
                                 </form>
