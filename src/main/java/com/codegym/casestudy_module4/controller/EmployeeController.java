@@ -10,7 +10,6 @@ import com.codegym.casestudy_module4.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,8 +19,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,26 +53,26 @@ public class EmployeeController {
         Page<Employee> employees;
         switch (filterBy) {
             case "code":
-                employees = employeeService.findByCodeContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
+                employees = employeeService.findByCodeContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(sortBy)));
                 break;
             case "fullName":
-                employees = employeeService.findByFullNameContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
+                employees = employeeService.findByFullNameContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(sortBy)));
                 break;
             case "role":
-                employees = employeeService.findByRoleNameContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
+                employees = employeeService.findByRoleNameContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(sortBy)));
                 break;
             case "address":
-                employees = employeeService.findByAddressContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
+                employees = employeeService.findByAddressContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(sortBy)));
                 break;
             case "phone":
-                employees = employeeService.findByPhoneContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(sortBy)));
+                employees = employeeService.findByPhoneContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(sortBy)));
                 break;
             default:
                 employees = Page.empty();
         }
 
         if (employees.isEmpty()) {
-            model.addAttribute("message", "Not found");
+            model.addAttribute("message", "Không tìm thấy dữ liệu");
         }
 
         Map<Long, String> employeeRoles = new HashMap<>();
@@ -150,7 +147,7 @@ public class EmployeeController {
             String newCode = userService.generateCode();
             user.setCode(newCode);
 
-            Role role = roleRepository.findById(roleID).orElseThrow(() -> new RuntimeException("Role not found"));
+            Role role = roleRepository.findById(roleID).orElseThrow(() -> new RuntimeException("Không tìm thấy role"));
             user.setRole(role);
             userRepository.save(user);
 
@@ -166,7 +163,19 @@ public class EmployeeController {
         }
 
         @PostMapping("/edit/{id}")
-        public String updateEmployee ( @PathVariable("id") long id, @ModelAttribute Employee employee, RedirectAttributes redirectAttributes){
+        public String updateEmployee (
+                @PathVariable("id") long id,
+                @Validated @ModelAttribute Employee employee,
+                BindingResult bindingResult,
+                RedirectAttributes redirectAttributes,
+                Model model)
+        {
+            if (bindingResult.hasErrors()) {
+                model.addAttribute("user", userRepository.findByEmployeeId(id));
+                model.addAttribute("employee", employee);
+                model.addAttribute("errors", bindingResult.getAllErrors());
+                return "employee/edit";
+            }
             employeeService.update(id, employee);
             redirectAttributes.addFlashAttribute("success", "Đã cập nhật thành công");
             return "redirect:/employee";
