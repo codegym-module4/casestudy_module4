@@ -56,10 +56,14 @@
 
                                             <table class="table table-bordered table-hover table-valign-middle table-head-fixed text-nowrap text-center">
                                                 <thead>
+                                                <tr th:if="${suppliers.isEmpty()}">
+                                                    <td colspan="8">Không tìm thấy dữ liệu</td>
+                                                </tr>
                                                 <tr>
                                                     <th class="bg-light">STT</th>
                                                     <th class="bg-light">Mã NCC</th>
                                                     <th class="bg-light">Tên NCC</th>
+                                                    <th class="bg-light">Email</th>
                                                     <th class="bg-light">Địa chỉ</th>
                                                     <th class="bg-light">SĐT</th>
                                                     <th class="bg-light">Ghi chú</th>
@@ -75,6 +79,7 @@
                                                     <td th:text="${temp.count}"></td>
                                                     <td th:text="${supplier.code}"></td>
                                                     <td th:text="${supplier.name}"></td>
+                                                    <td th:text="${supplier.email}"></td>
                                                     <td th:text="${supplier.address}"></td>
                                                     <td th:text="${supplier.phone}"></td>
                                                     <td th:text="${supplier.note}"></td>
@@ -92,7 +97,7 @@
                                         </div>
                                         <div th:insert="~{layout/paginator :: pagination(
                           page=${suppliers},
-                          url='/supplier',
+                          url='/supplier/list',
                           queryParams=${queryParams})
                       }">
                                         </div>
@@ -108,7 +113,41 @@
         </section>
     </div>
 </div>
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thông báo</h4>
+            </div>
+            <div class="modal-body">
+                <p th:text="${message}"></p> <!-- Dùng biến `message` từ controller -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href='/supplier/list'">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+
 <th:block th:replace="~{layout/script::script}">
 </th:block>
+<script>
+    $(document).ready(function () {
+        // Kiểm tra nếu biến message có giá trị thì hiển thị modal
+        let message = $("#successModal .modal-body p").text().trim();
+        if (message.length > 0) {
+            $("#successModal").modal("show");
+        }
+    });
+</script>
+<!--<script>-->
+<!--    setTimeout(function () {-->
+<!--        let message = document.getElementById("message");-->
+<!--        if (message) {-->
+<!--            message.remove();-->
+<!--        }-->
+<!--    }, 300);-->
+<!--</script>-->
 </html>

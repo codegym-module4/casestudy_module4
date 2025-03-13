@@ -37,7 +37,7 @@
                                         <div class="col-md-6">
                                             <form method="get" action="/medicinegroup/list" class="d-flex">
                                                 <input type="text" class="form-control mr-2" name="code"
-                                                       placeholder="Tìm kiếm theo mã">
+                                                       placeholder="Tìm kiếm theo mã" th:value="${code}">
                                                 <button type="submit" class="btn btn-info">Tìm theo mã</button>
                                             </form>
                                         </div>
@@ -89,7 +89,7 @@
                                         </div>
                                         <div th:insert="~{layout/paginator :: pagination(
                           page=${medicineGroups},
-                          url='/medicinegroup',
+                          url='/medicinegroup/list',
                           queryParams=${queryParams})
                       }">
                                         </div>
@@ -105,7 +105,33 @@
         </section>
     </div>
 </div>
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thông báo</h4>
+            </div>
+            <div class="modal-body">
+                <p th:text="${message}"></p> <!-- Dùng biến `message` từ controller -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href='/medicinegroup/list'">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+
 <th:block th:replace="~{layout/script::script}">
 </th:block>
+<script>
+    $(document).ready(function () {
+        // Kiểm tra nếu biến message có giá trị thì hiển thị modal
+        let message = $("#successModal .modal-body p").text().trim();
+        if (message.length > 0) {
+            $("#successModal").modal("show");
+        }
+    });
+</script>
 </html>

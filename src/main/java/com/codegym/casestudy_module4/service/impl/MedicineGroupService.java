@@ -8,6 +8,7 @@ import com.codegym.casestudy_module4.service.IMedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,17 +50,22 @@ public class MedicineGroupService implements IMedicineGroupService {
 
     @Override
     public List<MedicineGroup> findByName(String name) {
-        return medicineGroupRepository.findAllByNameContaining(name);
+        return List.of();
+    }
+
+
+    @Override
+    public Page<MedicineGroup> findByNameContainingIgnoreCase(String name, Pageable pageable) {
+        return medicineGroupRepository.findAllByNameContainingIgnoreCase(name, pageable);
     }
 
     @Override
-    public List<MedicineGroup> findByCode(String code) {
-        return medicineGroupRepository.findAllByCodeContaining(code);
+    public Page<MedicineGroup> findByCodeContainingIgnoreCase(String code, Pageable pageable) {
+        return medicineGroupRepository.findAllByCodeContainingIgnoreCase(code, pageable);
     }
 
-
-//    @Override
-//    public Page<MedicineGroup> findByName(String name, PageRequest of){
-//        return medicineGroupRepository.findAllByNameContaining(name, of);
-//    }
+    @Override
+    public Page<MedicineGroup> findAll(Pageable pageable) {
+        return medicineGroupRepository.findAll(pageable);
+    }
 }

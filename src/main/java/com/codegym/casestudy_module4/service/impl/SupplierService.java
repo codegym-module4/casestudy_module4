@@ -6,6 +6,8 @@ import com.codegym.casestudy_module4.repository.ISupplierRepository;
 import com.codegym.casestudy_module4.service.ICustomerService;
 import com.codegym.casestudy_module4.service.ISupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,11 +48,22 @@ public class SupplierService implements ISupplierService {
 
     @Override
     public List<Supplier> findByName(String name) {
-        return supplierRepository.findAllByNameContaining(name);
+        return List.of();
     }
 
     @Override
-    public List<Supplier> findByCode(String code) {
-        return supplierRepository.findAllByCodeContaining(code);
+    public Page<Supplier> findByNameContainingIgnoreCase(String name, Pageable pageable) {
+        return supplierRepository.findAllByNameContainingIgnoreCase(name, pageable);
     }
+
+    @Override
+    public Page<Supplier> findByCodeContainingIgnoreCase(String code, Pageable pageable) {
+        return supplierRepository.findAllByCodeContainingIgnoreCase(code,pageable);
+    }
+
+    @Override
+    public Page<Supplier> findAll(Pageable pageable) {
+        return supplierRepository.findAll(pageable);
+    }
+
 }

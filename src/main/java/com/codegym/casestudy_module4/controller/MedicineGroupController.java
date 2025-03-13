@@ -1,8 +1,13 @@
 package com.codegym.casestudy_module4.controller;
 
 import com.codegym.casestudy_module4.entity.MedicineGroup;
+import com.codegym.casestudy_module4.entity.Supplier;
 import com.codegym.casestudy_module4.service.IMedicineGroupService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,19 +24,35 @@ public class MedicineGroupController {
     @Autowired
     private IMedicineGroupService medicineGroupService;
 
+
     @GetMapping("/list")
-    public String showList(Model model,  @RequestParam(value = "name", defaultValue = "")String name,  @RequestParam(value = "code", defaultValue = "")String code) {
-        if (!name.equals("")){
-            List<MedicineGroup> medicineGroups = medicineGroupService.findByName(name);
-            model.addAttribute("medicineGroups", medicineGroups);
-            return "medicinegroup/list";
-        } else if (!code.equals("")){
-            List<MedicineGroup> medicineGroups = medicineGroupService.findByCode(code);
-            model.addAttribute("medicineGroups", medicineGroups);
-            return "medicinegroup/list";
+    public String showList(Model model,
+                           @RequestParam(value = "code", defaultValue = "") String code,
+                           @RequestParam(value = "name", defaultValue = "") String name,
+                           @RequestParam(name = "page", defaultValue = "0") int page) {
+        // Đảm bảo không bị lỗi khi nhập số trang > 1
+        if (page > 0) {
+            page = page - 1;
         }
-        List<MedicineGroup> medicineGroups = medicineGroupService.getAll();
+
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<MedicineGroup> medicineGroups;
+
+        if (!code.isEmpty()) {
+            medicineGroups = medicineGroupService.findByCodeContainingIgnoreCase(code, pageable);
+        } else if (!name.isEmpty()){
+            medicineGroups = medicineGroupService.findByNameContainingIgnoreCase(name, pageable);
+        } else {
+            medicineGroups = medicineGroupService.findAll(pageable);
+        }
+        // Lưu lại query params để sử dụng trong phân trang
+        String queryParams = "code=" + code + "&name=" + name;
+
         model.addAttribute("medicineGroups", medicineGroups);
+        model.addAttribute("code", code);
+        model.addAttribute("name", name);
+        model.addAttribute("queryParams", queryParams);
+
         return "medicinegroup/list";
     }
 
@@ -49,7 +70,7 @@ public class MedicineGroupController {
     }
 
     @PostMapping("/create")
-    public String createMedicineGroup(@ModelAttribute("medicineGroup") MedicineGroup medicineGroup,
+    public String createMedicineGroup(@ModelAttribute("medicineGroup") @Valid MedicineGroup medicineGroup,
                                       BindingResult bindingResult,
                                       RedirectAttributes redirectAttributes,
                                       Model model) {
@@ -59,7 +80,7 @@ public class MedicineGroupController {
         }
         medicineGroup.setCreatedAt(LocalDateTime.now());
         medicineGroupService.save(medicineGroup);
-        redirectAttributes.addFlashAttribute("message", "Create medicine group successfully");
+        redirectAttributes.addFlashAttribute("message", "Thêm mới thành công");
         return "redirect:/medicinegroup/list";
     }
 
@@ -72,8 +93,9 @@ public class MedicineGroupController {
 
 
     @PostMapping("/edit/{id}")
-    public String editMedicineGroup ( @PathVariable("id") long id, @ModelAttribute MedicineGroup medicineGroup ){
+    public String editMedicineGroup ( @ModelAttribute @Valid MedicineGroup medicineGroup, @PathVariable("id") long id, RedirectAttributes redirectAttributes) {
         medicineGroupService.update(id, medicineGroup);
+        redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thành công");
         return "redirect:/medicinegroup/list";
     }
 

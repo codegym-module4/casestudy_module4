@@ -2,7 +2,11 @@ package com.codegym.casestudy_module4.controller;
 
 import com.codegym.casestudy_module4.entity.Supplier;
 import com.codegym.casestudy_module4.service.ISupplierService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,45 +24,62 @@ public class SupplierController {
     private ISupplierService supplierService;
 
     @GetMapping("/list")
-    public String showList(Model model, @RequestParam(value = "name", defaultValue = "")String name, @RequestParam(value = "code", defaultValue = "")String code) {
-        if (!name.equals("")){
-            List<Supplier> suppliers = supplierService.findByName(name);
-            model.addAttribute("suppliers", suppliers);
-            return "supplier/list";
-        } else if (!code.equals("")){
-            List<Supplier> suppliers = supplierService.findByCode(code);
-            model.addAttribute("suppliers", suppliers);
-            return "supplier/list";
+    public String showList(Model model,
+                           @RequestParam(value = "code", defaultValue = "") String code,
+                           @RequestParam(value = "name", defaultValue = "") String name,
+                           @RequestParam(name = "page", defaultValue = "0") int page) {
+        // Đảm bảo không bị lỗi khi nhập số trang > 1
+        if (page > 0) {
+            page = page - 1;
         }
-        List<Supplier> suppliers = supplierService.getAll();
+
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Supplier> suppliers;
+
+        if (!code.isEmpty()) {
+            suppliers = supplierService.findByCodeContainingIgnoreCase(code, pageable);
+        } else if (!name.isEmpty()){
+            suppliers = supplierService.findByNameContainingIgnoreCase(name, pageable);
+        } else {
+            suppliers = supplierService.findAll(pageable);
+        }
+        // Lưu lại query params để sử dụng trong phân trang
+        String queryParams = "code=" + code + "&name=" + name;
+
         model.addAttribute("suppliers", suppliers);
+        model.addAttribute("code", code);
+        model.addAttribute("name", name);
+        model.addAttribute("queryParams", queryParams);
+
         return "supplier/list";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteSupplier(@PathVariable("id") Long id) {
+    public String deleteSupplier(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         supplierService.remove(id);
+        redirectAttributes.addFlashAttribute("message", "Xóa thành công");
         return "redirect:/supplier/list";
     }
+
     @GetMapping("/create")
     public String showCreate(Model model) {
         model.addAttribute("supplier", new Supplier());
-        model.addAttribute("suppliers" ,supplierService.getAll());
+        model.addAttribute("suppliers", supplierService.getAll());
         return "supplier/create";
     }
 
     @PostMapping("/create")
-    public String createSupplier(@ModelAttribute("supplier") Supplier supplier,
-                                      BindingResult bindingResult,
-                                      RedirectAttributes redirectAttributes,
-                                      Model model) {
+    public String createSupplier( @ModelAttribute("supplier") @Valid Supplier supplier,
+                                 BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes,
+                                 Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("errors", bindingResult.getAllErrors());
             return "supplier/create";
         }
         supplier.setCreatedAt(LocalDateTime.now());
         supplierService.save(supplier);
-        redirectAttributes.addFlashAttribute("message", "Create successfully");
+        redirectAttributes.addFlashAttribute("message", "Thêm mới thành công");
         return "redirect:/supplier/list";
     }
 
@@ -70,8 +91,9 @@ public class SupplierController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editSupplier(@PathVariable("id") Long id, @ModelAttribute Supplier supplier){
+    public String editSupplier( @ModelAttribute @Valid Supplier supplier,@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         supplierService.update(id, supplier);
+        redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thành công");
         return "redirect:/supplier/list";
     }
 }

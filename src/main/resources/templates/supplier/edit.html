@@ -47,15 +47,21 @@
                                                     <p style="color: grey" th:errors="*{name}"></p>
                                                 </div>
                                                 <div class="mb-3">
+                                                    <label for="email" class="form-label">Email: </label>
+                                                    <input type="text" class="form-control" id="email"
+                                                           name="address" th:field="*{email}" required/>
+                                                    <p style="color: grey" th:errors="*{email}"></p>
+                                                </div>
+                                                <div class="mb-3">
                                                     <label for="address" class="form-label">Địa chỉ: </label>
                                                     <input type="text" class="form-control" id="address"
-                                                           name="address" th:field="*{address}"/>
+                                                           name="address" th:field="*{address}" required/>
                                                     <p style="color: grey" th:errors="*{address}"></p>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="phone" class="form-label">SĐT: </label>
                                                     <input type="text" class="form-control" id="phone"
-                                                           name="phone" th:field="*{phone}"/>
+                                                           name="phone" th:field="*{phone}" required/>
                                                     <p style="color: grey" th:errors="*{phone}"></p>
                                                 </div>
                                                 <div class="mb-3">
@@ -77,7 +83,33 @@
         </section>
     </div>
 </div>
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thông báo</h4>
+            </div>
+            <div class="modal-body">
+                <p th:text="${message}"></p> <!-- Dùng biến `message` từ controller -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href='/supplier/list'">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+
 <th:block th:replace="~{layout/script::script}">
 </th:block>
+<script>
+    $(document).ready(function () {
+        // Kiểm tra nếu biến message có giá trị thì hiển thị modal
+        let message = $("#successModal .modal-body p").text().trim();
+        if (message.length > 0) {
+            $("#successModal").modal("show");
+        }
+    });
+</script>
 </html>
