@@ -1,12 +1,12 @@
 package com.codegym.casestudy_module4.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.catalina.security.SecurityUtil;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -24,21 +24,29 @@ public class Medicine {
     @Column(name = "id")
     private Integer id;
 
+
+    @NotBlank(message = "'Mã thuốc' không được để trống")
     @Column(name = "code")
     private String code;
 
+
+    @NotBlank(message = "'Tên thuốc' không được để trống")
     @Column(name = "name")
     private String name;
 
+    @NotBlank(message = "'Hoạt chất thuốc' không được để trống")
     @Column(name = "active_ingredient")
     private String activeIngredient;
 
+    @NotBlank(message = "'Đơn vị' không được để trống")
     @Column(name = "unit")
     private String unit;
 
+    @NotBlank(message = "'Quy đổi đơn vị' không được để trống")
     @Column(name = "conversion_unit")
     private String conversionUnit;
 
+    @NotNull
     @Column(name = "conversion_rate")
     private Integer conversionRate;
 
@@ -54,12 +62,15 @@ public class Medicine {
     @Column(name = "vat_rate")
     private Integer vatRate;
 
+    @NotNull
     @Column(name = "price_with_vat")
     private Integer priceWithVat;
 
+    @NotNull
     @Column(name = "converted_price_with_vat")
     private Integer convertedPriceWithVat;
 
+    @NotNull
     @Column(name = "retail_profit_rate")
     private Integer retailProfitRate;
 
@@ -77,6 +88,7 @@ public class Medicine {
 
     @Column(name = "expiry_date")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Future(message = "Ngày hết hạn phải ở tương lai.")
     private LocalDate expiredDate;
 
     @Column(name = "description")
@@ -84,6 +96,10 @@ public class Medicine {
 
     @Column(name = "status")
     private String status;
+
+    @NotBlank(message = "'Xuất xứ' không được để trống")
+    @Column(name = "madein")
+    private String madein;
 
     @ManyToOne
     @JoinColumn(name = "medicine_group_id")
@@ -96,6 +112,5 @@ public class Medicine {
     @Column(name = "created_at")
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime createdAt;
-
 
 }

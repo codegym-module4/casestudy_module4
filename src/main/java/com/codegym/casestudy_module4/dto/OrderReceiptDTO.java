@@ -80,4 +80,12 @@ public class OrderReceiptDTO {
         this.createdAt = createdAt;
         this.items = items;
     }
+    public OrderReceiptDTO(String code, Customer customer, Employee employee, String note, LocalDateTime createdAt, List<MedicineDTO> items) {
+        this.code = code;
+        this.customer = customer;
+        this.employee = employee;
+        this.note = note;
+        this.createdAt = createdAt;
+        this.items = items;
+    }
 }

@@ -1,7 +1,7 @@
 package com.codegym.casestudy_module4.controller;
 
 import com.codegym.casestudy_module4.dto.MedicineDTO;
-import com.codegym.casestudy_module4.dto.OrderReceiptDTO;
+import com.codegym.casestudy_module4.dto.WholesaleReceiptDTO;
 import com.codegym.casestudy_module4.entity.*;
 import com.codegym.casestudy_module4.service.*;
 import com.codegym.casestudy_module4.ulti.StringUtil;
@@ -42,7 +42,7 @@ public class WholesaleReceiptController {
     public String create(
         Model model
     ) {
-        OrderReceiptDTO receipt = new OrderReceiptDTO();
+        WholesaleReceiptDTO receipt = new WholesaleReceiptDTO();
         Receipt lastReceipt = receiptService.findLastReceipt();
         long lastReceiptId = lastReceipt == null?0:lastReceipt.getId();
         receipt.setCode("HD" + StringUtil.strPad(String.valueOf(lastReceiptId + 1), 5, '0', StringUtil.PadType.LEFT));
@@ -65,7 +65,7 @@ public class WholesaleReceiptController {
 
     @PostMapping("/create")
     public String create(
-        @Validated @ModelAttribute("receipt") OrderReceiptDTO receipt,
+        @Validated @ModelAttribute("receipt") WholesaleReceiptDTO receipt,
         BindingResult bindingResult,
         Model model,
         RedirectAttributes redirectAttributes
@@ -87,11 +87,8 @@ public class WholesaleReceiptController {
                 receipt.getCode(),
                 receipt.getCustomer(),
                 receipt.getEmployee(),
-                receipt.getSymptoms(),
-                receipt.getDiagnose(),
-                receipt.getDoctor(),
-                receipt.getDoctorAddress(),
-                3,
+                receipt.getNote(),
+                2,
                 1,
                 receipt.getCreatedAt()
         );
