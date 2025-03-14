@@ -25,9 +25,9 @@ public class ReceiptController {
 
     @GetMapping
     public String index(
-        Model model,
-        @RequestParam Map<String, String> search,
-        @RequestParam(name = "page", defaultValue = "0") int page
+            Model model,
+            @RequestParam Map<String, String> search,
+            @RequestParam(name = "page", defaultValue = "0") int page
     ) {
         if (page > 0) {
             page = page - 1;

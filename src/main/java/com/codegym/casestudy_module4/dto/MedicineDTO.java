@@ -1,11 +1,15 @@
 package com.codegym.casestudy_module4.dto;
 
+
+
+
 import com.codegym.casestudy_module4.annotation.ValidReceiptItem;
+
 import com.codegym.casestudy_module4.entity.Medicine;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-@ValidReceiptItem
+
 public class MedicineDTO {
 
     private Medicine medicine;

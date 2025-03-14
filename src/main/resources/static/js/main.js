@@ -71,12 +71,21 @@
             let priceDiv = dataRow.find(".text-price");
             let unitDiv = dataRow.find(".text-unit");
             if (data != "") {
-                $('#unit' + index).val(data.conversionUnit);
-                unitDiv.text(data.conversionUnit);
-                $('#quantity' + index).val(1);
-                $('#price' + index).val(data.retailPrice);
-                priceDiv.text(data.retailPrice);
-                $('#medicine_total'+index).text(data.retailPrice);
+                if ($('#wholesale').length) {
+                    $('#unit' + index).val(data.unit);
+                    unitDiv.text(data.unit);
+                    $('#quantity' + index).val(1);
+                    $('#price' + index).val(data.wholesalePrice);
+                    priceDiv.text(data.wholesalePrice);
+                    $('#medicine_total'+index).text(data.wholesalePrice);
+                } else {
+                    $('#unit' + index).val(data.conversionUnit);
+                    unitDiv.text(data.conversionUnit);
+                    $('#quantity' + index).val(1);
+                    $('#price' + index).val(data.retailPrice);
+                    priceDiv.text(data.retailPrice);
+                    $('#medicine_total'+index).text(data.retailPrice);
+                }
             } else {
                 alert("Không tìm thấy thuốc");
                 $('#unit' + index).val('');

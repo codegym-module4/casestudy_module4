@@ -38,7 +38,7 @@ public class OrderReceiptController {
 
     @GetMapping("/create")
     public String create(
-        Model model
+            Model model
     ) {
         OrderReceiptDTO receipt = new OrderReceiptDTO();
         Receipt lastReceipt = receiptService.findLastReceipt();
@@ -63,10 +63,10 @@ public class OrderReceiptController {
 
     @PostMapping("/create")
     public String create(
-        @Validated @ModelAttribute("receipt") OrderReceiptDTO receipt,
-        BindingResult bindingResult,
-        Model model,
-        RedirectAttributes redirectAttributes
+            @Validated @ModelAttribute("receipt") OrderReceiptDTO receipt,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes
     ) {
         if(bindingResult.hasErrors()) {
 //            Map<String, String> errors = new HashMap<>();
