@@ -6,7 +6,9 @@ import java.util.*;
 import java.util.List;
 
 public interface ICustomerService extends IService<Customer> {
+    Customer findLastCustomer();
 
+    List<Customer> findAllByCustomerType(int customerType);
     List<Customer> getAll();
     void save(Customer customer);
     void update(long id, Customer customer);

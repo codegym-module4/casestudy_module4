@@ -13,5 +13,9 @@ public interface ICustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findByNameContainingIgnoreCase(String name);
 
     boolean existsByPhone(String phone);
+
+    Customer findFirstByOrderByIdDesc();
+
+    List<Customer> findAllByCustomerType(int customerType);
 }
 
