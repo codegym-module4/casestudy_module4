@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{layout/head::head ('Cập nhật thông tin chi tiết thuốc')}">
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+    <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="page-title m-0">CHỈNH SỬA THÔNG TIN THUỐC</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-default">
+
+                            <div class="card-body">
+
+                                <form th:action="@{/medicines/details/updated}" th:object="${medicine}" method="post">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="code">Mã thuốc <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
+                                            <input readonly type="text" class="form-control" id="code" name="code"
+                                                   th:field="*{code}"
+                                                   th:value="*{code}"
+                                                   placeholder="Nhập mã thuốc">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="name">Tên thuốc <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                   th:field="*{name}"
+                                                   th:value="*{name}"
+                                                   placeholder="Nhập tên thuốc">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="activeIngredient">Hoạt chất <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
+                                            <input type="text" class="form-control" id="activeIngredient" name="activeIngredient"
+                                                   th:field="*{activeIngredient}"
+                                                   th:value="*{activeIngredient}"
+                                                   placeholder="Nhập hoạt chất">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="medicineGroup">Nhóm thuốc <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
+                                            <select th:field="*{medicineGroup}" id="medicineGroup" class="form-control" name="medicineGroup">
+                                                <option value="" disabled selected>Chọn nhóm thuốc</option>
+                                                <option th:each="group : ${medicineGroups}" th:value="${group.id}"
+                                                        th:text="${group.name}"></option>
+                                            </select>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for=expiredDate>Ngày hết hạn <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
+                                            <input type="text" class="form-control" id="expiredDate"
+                                                   name="expiredDate" th:field="*{expiredDate}"
+                                                   placeholder="Ngày hết hạn">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="unit">Đơn vị <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
+                                            <select id="unit" class="form-control"  name="unit">
+                                                <option th:text="*{unit}" selected></option>
+                                                <option>Hộp</option>
+                                                <option>Vỉ</option>
+                                                <option>Viên</option>
+                                            </select>
+
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="conversionUnit">ĐVT quy đổi <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
+                                            <select id="conversionUnit" class="form-control" name="conversionUnit">
+                                                <option disabled th:text="*{conversionUnit}"
+                                                        selected></option>
+                                                <option>Gói</option>
+                                                <option>Viên</option>
+                                                <option>Lọ</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="conversionRate">Tỷ lệ quy đổi <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
+                                            <input type="text" class="form-control" id="conversionRate" name="conversionRate"
+                                                   th:value="*{conversionRate}"
+                                                   placeholder="Tỷ lệ quy đổi">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="quantity">Số lượng <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
+                                            <input type="text" class="form-control" id="quantity" name="quantity"
+                                                   th:value="*{quantity}"
+                                                   placeholder="Số lượng">
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+
+                                        <div class="form-group col-md-6">
+                                            <label for="importPrice">Giá nhập (đồng/hộp)</label>
+                                            <input type="text" class="form-control" id="importPrice" name="importPrice"
+                                                   th:value="*{importPrice}"
+                                                   placeholder="Giá nhập">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="convertedImportPrice">Giá nhập quy đổi</label>
+                                            <input type="text" class="form-control" id="convertedImportPrice" name="convertedImportPrice"
+                                                   th:value="*{convertedImportPrice}"
+                                                   placeholder="Giá nhập quy đổi">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="discountRate">Tỷ lệ chiết khấu (%)</label>
+                                            <input type="text" class="form-control" id="discountRate" name="discountRate"
+                                                   th:value="*{discountRate}"
+                                                   placeholder="Tỷ lệ chiết khấu">
+
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="vatRate">VAT (%) <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
+                                            <input type="text" class="form-control" id="vatRate" name="vatRate"
+                                                   placeholder="VAT" th:value="*{vatRate}">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="priceWithVat">Nhập có VAT <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
+                                            <input type="text" class="form-control" id="priceWithVat" name="priceWithVat"
+                                                   th:value="*{priceWithVat}"
+                                                   placeholder="Nhập có VAT ">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="convertedPriceWithVat">Nhập quy đổi có VAT <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
+                                            <input type="text" class="form-control" id="convertedPriceWithVat"  name="convertedPriceWithVat"
+                                                   th:value="*{convertedPriceWithVat}"
+                                                   placeholder="Nhập quy đổi có VAT">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="retailProfitRate">% Lợi nhuận xuất chẵn <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
+                                            <input type="text" class="form-control" id="retailProfitRate"  name="retailProfitRate"
+                                                   th:value="*{retailProfitRate}"
+                                                   placeholder="% Lợi nhuận xuất chẵn">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="wholesaleProfitRate">% Lợi nhuận xuất lẻ</label>
+                                            <input type="text" class="form-control" id="wholesaleProfitRate"  name="wholesaleProfitRate"
+                                                   th:value="*{wholesaleProfitRate}"
+                                                   placeholder="% Lợi nhuận xuất lẻ">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="retailPrice">Giá bán lẻ (đồng/hộp)</label>
+                                            <input type="text" class="form-control" id="retailPrice"  name="retailPrice"
+                                                   th:value="*{retailPrice}"
+                                                   placeholder="Giá bán lẻ (đồng/hộp)">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="wholesalePrice">Giá bán sỉ (đồng/hộp)</label>
+                                            <input type="text" class="form-control" id="wholesalePrice" name="wholesalePrice"
+                                                   th:value="*{wholesalePrice}"
+                                                   placeholder="Giá bán sỉ (đồng/hộp)">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="supplier">Nhà sản xuất</label>
+                                            <select th:field="*{supplier}" id="supplier" class="form-control"  name="supplier">
+                                                <option value="" disabled selected>Chọn nhà sản xuất</option>
+                                                <option th:each="group : ${suppliers}" th:value="${group.id}"
+                                                        th:text="${group.name}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="madein">Xuất xứ <span
+                                                    th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span>
+                                            </label>
+                                            <input type="text" class="form-control" id="madein" name="madein"
+                                                   th:value="${medicine.madein}"
+                                                   placeholder="Xuất xứ">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12 note">
+                                            <label for="note">Ghi chú</label>
+                                            <textarea name="description" class="form-control" id="note" rows="5" th:text="*{description}"
+                                                      placeholder="Nhập ghi chú"></textarea>
+                                        </div>
+                                        <span th:attr="style='font-style: italic; color: #dc3545; font-size: 1.1em;'">(*) Thông tin tin bắt buộc</span>
+                                    </div>
+
+                                    <div class="form-row d-flex justify-content-end">
+                                        <div class="form-group d-inline-block mr-4">
+                                            <button type="submit"
+                                                    class="btn btn-success">
+                                                <i class="fa-solid fa-check"></i>
+                                                Hoàn tất chỉnh sửa
+                                            </button>
+                                        </div>
+                                        <div class="form-group d-inline-block">
+                                            <a th:onclick="|window.location.href='/medicines/list'|"
+                                               class="btn btn-secondary">
+                                                <i class="fas fa-arrow-left"></i>
+                                                Trở về
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+</div>
+</body>
+<th:block th:replace="~{layout/script::script}">
+</th:block>
+</html>

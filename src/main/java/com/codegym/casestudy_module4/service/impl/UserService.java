@@ -7,6 +7,10 @@ import com.codegym.casestudy_module4.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import com.codegym.casestudy_module4.service.IRoleService;
+import com.codegym.casestudy_module4.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +20,7 @@ import java.util.List;
 public class UserService implements IUserService {
 
     @Autowired
+
     IUserRepository userRepository;
 
 
@@ -50,6 +55,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+
     public String generateCode() {
         Integer maxCode = userRepository.findMaxCode();
         if (maxCode == null) {
@@ -77,4 +83,10 @@ public class UserService implements IUserService {
     public Page<User> findByRoleName(String searchInput, Pageable pageable) {
         return userRepository.findAllByRoleName(searchInput, pageable);
     }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
+

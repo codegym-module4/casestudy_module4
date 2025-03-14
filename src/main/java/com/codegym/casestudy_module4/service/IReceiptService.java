@@ -8,4 +8,8 @@ import java.util.Map;
 
 public interface IReceiptService extends IService<Receipt> {
     Page<Receipt> getReceipt(Map<String, String> search, PageRequest of);
+
+    Receipt findLastReceipt();
+
+    Receipt updateOrCreate(Receipt receipt);
 }
