@@ -104,7 +104,7 @@
                                                     <td th:text="${#temporals.format(employee.createdAt, 'dd/MM/yyyy HH:mm:ss')}"></td>
                                                     <td>
                                                         <a th:href="@{/employee/edit/{id}(id=${employee.id})}" class="btn btn-sm btn-warning">Sửa</a>
-                                                        <a th:href="@{/employee/delete/{id}(id=${employee.id})}" class="btn btn-sm btn-danger">Xóa</a>
+                                                        <a th:href="@{/employee/delete/{id}(id=${employee.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa không?');")>Xóa</a>
                                                     </td>
                                                 </tr>
                                                 </tbody>
