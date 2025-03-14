@@ -34,19 +34,25 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-compact" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="/user" class="nav-link">
+            <a href="/user" class="nav-link"
+               th:classappend="${thymeleafHelper.getControllerName() == 'UserController' ? 'active':''}"
+            >
               <i class="fa-regular fa-id-card"></i>
               <p>Quản lý tài khoản</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="/employee" class="nav-link">
+            <a href="/employee" class="nav-link"
+               th:classappend="${thymeleafHelper.getControllerName() == 'EmployeeController' ? 'active':''}"
+            >
               <i class="fa-solid fa-user-tie"></i>
               <p>Quản lý nhân viên</p>
             </a>
           </li>
-          <li class="nav-item menu-is-opening menu-close">
-            <a href="#" class="nav-link">
+          <li class="nav-item menu-is-opening menu-open">
+            <a href="#" class="nav-link"
+               th:classappend="${thymeleafHelper.getControllerName() == 'CustomerController' ? 'active':''}"
+            >
               <i class="fa-solid fa-user"></i>
               <p>
                 Quản lý khách hàng
@@ -55,13 +61,17 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/customers" class="nav-link">
+                <a href="/customers" class="nav-link"
+                   th:classappend="${thymeleafHelper.getControllerName() == 'CustomerController' && thymeleafHelper.getMethodName() == 'showList' ? 'active':''}"
+                >
                   <i class="far fa-circle nav-icon"></i>
                   <p>Danh sách khách hàng</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/customers/create" class="nav-link">
+                <a href="/customers/create" class="nav-link"
+                   th:classappend="${thymeleafHelper.getControllerName() == 'CustomerController' && (thymeleafHelper.getMethodName() == 'showCreateForm' || thymeleafHelper.getMethodName() == 'showEditForm') ? 'active':''}"
+                >
                   <i class="far fa-circle nav-icon"></i>
                   <p>Thêm mới khách hàng</p>
                 </a>
@@ -69,19 +79,25 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="/supplier/list" class="nav-link">
+            <a href="/supplier/list" class="nav-link"
+               th:classappend="${thymeleafHelper.getControllerName() == 'SupplierController' ? 'active':''}"
+            >
               <i class="fa-solid fa-pills"></i>
               <p>Quản lý nhà cung cấp</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="/medicines/list" class="nav-link">
+            <a href="/medicines/list" class="nav-link"
+               th:classappend="${thymeleafHelper.getControllerName() == 'MedicineController' ? 'active':''}"
+            >
               <i class="fa-solid fa-pills"></i>
               <p>Quản lý thuốc</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="/medicinegroup/list" class="nav-link">
+            <a href="/medicinegroup/list" class="nav-link"
+               th:classappend="${thymeleafHelper.getControllerName() == 'MedicineGroupController' ? 'active':''}"
+            >
               <i class="fa-solid fa-pills"></i>
               <p>Quản lý nhóm thuốc</p>
             </a>
@@ -111,7 +127,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/receipt/wholesale/create" class="nav-link variation_list">
+                <a href="/receipt/wholesale/create" class="nav-link variation_list"
+                   th:classappend="${thymeleafHelper.getControllerName() == 'WholesaleReceiptController' ? 'active':''}"
+                >
                   <i class="far fa-circle nav-icon"></i>
                   <p>Hóa đơn bán sỉ</p>
                 </a>
