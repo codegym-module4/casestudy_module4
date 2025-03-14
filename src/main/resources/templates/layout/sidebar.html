@@ -45,11 +45,28 @@
               <p>Quản lý nhân viên</p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item menu-is-opening menu-close">
             <a href="#" class="nav-link">
               <i class="fa-solid fa-user"></i>
-              <p>Quản lý khách hàng</p>
+              <p>
+                Quản lý khách hàng
+                <i class="right fas fa-angle-left"></i>
+              </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/customers" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Danh sách khách hàng</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/customers/create" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Thêm mới khách hàng</p>
+                </a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <a href="/supplier/list" class="nav-link">
