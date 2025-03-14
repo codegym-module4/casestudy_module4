@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/html">
-<head th:replace="~{layout/head::head ('Tạo mới hóa đơn bán sỉ')}">
+<head th:replace="~{layout/head::head ('Chỉnh sửa hóa đơn')}">
 <body class="hold-transition sidebar-mini layout-fixed text-sm">
 <div class="wrapper">
     <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
@@ -172,6 +172,7 @@
                                                 <div class="col">
                                                     <div class="border px-2 pt-3 py-2 h-100 text-right medicine-total" th:id="'medicine_total' + ${stat.index}"></div>
                                                 </div>
+                                                <input type="hidden" th:field="*{items[__${stat.index}__].id}" th:id="'id' + ${stat.index}">
                                             </div>
                                         </th:block>
                                         <th:block th:if="${receipt.items == null}">
@@ -205,6 +206,7 @@
                                                 <div class="col">
                                                     <div class="border px-2 pt-3 py-2 h-100 text-right medicine-total" id="medicine_total0"></div>
                                                 </div>
+                                                <input type="hidden" th:field="*{items[0].id}" id="id0">
                                             </div>
                                         </th:block>
                                     </div>
@@ -221,6 +223,7 @@
                                         </div>
                                     </div>
                                     <input type="hidden" name="item_row" th:value="${receipt.items.size() == 0?1:receipt.items.size()}">
+                                    <input type="hidden" th:field="*{id}">
                                     <div class="text-center mt-3">
                                         <div class="row align-items-center">
                                             <div class="col-6 text-right">
@@ -230,7 +233,6 @@
                                                         Thanh toán
                                                     </button>
                                                 </div>
-
                                             </div>
                                             <div class="col-6 text-left">
                                                 <div class="mt-2">

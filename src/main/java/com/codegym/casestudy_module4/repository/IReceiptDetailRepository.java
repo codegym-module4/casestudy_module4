@@ -15,6 +15,6 @@ public interface IReceiptDetailRepository extends JpaRepository<ReceiptDetail, L
     List<ReceiptDetail> findByReceiptId(Long receiptId);
 
     @Modifying
-    @Query("DELETE FROM receipt_detail rd WHERE rd.receipt.id = :receiptId")
+    @Query(value = "UPDATE receipt_detail rd SET rd.deletedAt = now() WHERE rd.receipt.id = :receiptId")
     void deleteByReceiptId(@Param("receiptId") Long receiptId);
 }
