@@ -88,7 +88,7 @@ public class WholesaleReceiptController {
                 receipt.getCustomer(),
                 receipt.getEmployee(),
                 receipt.getNote(),
-                2,
+                3,
                 1,
                 receipt.getCreatedAt()
         );
