@@ -291,7 +291,3 @@ public class MedicineController {
 
 
 }
-
-
-
-
