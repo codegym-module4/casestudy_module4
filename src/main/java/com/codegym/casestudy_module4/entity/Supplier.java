@@ -1,6 +1,10 @@
 package com.codegym.casestudy_module4.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,16 +25,30 @@ public class Supplier {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "code")
+    @Column(name = "code", unique = true, nullable = false)
+    @NotBlank(message = "Mã không được để trống")
+    @Size(min = 4, max = 50, message = "Mã phải từ 4 đến 50 ký tự")
+    @Pattern(regexp =  "^NCC\\d+$", message = "Mã nhà cung cấp phải bắt đầu bằng 'NCC' và theo sau là các số.")
     private String code;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
+    @NotBlank(message = "Tên nhóm thuốc không được để trống")
+    @Size(min = 3, max = 100, message = "Tên phải từ 3 đến 100 ký tự")
+    @Pattern(regexp = "^[\\p{L} ]+$", message = "Tên chỉ được chứa chữ cái và khoảng trắng")
     private String name;
 
+    @Column(name = "email", unique = true)
+    @NotBlank(message = "Email không được để trống")
+    @Email(message = "Email không hợp lệ")
+    private String email;
+
     @Column(name = "address")
+    @NotBlank(message = "Địa chỉ không được để trống")
     private String address;
 
     @Column(name = "phone")
+    @NotBlank(message = "Số điện thoại không được để trống")
+    @Pattern(regexp = "^0\\d{9}$", message = "Số điện thoại phải bắt đầu bằng 0 và có 10 chữ số.")
     private String phone;
 
     @Column(name = "note")

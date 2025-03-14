@@ -40,7 +40,7 @@ public class OrderReceiptDTO {
     private String doctor;
 
     @NotEmpty(message = "Địa chỉ của bác sĩ không được để trống")
-    private String doctor_address;
+    private String doctorAddress;
 
     @NotEmpty(message = "Chuẩn đoán không được để trống")
     private String diagnose;
@@ -62,9 +62,21 @@ public class OrderReceiptDTO {
         this.employee = employee;
         this.symptoms = symptoms;
         this.doctor = doctor;
-        this.doctor_address = doctor_address;
+        this.doctorAddress = doctor_address;
         this.diagnose = diagnose;
-        this.note = note;
+        this.createdAt = createdAt;
+        this.items = items;
+    }
+
+    public OrderReceiptDTO(Long id, String code, Customer customer, Employee employee, String symptoms, String doctor, String doctor_address, String diagnose, LocalDateTime createdAt, List<MedicineDTO> items) {
+        this.id = id;
+        this.code = code;
+        this.customer = customer;
+        this.employee = employee;
+        this.symptoms = symptoms;
+        this.doctor = doctor;
+        this.doctorAddress = doctor_address;
+        this.diagnose = diagnose;
         this.createdAt = createdAt;
         this.items = items;
     }
@@ -76,4 +88,5 @@ public class OrderReceiptDTO {
         this.createdAt = createdAt;
         this.items = items;
     }
+
 }

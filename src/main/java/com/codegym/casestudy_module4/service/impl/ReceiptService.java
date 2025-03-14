@@ -22,6 +22,7 @@ public class ReceiptService implements IReceiptService {
 
     @Autowired
     private IReceiptRepository receiptRepository;
+
     @Autowired
     private IReceiptDetailRepository receiptDetailRepository;
 
@@ -47,7 +48,7 @@ public class ReceiptService implements IReceiptService {
 
     @Override
     public Receipt findById(long id) {
-        return null;
+        return receiptRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -69,6 +70,7 @@ public class ReceiptService implements IReceiptService {
     public Receipt updateOrCreate(Receipt s) {
         return receiptRepository.save(s);
     }
+
     @Transactional
     @Override
     public void deleteById(Long id) {

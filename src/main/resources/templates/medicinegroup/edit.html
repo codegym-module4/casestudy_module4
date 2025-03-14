@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{layout/head::head ('Chào mừng')}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+  <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="page-title m-0">Sửa</h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-default">
+              <div class="card-body">
+                <div class="mt-2">
+                  <div class="mt-4">
+                    <div class="container">
+
+                      <form th:action="@{/medicinegroup/edit/{id}(id=${medicineGroup.id})}" th:object="${medicineGroup}"
+                            method="post">
+                        <div class="mb-3">
+                          <label for="code" class="form-label">Mã nhóm thuốc: </label>
+                          <input type="text" class="form-control" id="code" name="code"
+                                 th:field="*{code}" maxlength="50" required/>
+                          <p style="color: grey" th:errors="*{code}"></p>
+                        </div>
+                        <div class="mb-3">
+                          <label for="name" class="form-label">Tên nhóm thuốc: </label>
+                          <input type="text" class="form-control" id="name" name="name"
+                                 th:field="*{name}" required/>
+                          <p style="color: grey" th:errors="*{name}"></p>
+                        </div>
+                        <div class="mb-3">
+                          <label for="description" class="form-label">Mô tả: </label>
+                          <input type="text" class="form-control" id="description"
+                                 name="description" th:field="*{description}"/>
+                          <p style="color: grey" th:errors="*{description}"></p>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Thông báo</h4>
+      </div>
+      <div class="modal-body">
+        <p th:text="${message}"></p> <!-- Dùng biến `message` từ controller -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href='/medicinegroup/list'">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+<th:block th:replace="~{layout/script::script}">
+</th:block>
+<script>
+  $(document).ready(function () {
+    // Kiểm tra nếu biến message có giá trị thì hiển thị modal
+    let message = $("#successModal .modal-body p").text().trim();
+    if (message.length > 0) {
+      $("#successModal").modal("show");
+    }
+  });
+</script>
+</html>

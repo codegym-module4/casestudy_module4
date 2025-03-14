@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{layout/head::head ('Danh sách tài khoản')}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+    <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="page-title m-0">Danh sách tài khoản</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-default">
+                            <div class="card-body">
+                                <form class="clearfix" action="/user" method="GET">
+                                    <div class="form-group row align-items-center">
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-form-label col-form-label-sm">Lọc theo</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-select form-control-sm" name="filterBy">
+                                                        <option value="">-- Chọn bộ lọc--</option>
+                                                        <option value="code" >Mã nhân viên</option>
+                                                        <option value="employeeFullName">Tên nhân viên</option>
+                                                        <option value="roleName">Chức vụ</option>
+                                                        <option value="userName">Tên tài khoản </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Thêm ô input tìm kiếm  -->
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control form-control-sm" placeholder="Tìm kiếm..." name="searchInput">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-sm btn-primary" type="submit">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <div class="mt-2">
+                                    <div class="mt-4">
+                                        <div class="table-responsive" style="max-height: 600px;">
+                                            <table class="table table-bordered table-hover table-valign-middle table-head-fixed text-nowrap text-center">
+                                                <thead>
+                                                <tr>
+                                                    <th class="bg-light">Mã nhân viên</th>
+                                                    <th class="bg-light">Tên đầy đủ</th>
+                                                    <th class="bg-light">Tên Tài khoản</th>
+                                                    <th class="bg-light">Chức vụ </th>
+                                                    <th class="bg-light">Trạng Thái </th>
+                                                    <th class="bg-light">Ngày tạo</th>
+                                                    <th class="bg-light">Chức năng</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:if="${users.isEmpty()}">
+                                                        <td colspan="8">Không tìm thấy dữ liệu</td>
+                                                    </tr>
+                                                    <tr th:each="user : ${users}">
+                                                        <td th:text="${user.code}"></td>
+                                                        <td th:text="${user.employee.fullName}"></td>
+                                                        <td th:text="${user.username}"></td>
+                                                        <td th:text="${user.role.roleName}"></td>
+                                                        <td th:text="${user.status}"></td>
+                                                        <td th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                                                        <td>
+                                                            <a th:href="@{/user/edit/{id}(id=${user.id})}" class="btn btn-sm btn-warning">Sửa</a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div th:insert="~{layout/paginator :: pagination(
+                          page=${users},
+                          url='/user',
+                          queryParams=${queryParams})
+                      }">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+                <h4 class="modal-title text-center">Thông báo</h4>
+            </div>
+            <div class="modal-body">
+                <p th:text="${success}"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" th:onclick="|window.location.href='/user'|">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+                <h4 class="modal-title text-center">Thông báo</h4>
+            </div>
+            <div class="modal-body">
+                <p th:text="${error}"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" th:attr="onclick='window.location.href=\'/user/edit/\' + ${user.id}'">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<th:block th:replace="~{layout/script::script}">
+</th:block>
+<script>
+    $(document).ready(function() {
+        if ($.trim($("#successModal .modal-body p").text()) !== "") {
+            $("#successModal").modal("show");
+        }
+
+        if ($.trim($("#errorModal .modal-body p").text()) !== "") {
+            $("#errorModal").modal("show");
+        }
+    });
+</script>
+
+</html>

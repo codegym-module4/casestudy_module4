@@ -50,4 +50,14 @@ public class ReceiptDetailService implements IReceiptDetailService {
     public ReceiptDetail updateOrCreate(ReceiptDetail receiptDetail) {
         return receiptDetailRepository.save(receiptDetail);
     }
+
+    @Override
+    public List<ReceiptDetail> getReceiptDetailsByReceiptId(Long id) {
+        return receiptDetailRepository.findByReceiptId(id);
+    }
+
+    @Override
+    public void deleteAllReceiptDetails(List<ReceiptDetail> receiptDetails) {
+        receiptDetailRepository.deleteAll(receiptDetails);
+    }
 }

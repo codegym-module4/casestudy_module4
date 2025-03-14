@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/head::head ('Chi tiết khách hàng')}"></head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+    <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="page-title m-0">Chi tiết khách hàng</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-body">
+
+                        <fieldset style="border: 1px solid #ccc; padding: 1rem;">
+                            <legend style="font-size: 1.1rem; font-weight: 600;">
+                                Thông tin khách hàng
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>
+                                        <strong>Mã khách hàng:</strong>
+                                        <span th:text="${customer.code}">KTDD0001</span>
+                                    </p>
+                                    <p>
+                                        <strong>Số điện thoại:</strong>
+                                        <span th:text="${customer.phone}">0123456789</span>
+                                    </p>
+                                    <p>
+                                        <strong>Nhóm khách hàng:</strong>
+                                        <span th:text="${customer.customerType == 2 ? 'Khách theo đơn' : (customer.customerType == 3 ? 'Khách sỉ' : 'N/A')}">
+                                            Khách theo đơn
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        <strong>Tên khách hàng:</strong>
+                                        <span th:text="${customer.name}">Trần Văn A</span>
+                                    </p>
+                                    <p>
+                                        <strong>Địa chỉ:</strong>
+                                        <span th:text="${customer.address}">abc xyz</span>
+                                    </p>
+                                    <p>
+                                        <strong>Ghi chú:</strong>
+                                        <span th:text="${customer.note}">Ghi chú</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <hr>
+                        <fieldset style="border: 1px solid #ccc; padding: 1rem;">
+                            <legend style="font-size: 1.1rem; font-weight: 600;">Thời gian</legend>
+<!--                            logic ở đây-->
+                        </fieldset>
+                        <hr>
+                        <fieldset style="border: 1px solid #ccc; padding: 1rem;">
+                            <legend style="font-size: 1.1rem; font-weight: 600;">Danh sách hoá đơn</legend>
+<!--                            logic ở đây-->
+                        </fieldset>
+
+                        <div class="mt-3">
+                            <a th:href="@{/customers}" class="btn btn-secondary">Quay lại danh sách</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<th:block th:replace="~{layout/script::script}"></th:block>
+</body>
+</html>

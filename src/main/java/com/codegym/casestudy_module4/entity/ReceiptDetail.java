@@ -49,4 +49,13 @@ public class ReceiptDetail {
         this.price = price;
         this.quantity = quantity;
     }
+
+    public ReceiptDetail(Long id,Receipt receipt, Medicine medicine, String unit, Integer price, Integer quantity) {
+        this.id = id;
+        this.receipt = receipt;
+        this.medicine = medicine;
+        this.unit = unit;
+        this.price = price;
+        this.quantity = quantity;
+    }
 }
