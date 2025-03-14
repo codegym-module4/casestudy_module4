@@ -76,4 +76,12 @@ public class CustomerService implements ICustomerService {
     public List<Customer> findByName(String name) {
         return customerRepository.findByNameContainingIgnoreCase(name);
     }
+
+    public Customer findLastCustomer() {
+        return customerRepository.findFirstByOrderByIdDesc();
+    }
+
+    public List<Customer> findAllByCustomerType(int customerType) {
+        return customerRepository.findAllByCustomerType(customerType);
+    }
 }

@@ -1,41 +1,69 @@
 package com.codegym.casestudy_module4.service.impl;
 
 import com.codegym.casestudy_module4.entity.Customer;
+import com.codegym.casestudy_module4.entity.Supplier;
+import com.codegym.casestudy_module4.repository.ISupplierRepository;
 import com.codegym.casestudy_module4.service.ICustomerService;
+import com.codegym.casestudy_module4.service.ISupplierService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class SupplierService implements ICustomerService {
+public class SupplierService implements ISupplierService {
+
+    @Autowired
+    private ISupplierRepository supplierRepository;
 
     @Override
-    public List<Customer> getAll() {
-        return List.of();
+    public List<Supplier> getAll() {
+        List<Supplier> suppliers = supplierRepository.findAll();
+        return suppliers;
     }
 
     @Override
-    public void save(Customer s) {
-
+    public void save(Supplier s) {
+        supplierRepository.save(s);
     }
 
     @Override
-    public void update(long id, Customer s) {
-
+    public void update(long id, Supplier s) {
+        s.setId(id);
+        s.setCreatedAt(findById(id).getCreatedAt());
+        supplierRepository.save(s);
     }
 
     @Override
     public void remove(Long id) {
-
+        supplierRepository.deleteById(id);
     }
 
     @Override
-    public Customer findById(long id) {
-        return null;
+    public Supplier findById(long id) {
+        return supplierRepository.findById(id).orElse(null);
     }
 
     @Override
-    public List<Customer> findByName(String name) {
+    public List<Supplier> findByName(String name) {
         return List.of();
     }
+
+    @Override
+    public Page<Supplier> findByNameContainingIgnoreCase(String name, Pageable pageable) {
+        return supplierRepository.findAllByNameContainingIgnoreCase(name, pageable);
+    }
+
+    @Override
+    public Page<Supplier> findByCodeContainingIgnoreCase(String code, Pageable pageable) {
+        return supplierRepository.findAllByCodeContainingIgnoreCase(code,pageable);
+    }
+
+    @Override
+    public Page<Supplier> findAll(Pageable pageable) {
+        return supplierRepository.findAll(pageable);
+    }
+
 }
