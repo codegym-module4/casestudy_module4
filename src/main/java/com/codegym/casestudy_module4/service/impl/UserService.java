@@ -20,9 +20,7 @@ import java.util.List;
 public class UserService implements IUserService {
 
     @Autowired
-
-    IUserRepository userRepository;
-
+    private IUserRepository userRepository;
 
     @Override
     public List<User> getAll() {
@@ -55,7 +53,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 
+    @Override
     public String generateCode() {
         Integer maxCode = userRepository.findMaxCode();
         if (maxCode == null) {
@@ -82,11 +84,6 @@ public class UserService implements IUserService {
     @Override
     public Page<User> findByRoleName(String searchInput, Pageable pageable) {
         return userRepository.findAllByRoleName(searchInput, pageable);
-    }
-
-    @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
     }
 }
 

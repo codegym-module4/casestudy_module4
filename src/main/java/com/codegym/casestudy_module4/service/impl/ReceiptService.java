@@ -2,10 +2,12 @@ package com.codegym.casestudy_module4.service.impl;
 
 import com.codegym.casestudy_module4.entity.Customer;
 import com.codegym.casestudy_module4.entity.Receipt;
+import com.codegym.casestudy_module4.repository.IReceiptDetailRepository;
 import com.codegym.casestudy_module4.repository.IReceiptRepository;
 import com.codegym.casestudy_module4.service.ICustomerService;
 import com.codegym.casestudy_module4.service.IReceiptService;
 import com.codegym.casestudy_module4.specification.ReceiptSpecification;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,9 @@ public class ReceiptService implements IReceiptService {
 
     @Autowired
     private IReceiptRepository receiptRepository;
+
+    @Autowired
+    private IReceiptDetailRepository receiptDetailRepository;
 
     @Override
     public List<Receipt> getAll() {
@@ -43,7 +48,7 @@ public class ReceiptService implements IReceiptService {
 
     @Override
     public Receipt findById(long id) {
-        return null;
+        return receiptRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -64,5 +69,14 @@ public class ReceiptService implements IReceiptService {
     @Override
     public Receipt updateOrCreate(Receipt s) {
         return receiptRepository.save(s);
+    }
+
+    @Transactional
+    @Override
+    public void deleteById(Long id) {
+        // Xóa các receipt_detail trước
+        receiptDetailRepository.deleteByReceiptId(id);
+        // Sau đó mới xóa receipt
+        receiptRepository.deleteById(id);
     }
 }

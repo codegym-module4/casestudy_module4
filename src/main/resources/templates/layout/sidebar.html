@@ -78,19 +78,25 @@
             </a>
           </li>
           <li class="nav-item menu-is-opening menu-open">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link"
+               th:classappend="${(thymeleafHelper.getControllerName() == 'ReceiptController' || thymeleafHelper.getControllerName() == 'OrderReceiptController' || thymeleafHelper.getControllerName() == 'WholesaleReceiptController') ? 'active':''}"
+            >
               <i class="fa-solid fa-receipt"></i>
               <p>Quản lý hóa đơn<i class="right fas fa-angle-left"></i></p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/receipt" class="nav-link">
+                <a href="/receipt" class="nav-link"
+                   th:classappend="${thymeleafHelper.getControllerName() == 'ReceiptController' ? 'active':''}"
+                >
                   <i class="far fa-circle nav-icon"></i>
                   <p>Danh sách hóa đơn</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/receipt/order/create" class="nav-link">
+                <a href="/receipt/order/create" class="nav-link"
+                   th:classappend="${thymeleafHelper.getControllerName() == 'OrderReceiptController' ? 'active':''}"
+                >
                   <i class="far fa-circle nav-icon"></i>
                   <p>Tạo hóa đơn theo đơn</p>
                 </a>
