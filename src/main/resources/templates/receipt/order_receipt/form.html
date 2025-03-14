@@ -62,11 +62,11 @@
                                                         <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
                                                     </select>
                                                     <span class="text-danger" style="font-size: 80%" role="alert">
-                                                            <strong th:if="${#fields.hasErrors('customer')}" th:text="${#fields.errors('customer')[0]}"></strong>
-                                                        </span>
+                                                        <strong th:if="${#fields.hasErrors('customer')}" th:text="${#fields.errors('customer')[0]}"></strong>
+                                                    </span>
                                                 </div>
                                                 <div class="col-1">
-                                                    <button type="button" class="btn btn-primary">
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCreateUser">
                                                         <i class="fa-solid fa-plus"></i>
                                                     </button>
                                                 </div>
@@ -256,6 +256,7 @@
                     <!-- ./col -->
                 </div>
             </div><!-- /.container-fluid -->
+            <th:block th:insert="~{receipt/modal_create_customer::modal_customer}"></th:block>
         </section>
     </div>
 </div>

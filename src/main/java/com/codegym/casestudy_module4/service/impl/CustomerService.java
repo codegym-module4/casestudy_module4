@@ -84,4 +84,9 @@ public class CustomerService implements ICustomerService {
     public List<Customer> findAllByCustomerType(int customerType) {
         return customerRepository.findAllByCustomerType(customerType);
     }
+
+    @Override
+    public Customer updateOrCreate(Customer customer) {
+        return customerRepository.save(customer);
+    }
 }
