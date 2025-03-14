@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE receipts SET deleted_at = Now() WHERE id=?")
 //@Where(clause = "deleted_at is null")
-@FilterDef(name = "deletedReceiptFilter", parameters = @ParamDef(name = "deletedAt", type = LocalDateTime.class))
-@Filter(name = "deletedReceiptFilter", condition = "deleted_at IS NOT NULL AND = :deletedAt")
+@FilterDef(name = "notDeletedReceiptFilter")
+@Filter(name = "notDeletedReceiptFilter", condition = "deleted_at IS NULL")
 public class Receipt {
 
     @Id

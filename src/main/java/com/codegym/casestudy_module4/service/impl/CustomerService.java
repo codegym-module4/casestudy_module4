@@ -22,6 +22,9 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public List<Customer> getAll() {
+        Session session = entityManager.unwrap(Session.class);
+        session.enableFilter("notDeletedCustomerFilter");
+
         return customerRepository.findAll();
     }
 
@@ -74,21 +77,24 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer findById(long id) {
-        return customerRepository.findById(id).orElse(null);
+        return customerRepository.findNotDeletedById(id);
     }
 
     @Override
     public List<Customer> findByName(String name) {
+        Session session = entityManager.unwrap(Session.class);
+        session.enableFilter("notDeletedCustomerFilter");
+
         return customerRepository.findByNameContainingIgnoreCase(name);
     }
 
     public Customer findLastCustomer() {
-        Session session = entityManager.unwrap(Session.class);
-        session.disableFilter("deletedReceiptFilter");
         return customerRepository.findFirstByOrderByIdDesc();
     }
 
     public List<Customer> findAllByCustomerType(int customerType) {
+        Session session = entityManager.unwrap(Session.class);
+        session.enableFilter("notDeletedCustomerFilter");
         return customerRepository.findAllByCustomerType(customerType);
     }
 

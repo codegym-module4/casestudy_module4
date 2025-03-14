@@ -54,7 +54,7 @@ public class ReceiptService implements IReceiptService {
 
     @Override
     public Receipt findById(long id) {
-        return receiptRepository.findById(id).orElse(null);
+        return receiptRepository.findNotDeletedById(id);
     }
 
     @Override
@@ -63,17 +63,15 @@ public class ReceiptService implements IReceiptService {
     }
 
     public Page<Receipt> getReceipt(Map<String, String> search, PageRequest pageable) {
+        Session session = entityManager.unwrap(Session.class);
+        session.enableFilter("notDeletedReceiptFilter");
         Specification<Receipt> spec = ReceiptSpecification.searchWithFilters(search);
 
         return receiptRepository.findAll(spec, pageable);
     }
 
     public Receipt findLastReceipt() {
-        Session session = entityManager.unwrap(Session.class);
-        session.disableFilter("deletedReceiptFilter");
-        Receipt receipt = receiptRepository.findFirstByOrderByIdDesc();
-
-        return receipt;
+        return receiptRepository.findFirstByOrderByIdDesc();
     }
 
     @Override
