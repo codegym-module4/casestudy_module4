@@ -10,7 +10,7 @@
 <div class="wrapper">
     <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
     <div class="content-wrapper">
-        <!-- Content Header -->
+
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <!-- Main Content -->
+
         <section class="content">
             <div class="container-fluid">
                 <div class="card card-default">
@@ -29,10 +29,13 @@
                             <table id="customerTable" class="table table-bordered table-hover text-center">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Mã KH</th>
-                                    <th>Tên KH</th>
+
+                                    <th>Mã Khách hàng</th>
+                                    <th>Tên khách hàng</th>
+                                    <th>Tuổi</th>
+                                    <th>Địa chỉ</th>
                                     <th>Điện thoại</th>
+                                    <th>Nhóm khách hàng</th>
                                     <th>Ghi chú</th>
                                     <th>Hành động</th>
                                 </tr>
@@ -41,18 +44,23 @@
                                 <tr th:if="${#lists.isEmpty(customers)}">
                                     <td colspan="6">Không tìm thấy dữ liệu</td>
                                 </tr>
-                                <tr th:each="cust : ${customers}">
-                                    <td th:text="${cust.id}"></td>
+                                <tr th:each="cust : ${customers}"
+                                    th:onclick="|window.location.href='@{/customers/detail/{id}(id=${cust.id})}'|"
+                                    style="cursor: pointer;">
                                     <td th:text="${cust.code}"></td>
                                     <td th:text="${cust.name}"></td>
+                                    <td th:text="${cust.age}"></td>
+                                    <td th:text="${cust.address}"></td>
                                     <td th:text="${cust.phone}"></td>
+                                    <td th:text="${cust.customerType == 2 ? 'Khách theo đơn' : (cust.customerType == 3 ? 'Khách sỉ' : '')}"></td>
                                     <td th:text="${cust.note}"></td>
                                     <td>
-                                        <a th:href="@{/customers/edit/{id}(id=${cust.id})}" class="btn btn-sm btn-warning">Sửa</a>
-                                        <a th:href="@{/customers/delete/{id}(id=${cust.id})}" class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</a>
+                                        <!-- Nếu bạn vẫn muốn có nút sửa/xóa riêng thì giữ lại -->
+                                        <a th:href="@{/customers/edit/{id}(id=${cust.id})}" class="btn btn-sm btn-warning" onclick="event.stopPropagation();">Sửa</a>
+                                        <a th:href="@{/customers/delete/{id}(id=${cust.id})}" class="btn btn-sm btn-danger" onclick="event.stopPropagation(); return confirm('Bạn có chắc muốn xóa không?');">Xóa</a>
                                     </td>
                                 </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -65,20 +73,20 @@
         </section>
     </div>
 </div>
-<!-- Giữ nguyên layout script (đã import jQuery và các thư viện khác) -->
+
 <th:block th:replace="~{layout/script::script}"></th:block>
-<!-- Import JS của DataTables từ CDN -->
+
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script th:inline="javascript">
-    /*<![CDATA[*/
-    $(document).ready(function() {
+
+    $(document).ready(function () {
         $('#customerTable').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/Vietnamese.json"
             }
         });
     });
-    /*]]>*/
+
 </script>
 </body>
 </html>

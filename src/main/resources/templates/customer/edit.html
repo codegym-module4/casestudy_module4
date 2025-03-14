@@ -6,7 +6,7 @@
 <div class="wrapper">
     <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
     <div class="content-wrapper">
-        <!-- Header -->
+
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -16,48 +16,58 @@
                 </div>
             </div>
         </div>
-        <!-- Nội dung chính -->
+
         <section class="content">
             <div class="container-fluid">
                 <div class="card card-default">
                     <div class="card-body">
                         <form th:action="@{/customers/update}" th:object="${customer}" method="post">
-                            <input type="hidden" th:field="*{id}" />
+                            <input type="hidden" th:field="*{id}"/>
+                            <input type="hidden" th:field="*{customerType}"/>
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Mã KH</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" th:field="*{code}" readonly />
+                                    <input type="text" class="form-control" th:field="*{code}" readonly/>
                                 </div>
                             </div>
+
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Tên KH</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" th:field="*{name}" required/>
+                                    <input type="text" class="form-control" th:field="*{name}" required
+                                           maxlength="255"/>
                                 </div>
                             </div>
+
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Điện thoại</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" th:field="*{phone}" placeholder="Nhập số điện thoại" pattern="[0-9]{10}"
-                                           title="Số điện thoại phải gồm 10 chữ số" required/>
+                                    <input type="text" class="form-control" th:field="*{phone}"
+                                           placeholder="Nhập số điện thoại"
+                                           pattern="[0-9]{10}" title="Số điện thoại phải gồm 10 chữ số" required
+                                           minlength="10" maxlength="10"/>
                                 </div>
                             </div>
+
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Địa chỉ</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" th:field="*{address}" />
+                                    <input type="text" class="form-control" th:field="*{address}" maxlength="500"/>
                                 </div>
                             </div>
+
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Tuổi</label>
                                 <div class="col-sm-10">
-                                    <input type="number" class="form-control" th:field="*{age}" />
+                                    <input type="number" class="form-control" th:field="*{age}" min="0" max="100"
+                                           required/>
                                 </div>
                             </div>
+
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Ghi chú</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" th:field="*{note}"></textarea>
+                                    <textarea class="form-control" th:field="*{note}" maxlength="500"></textarea>
                                 </div>
                             </div>
                             <div class="text-right">

@@ -59,6 +59,17 @@ public class CustomerController {
         return "redirect:/customers";
     }
 
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable("id") Long id, Model model) {
+        Customer customer = customerService.findById(id);
+        if (customer == null) {
+            return "redirect:/customers";
+        }
+        model.addAttribute("customer", customer);
+        return "customer/detail";
+    }
+
+
     @GetMapping("/search")
     public String search(@RequestParam("keyword") String keyword, Model model) {
         List<Customer> customers = customerService.findByName(keyword);
