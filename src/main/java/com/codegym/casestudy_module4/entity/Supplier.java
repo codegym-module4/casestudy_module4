@@ -40,6 +40,8 @@ public class Supplier {
     @Column(name = "email", unique = true)
     @NotBlank(message = "Email không được để trống")
     @Email(message = "Email không hợp lệ")
+    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\\.(com|vn|org)$",
+            message = "Chỉ chấp nhận email với đuôi .com, .vn, .org")
     private String email;
 
     @Column(name = "address")

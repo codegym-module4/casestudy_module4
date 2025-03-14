@@ -32,37 +32,37 @@
                                                     <label for="code" class="form-label">Mã NCC: </label>
                                                     <input type="text" class="form-control" id="code" name="code"
                                                            th:field="*{code}" maxlength="50" required/>
-                                                    <p style="color: grey" th:errors="*{code}"></p>
+                                                    <p style="color: red" th:errors="*{code}"></p>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="name" class="form-label">Tên NCC: </label>
                                                     <input type="text" class="form-control" id="name" name="name"
                                                            th:field="*{name}" required/>
-                                                    <p style="color: grey" th:errors="*{name}"></p>
+                                                    <p style="color: red" th:errors="*{name}"></p>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="email" class="form-label">Email: </label>
                                                     <input type="text" class="form-control" id="email"
                                                            name="address" th:field="*{email}" required/>
-                                                    <p style="color: grey" th:errors="*{email}"></p>
+                                                    <p style="color: red" th:errors="*{email}"></p>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="address" class="form-label">Địa chỉ: </label>
                                                     <input type="text" class="form-control" id="address"
                                                            name="address" th:field="*{address}" required/>
-                                                    <p style="color: grey" th:errors="*{address}"></p>
+                                                    <p style="color: red" th:errors="*{address}"></p>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="phone" class="form-label">SĐT: </label>
                                                     <input type="text" class="form-control" id="phone"
                                                            name="phone" th:field="*{phone}" required/>
-                                                    <p style="color: grey" th:errors="*{phone}"></p>
+                                                    <p style="color: red" th:errors="*{phone}"></p>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="note" class="form-label">Mô tả: </label>
                                                     <input type="text" class="form-control" id="note"
                                                            name="note" th:field="*{note}"/>
-                                                    <p style="color: grey" th:errors="*{note}"></p>
+                                                    <p style="color: red" th:errors="*{note}"></p>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
                                             </form>
