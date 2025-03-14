@@ -288,10 +288,4 @@ public class MedicineController {
         redirectAttributes.addFlashAttribute("message", "Thêm mới thành công!");
         return "redirect:/medicines/list";
     }
-
-
 }
-
-
-
-

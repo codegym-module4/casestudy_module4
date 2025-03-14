@@ -1,10 +1,8 @@
 <th:block th:fragment="pagination (page, url, queryParams)">
     <nav aria-label="Page navigation" th:if="${page.totalPages > 1}">
         <ul class="pagination pagination-sm justify-content-center">
-
             <!-- Xử lý queryParams đúng cách -->
             <th:block th:with="queryString=${queryParams != '' ? '&' + queryParams : ''}">
-
                 <!-- Nút "Trước" -->
                 <li class="page-item" th:classappend="${page.first} ? 'disabled'"
                     th:utext="|<a class='page-link border-0' href='${url}?page=${page.number}${queryString}'>Trước</a>|"

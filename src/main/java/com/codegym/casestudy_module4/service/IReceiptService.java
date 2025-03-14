@@ -12,5 +12,4 @@ public interface IReceiptService extends IService<Receipt> {
     Receipt findLastReceipt();
 
     Receipt updateOrCreate(Receipt receipt);
-    void deleteById(Long id);
 }

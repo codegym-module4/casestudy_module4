@@ -1,74 +1,101 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Thông tin nhân viên</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/employee/create.css">
+<html lang="en">
+<head th:replace="~{layout/head::head ('Thêm mới nhân viên')}">
 </head>
-<body>
-<div class="container">
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+    <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="page-title m-0">Thêm mới nhân viên</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
 
-    <h2 class="text-center">Thông tin nhân viên</h2>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-default">
+                            <div class="card-body">
+                                <div id="error-message">
+                                    <ul>
+                                        <li th:each="error : ${errors}" th:text="${error.defaultMessage}" class="text-danger"></li>
+                                    </ul>
+                                </div>
 
-    <div id="error-message">
-        <ul>
-            <li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
-        </ul>
+                                <form th:action="@{/employee/save}" method="post" th:object="${employee}">
+
+                                    <div class="form-group">
+                                        <label>Mã nhân viên</label>
+                                        <input type="text" class="form-control" th:value="${employee.code}" readonly style="width: 50%;">
+                                        <input type="hidden" th:field="*{code}">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label>Tên nhân viên</label>
+                                        <input type="text" class="form-control" th:field="*{fullName}" maxlength="255" pattern="^[a-zA-ZÀ-ỹ0-9\s]+$"
+                                               title="Tên chỉ được chứa chữ cái, số và khoảng trắng, không có ký tự đặc biệt" required style="width: 50%;">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label>Địa chỉ</label>
+                                        <textarea class="form-control" th:field="*{address}" required style="width: 50%;"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Điện thoại</label>
+                                        <input type="text" class="form-control" th:field="*{phone}" maxlength="20" pattern="^\d{9,}$"
+                                               title="Số điện thoại phải có ít nhất 9 chữ số và chỉ chứa số" required style="width: 50%;">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Ngày sinh</label>
+                                        <input type="date" class="form-control" th:field="*{dob}" required style="width: 50%;">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Ngày vào làm</label>
+                                        <input type="date" class="form-control" th:field="*{hireDate}" style="width: 50%;">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Tên tài khoản</label>
+                                        <input type="text" class="form-control" name="username" required style="width: 50%;">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Chức vụ</label>
+                                        <select class="form-control" name="role" required style="width: 50%;">
+                                            <option value="2">Nhân viên</option>
+                                            <option value="1">Quản lý</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="button-group">
+                                        <button type="submit" class="btn btn-primary">Thêm</button>
+                                        <button type="reset" class="btn btn-warning">Reset</button>
+                                        <a href="/employee" class="btn btn-default">Trở về</a>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
     </div>
-
-    <form th:action="@{/employee/save}" method="post" th:object="${employee}">
-        <div class="form-group">
-            <label>Mã nhân viên</label>
-            <input type="text" class="form-control" th:value="${employee.code}" readonly>
-            <input type="hidden" th:field="*{code}">
-        </div>
-
-        <div class="form-group">
-            <label>Tên nhân viên</label>
-            <input type="text" class="form-control" th:field="*{fullName}" maxlength="255" pattern="^[a-zA-ZÀ-ỹ0-9\s]+$"
-                   title="Tên chỉ được chứa chữ cái, số và khoảng trắng, không có ký tự đặc biệt" required>
-        </div>
-
-        <div class="form-group">
-            <label>Địa chỉ</label>
-            <textarea class="form-control" th:field="*{address}" required></textarea>
-        </div>
-
-        <div class="form-group">
-            <label>Điện thoại</label>
-            <input type="text" class="form-control" th:field="*{phone}" maxlength="20" pattern="^\d{9,}$"
-                   title="Số điện thoại phải có ít nhất 9 chữ số và chỉ chứa số" required>
-        </div>
-
-        <div class="form-group">
-            <label>Ngày sinh</label>
-            <input type="date" class="form-control" th:field="*{dob}" required>
-        </div>
-
-        <div class="form-group">
-            <label>Ngày vào làm</label>
-            <input type="date" class="form-control" th:field="*{hireDate}">
-        </div>
-
-
-        <div class="form-group">
-            <label>Tên tài khoản</label>
-            <input type="text" class="form-control" name="username" required>
-        </div>
-
-        <div class="form-group">
-            <label>Chức vụ</label>
-            <select class="form-control" name="role" required>
-                <option value="2">Nhân viên</option>
-                <option value="1">Quản lý</option>
-            </select>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Thêm</button>
-        <button type="reset" class="btn btn-warning">Reset</button>
-        <a href="/employee" class="btn btn-default">Trở về</a>
-    </form>
 </div>
+
 </body>
+<th:block th:replace="~{layout/script::script}"></th:block>
+
 </html>
