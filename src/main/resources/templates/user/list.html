@@ -136,7 +136,7 @@
                 <p th:text="${error}"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" th:onclick="|window.location.href='/user/edit/' + ${user.id}|">Đóng</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" th:attr="onclick='window.location.href=\'/user/edit/\' + ${user.id}'">Đóng</button>
             </div>
         </div>
     </div>
