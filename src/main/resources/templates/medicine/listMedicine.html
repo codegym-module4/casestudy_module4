@@ -147,7 +147,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div th:insert="~{layout/paginator :: pagination(page=${listMedicines},url='/medicines/list',queryParams=${queryParams})}">
+                                        <div th:insert="~{layout/paginator :: pagination(page=${listMedicines},url=${url},queryParams=${queryParams})}">
                                         </div>
                                     </div>
                                 </div>
@@ -358,8 +358,9 @@
                 }
             }
 
-            let url = '/medicines/search?' + key + '=' + encodeURIComponent(search);
+            let url = '/medicines/search/' + key + '/' + encodeURIComponent(search);
             window.location.href = url;
+            document.getElementById('searchInput').value = '';
         });
 
 
