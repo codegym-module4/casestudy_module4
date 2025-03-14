@@ -49,7 +49,7 @@ public class WholesaleReceiptController {
 
         Customer lastCustomer = customerService.findLastCustomer();
         long lastCustomerId = lastCustomer == null?0:lastCustomer.getId();
-        String customerCode = "KTD" + String.valueOf(lastCustomerId + 1);
+        String customerCode = "KSI" + String.valueOf(lastCustomerId + 1);
         List<Customer> customers = customerService.findAllByCustomerType(3);
         List<Medicine> medicines = medicineService.getAll();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
