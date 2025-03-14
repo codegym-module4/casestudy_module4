@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{layout/head::head ('Thay đổi thông tin nhân viên')}">
+    <style>
+        .form-control {
+            width: 50%;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+    <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="page-title m-0">Thay đổi thông tin nhân viên</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-default">
+                            <div class="card-body">
+                                <div id="error-message">
+                                    <ul>
+                                        <li th:each="error : ${errors}" th:text="${error.defaultMessage}" class="text-danger"></li>
+                                    </ul>
+                                </div>
+
+                                <!-- Form cho user -->
+                                <form method="post" th:object="${user}">
+
+                                    <div class="form-group">
+                                        <label>Tên tài khoản</label>
+                                        <input type="text" class="form-control" th:value="*{username}" readonly style="width: 50%;">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label>Chức vụ</label>
+                                        <input type="text" class="form-control" th:value="${user.role.roleName}" readonly style="width: 50%;">
+                                    </div>
+
+                                </form>
+
+                                <!-- Form cho employee -->
+                                <form th:action="@{/employee/edit/{id}(id=${employee.id})}" method="post" th:object="${employee}">
+
+                                    <div class="form-group">
+                                        <label>Mã nhân viên</label>
+                                        <input type="text" class="form-control" th:value="*{code}" readonly style="width: 50%;">
+                                        <input type="hidden" th:field="*{code}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Tên nhân viên</label>
+                                        <input type="text" class="form-control" th:field="*{fullName}" maxlength="255" pattern="^[a-zA-ZÀ-ỹ0-9\s]+$"
+                                               title="Tên chỉ được chứa chữ cái, số và khoảng trắng, không có ký tự đặc biệt" required style="width: 50%;">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Địa chỉ</label>
+                                        <textarea class="form-control" th:field="*{address}" required style="width: 50%;"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Điện thoại</label>
+                                        <input type="text" class="form-control" th:field="*{phone}" maxlength="20" pattern="^\d{9,}$"
+                                               title="Số điện thoại phải có ít nhất 9 chữ số và chỉ chứa số" required style="width: 50%;">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Ngày sinh</label>
+                                        <input type="date" class="form-control" th:field="*{dob}" required style="width: 50%;">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Ngày vào làm</label>
+                                        <input type="date" class="form-control" th:field="*{hireDate}" style="width: 50%;">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Ngày tạo</label>
+                                        <input type="text" class="form-control" th:value="${#temporals.format(employee.createdAt, 'dd/MM/yyyy HH:mm:ss')}" readonly style="width: 50%;">
+                                        <input type="hidden" th:field="*{createdAt}">
+                                    </div>
+
+
+                                    <div class="button-group">
+                                        <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
+                                        <a href="/employee" class="btn btn-default">Trở về</a>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    <!-- ./col -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+</div>
+
+</body>
+<th:block th:replace="~{layout/script::script}"></th:block>
+
+</html>

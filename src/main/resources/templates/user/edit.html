@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{layout/head::head ('Thay đổi thông tin')}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+    <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="page-title m-0">Thay đổi thông tin</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-default">
+                            <div class="card-body">
+                                <form th:action="@{/user/edit/{id}(id=${user.id})}" method="post" th:object="${user}">
+
+                                    <div class="form-group">
+                                        <label class="col-form-label">Mã nhân viên</label>
+                                        <input type="text" class="form-control form-control-sm" th:value="*{code}" readonly style="width: 50%;">
+                                        <input type="hidden" th:field="*{code}">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-form-label">Tên nhân viên</label>
+                                        <input type="text" class="form-control form-control-sm" th:value="*{employee.fullName}" readonly style="width: 50%;">
+                                        <input type="hidden" th:field="*{employee.fullName}">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-form-label">Tên tài khoản</label>
+                                        <input class="form-control form-control-sm" th:field="*{username}" required style="width: 50%;">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-form-label">Trạng thái</label>
+                                        <select class="form-control" name="status" th:value="*{status}" required style="width: 50%;">
+                                            <option value="1">1</option>
+                                            <option value="0">0</option>
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-form-label">Chức vụ</label>
+                                        <select class="form-control" name="role" th:value="*{role.roleName}" required style="width: 50%;">
+                                            <option value="2">Nhân viên</option>
+                                            <option value="1">Quản lý</option>
+                                        </select>
+                                    </div>
+
+                                    <input type="hidden" th:field="*{id}">
+                                    <input type="hidden" th:field="*{password}">
+                                    <input type="hidden" th:field="*{createdAt}">
+                                    <input type="hidden" th:field="*{employee.id}">
+
+
+                                    <div class="button-group">
+                                        <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                        <a th:href="@{/user/changePassword/{id}(id=${user.id})}" class="btn btn-sm btn-warning">Đổi mật khẩu</a>
+                                        <a href="/user" class="btn btn-default">Trở về</a>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+                <h4 class="modal-title text-center">Thông báo</h4>
+            </div>
+            <div class="modal-body">
+                <p th:text="${success}"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" th:onclick="|window.location.href='/user'|">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+                <h4 class="modal-title text-center">Thông báo</h4>
+            </div>
+            <div class="modal-body">
+                <p th:text="${error}"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" th:onclick="|window.location.href='/user/edit/' + ${user.id}|">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<th:block th:replace="~{layout/script::script}"></th:block>
+<script>
+    $(document).ready(function() {
+        if ($.trim($("#successModal .modal-body p").text()) !== "") {
+            $("#successModal").modal("show");
+        }
+
+        if ($.trim($("#errorModal .modal-body p").text()) !== "") {
+            $("#errorModal").modal("show");
+        }
+    });
+</script>
+
+</html>

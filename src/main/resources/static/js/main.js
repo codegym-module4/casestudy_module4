@@ -4,7 +4,7 @@
     $(function() {
         $('.flash_message').fadeOut(5000);
     });
-
+    updateTotal();
     $(document).on("click", "#btnAddMedicine", function (e) {
         let num = $('input[name="item_row"]').val();
         let option = '';
@@ -53,6 +53,7 @@
                 <div class="col">
                     <div class="border px-2 pt-3 py-2 h-100 text-right medicine-total" id="medicine_total${num}"></div>
                 </div>
+                <input type="hidden" name="items[${num}].id" id="id${num}">
             </div>`;
         num++;
         $('input[name="item_row"]').val(num);
@@ -71,12 +72,21 @@
             let priceDiv = dataRow.find(".text-price");
             let unitDiv = dataRow.find(".text-unit");
             if (data != "") {
-                $('#unit' + index).val(data.conversionUnit);
-                unitDiv.text(data.conversionUnit);
-                $('#quantity' + index).val(1);
-                $('#price' + index).val(data.retailPrice);
-                priceDiv.text(data.retailPrice);
-                $('#medicine_total'+index).text(data.retailPrice);
+                if ($('#wholesale').length) {
+                    $('#unit' + index).val(data.unit);
+                    unitDiv.text(data.unit);
+                    $('#quantity' + index).val(1);
+                    $('#price' + index).val(data.wholesalePrice);
+                    priceDiv.text(data.wholesalePrice);
+                    $('#medicine_total'+index).text(data.wholesalePrice);
+                } else {
+                    $('#unit' + index).val(data.conversionUnit);
+                    unitDiv.text(data.conversionUnit);
+                    $('#quantity' + index).val(1);
+                    $('#price' + index).val(data.retailPrice);
+                    priceDiv.text(data.retailPrice);
+                    $('#medicine_total'+index).text(data.retailPrice);
+                }
             } else {
                 alert("Không tìm thấy thuốc");
                 $('#unit' + index).val('');
@@ -128,6 +138,60 @@
         }
         calculateTotal();
     });
+
+    $(document).on("click", "#btnSaveReceipt", function (e) {
+        let isMedicineNull = true;
+        $(".item-row").each(function(index, element) {
+            let $element = $(element);
+            let medicineId = $element.find('.medicine-select').val();
+            if (medicineId != "") {
+                isMedicineNull = false;
+            }
+        });
+        if (!isMedicineNull) {
+            $('#form-receipt').submit();
+        } else {
+            $('.medicine-list-error strong').text("Hãy chọn ít nhất 1 loại thuốc để tạo hóa đơn");
+        }
+    });
+
+    $(document).on("click", ".btnCreateUser", function (e) {
+        let formId = $(this).data("form_id");
+        setDataInitialize();
+        $.ajax({
+            method: $(formId).attr('method'),
+            url: $(formId).attr('action'),
+            data: $(formId).serialize(),
+            dataType: 'json'
+        }).done(function (data) {
+            let id = parseInt(data['id']) + 1;
+            let code = ($('#wholesale').length?"KSI":"KTD") + id;
+            $(formId + " input").val('');
+            $(formId + " #code-input, .code-value").val(code);
+            $(formId + " #customer_type").val(2);
+            let option = `<option value="${data['id']}">${data['name']}</option>`;
+            $("#customer").append(option);
+            $("#customer").val(data['id']);
+            alert("Thêm khách hàng thành công");
+            $('#modalCreateUser').modal("hide");
+        }).fail(function (jqXhr, json, errorThrown) {
+            if (jqXhr.responseJSON.errors) {
+                if (jqXhr.responseJSON.message == 'Validation failed') {
+                    console.log(jqXhr.responseJSON.validator)
+                    $.each(jqXhr.responseJSON.validator, function (key, value) {
+                        var element = 'input';
+                        var input = formId + ' ' + element + '[name="' + key + '"]';
+                        $(input).addClass('is-invalid');
+                        $(input + '+span strong').text(value);
+                        return;
+                    });
+                } else {
+                    alert(jqXhr.responseJSON.message);
+                }
+            }
+        });
+    });
+    calculateTotal();
 })();
 
 function calculateTotal() {
@@ -141,4 +205,23 @@ function calculateTotal() {
         }
     });
     $('#receipt_total').val(total);
+}
+
+function updateTotal() {
+    $(".item-row").each(function(index, element) {
+        let $element = $(element);
+        let quantity = $element.find('.quantity-input').val();
+        let price = $element.find('.unit-price-input').val()
+        if ($.isNumeric(quantity) && $.isNumeric(price)) {
+            $element.find('.medicine-total').text(quantity * price);
+        }
+    });
+}
+function setDataInitialize()
+{
+    $('.invalid-feedback strong').text('');
+    $('div.invalid-feedback').text('');
+    $('.text-danger strong').text('');
+    $('input').removeClass('is-invalid');
+    $('textarea').removeClass('is-invalid');
 }

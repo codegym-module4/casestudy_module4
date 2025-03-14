@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{layout/head::head ('Danh sách nhân viên')}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+    <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="page-title m-0">Danh sách nhân viên</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-default">
+                            <div class="card-body">
+                                <form class="clearfix" action="/employee" method="GET">
+                                    <div class="form-group row align-items-center">
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-form-label col-form-label-sm">Lọc theo</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-select form-control-sm" name="filterBy">
+                                                        <option value="">-- Chọn bộ lọc--</option>
+                                                        <option value="code" >Mã nhân viên</option>
+                                                        <option value="fullName">Tên nhân viên</option>
+                                                        <option value="role">Chức vụ</option>
+                                                        <option value="address">Địa chỉ</option>
+                                                        <option value="phone">Điện thoại</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Thêm ô input tìm kiếm  -->
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control form-control-sm" placeholder="Tìm kiếm..." name="searchInput">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-sm btn-primary" type="submit">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="offset-md-1 col-md-3">
+                                            <div class="row">
+                                                <label class="col-sm-3 col-form-label col-form-label-sm">Sắp xếp</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-select form-control-sm" name="sortBy">
+                                                        <option value="">-- Chọn loại sắp xếp --</option>
+                                                        <option value="code" >Mã nhân viên</option>
+                                                        <option value="fullName">Tên nhân viên</option>
+                                                        <option value="role">Chức vụ</option>
+                                                        <option value="hireDate">Ngày vào làm</option>
+                                                        <option value="address">Địa chỉ</option>
+                                                        <option value="phone">Điện thoại</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-sm btn-primary w-120px" onclick="window.location.href='/employee/create'">Thêm mới</button>
+                                    </div>
+                                </form>
+
+                                <div class="mt-2">
+                                    <div class="mt-4">
+                                        <div class="table-responsive" style="max-height: 600px;">
+                                            <table class="table table-bordered table-hover table-valign-middle table-head-fixed text-nowrap text-center">
+                                                <thead>
+                                                <tr>
+                                                    <th class="bg-light">Mã nhân viên</th>
+                                                    <th class="bg-light">Tên đầy đủ</th>
+                                                    <th class="bg-light">Địa chỉ</th>
+                                                    <th class="bg-light">Số điện thoại </th>
+                                                    <th class="bg-light">Ngày sinh</th>
+                                                    <th class="bg-light">Ngày vào làm </th>
+                                                    <th class="bg-light">Chức vụ </th>
+                                                    <th class="bg-light">Ngày tạo</th>
+                                                    <th class="bg-light">Chức năng</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:if="${employees.isEmpty()}">
+                                                    <td colspan="8">Không tìm thấy dữ liệu</td>
+                                                </tr>
+                                                <tr th:each="employee : ${employees}">
+                                                    <td th:text="${employee.code}"></td>
+                                                    <td th:text="${employee.fullName}"></td>
+                                                    <td th:text="${employee.address}"></td>
+                                                    <td th:text="${employee.phone}"></td>
+                                                    <td th:text="${#temporals.format(employee.dob, 'dd/MM/yyyy')}"></td>
+                                                    <td th:text="${#temporals.format(employee.hireDate, 'dd/MM/yyyy')}"></td>
+                                                    <td th:text="${employeeRoles[employee.id]}"></td>
+                                                    <td th:text="${#temporals.format(employee.createdAt, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                                                    <td>
+                                                        <a th:href="@{/employee/edit/{id}(id=${employee.id})}" class="btn btn-sm btn-warning">Sửa</a>
+                                                        <a th:href="@{/employee/delete/{id}(id=${employee.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa không?');")>Xóa</a>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div th:insert="~{layout/paginator :: pagination(
+                          page=${employees},
+                          url='/employee',
+                          queryParams=${queryParams})
+                      }">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+                <h4 class="modal-title text-center">Thông báo</h4>
+            </div>
+            <div class="modal-body">
+                <p th:text="${success}"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" th:onclick="|window.location.href='/employee'|">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<th:block th:replace="~{layout/script::script}">
+</th:block>
+<script>
+    $(document).ready(function() {
+        // Kiểm tra nếu biến success có giá trị thì hiển thị modal
+        if ($.trim($("#successModal .modal-body p").text()) !== "") {
+            $("#successModal").modal("show");
+        }
+    });
+</script>
+
+</html>

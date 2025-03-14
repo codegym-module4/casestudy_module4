@@ -5,15 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "roles",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "APP_ROLE_UK", columnNames = "app_name") })
+@Table(name = "roles")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE customers SET deleted_at = Now() WHERE id=?")
+@Where(clause = "deleted_at is null")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +31,7 @@ public class Role {
     @Column(name = "app_name")
     private String appName;
 
+    @Column(name = "deleted_at")
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime deletedAt;
 }

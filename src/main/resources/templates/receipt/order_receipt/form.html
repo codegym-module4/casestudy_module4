@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<head th:replace="~{layout/head::head (${title})}">
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+    <th:block th:insert="~{layout/sidebar::sidebar}"></th:block>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="page-title m-0">Hóa đơn theo đơn thuốc</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <th:block th:insert="~{layout/flash::flash}"></th:block>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-default">
+                            <div class="card-body">
+                                <form method="post" th:action="${action}" id="form-receipt" th:object="${receipt}">
+                                    <div class="row align-items-start">
+                                        <div class="col-md-4">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Số phiếu</label>
+                                                <div class="col-sm-9 col-xl-7">
+                                                    <input type="text" readonly class="form-control form-control-sm" th:value="*{code}" placeholder="">
+                                                    <input type="hidden" th:field="*{code}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Nhân viên</label>
+                                                <div class="col-sm-9 col-xl-7">
+                                                    <input type="text" readonly class="form-control form-control-sm" th:value="*{employee.fullName}" placeholder="">
+                                                    <input type="hidden" th:field="*{employee}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Ngày lập</label>
+                                                <div class="col-sm-8 col-xl-7">
+                                                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                                        <input type="text" class="form-control datetimepicker datetimepicker-input" th:classappend="${#fields.hasErrors('createdAt')} ? 'is-invalid' : ''" th:field="*{createdAt}" data-toggle="datetimepicker"/>
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                        </div>
+                                                        <span class="invalid-feedback" role="alert">
+                                                                <strong th:if="${#fields.hasErrors('createdAt')}" th:text="${#fields.errors('createdAt')[0]}"></strong>
+                                                            </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label" for="customer">Khách hàng</label>
+                                                <div class="col-sm-8 col-xl-7">
+                                                    <select class="form-control form-control-sm" id="customer" th:field="*{customer}" name="customer">
+                                                        <option value="">Vui lòng chọn khách hàng</option>
+                                                        <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
+                                                    </select>
+                                                    <span class="text-danger" style="font-size: 80%" role="alert">
+                                                        <strong th:if="${#fields.hasErrors('customer')}" th:text="${#fields.errors('customer')[0]}"></strong>
+                                                    </span>
+                                                </div>
+                                                <div class="col-1">
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCreateUser">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Triệu chứng</label>
+                                                <div class="col-sm-9 col-xl-8">
+                                                    <textarea class="form-control form-control-sm" th:classappend="${#fields.hasErrors('symptoms')} ? 'is-invalid' : ''" th:field="*{symptoms}" rows="5"></textarea>
+                                                    <span class="invalid-feedback" role="alert">
+                                                            <strong th:if="${#fields.hasErrors('symptoms')}" th:text="${#fields.errors('symptoms')[0]}"></strong>
+                                                        </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Tên BS</label>
+                                                <div class="col-sm-8 col-xl-7">
+                                                    <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('doctor')} ? 'is-invalid' : ''" th:field="*{doctor}" placeholder="">
+                                                    <span class="invalid-feedback" role="alert">
+                                                            <strong th:if="${#fields.hasErrors('doctor')}" th:text="${#fields.errors('doctor')[0]}"></strong>
+                                                        </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Địa chỉ BS</label>
+                                                <div class="col-sm-8 col-xl-7">
+                                                    <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('doctor')} ? 'is-invalid' : ''" th:field="*{doctorAddress}" placeholder="">
+                                                    <span class="invalid-feedback" role="alert">
+                                                            <strong th:if="${#fields.hasErrors('doctorAddress')}" th:text="${#fields.errors('doctorAddress')[0]}"></strong>
+                                                        </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Chuẩn đoán</label>
+                                                <div class="col-sm-8 col-xl-7">
+                                                    <input type="text" class="form-control form-control-sm" th:classappend="${#fields.hasErrors('diagnose')} ? 'is-invalid' : ''" th:field="*{diagnose}" value="" placeholder="">
+                                                    <span class="invalid-feedback" role="alert">
+                                                            <strong th:if="${#fields.hasErrors('diagnose')}" th:text="${#fields.errors('diagnose')[0]}"></strong>
+                                                        </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row align-items-center">
+                                        <div class="col-md-5">
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-4 col-form-label">Danh sách thuốc</label>
+                                                <div class="col-auto">
+                                                    <button type="button" class="btn-sm btn-primary px-2" id="btnAddMedicine">Thêm thuốc</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="pl-5 ml-2 py-2 medicine-list-error">
+                                                <span class="text-danger" role="alert">
+                                                    <strong></strong>
+                                                </span>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive item-table">
+                                        <div class="row no-gutters flex-nowrap">
+                                            <div class="col-auto"><div class="text-center w-50px">&nbsp;</div></div>
+                                            <div class="col-3"><div class="bg-light text-center font-weight-bold border text-nowrap p-2">Tên thuốc</div></div>
+                                            <div class="col-2"><div class="bg-light text-center font-weight-bold border text-nowrap p-2">Đơn vị tính</div></div>
+                                            <div class="col-2"><div class="bg-light text-center font-weight-bold border text-nowrap p-2">Số lượng</div></div>
+                                            <div class="col-2"><div class="bg-light text-center font-weight-bold border text-nowrap p-2">Đơn giá</div></div>
+                                            <div class="col"><div class="bg-light text-center font-weight-bold border text-nowrap p-2">Thành tiền</div></div>
+                                        </div>
+                                        <th:block th:each="item, stat : ${receipt.items}">
+                                            <div class="row no-gutters flex-nowrap item-row" th:id="'row' + ${stat.index}" th:data-row="${stat.index}">
+                                                <div class="col-auto">
+                                                    <div class="text-center w-50px pt-3">
+                                                        <button th:if="${stat.index != 0}" type="button" class="border-0 bg-transparent p-0 fs-6 delete-row text-danger" th:data-row="${stat.index}"><i class="fas fa-minus-circle"></i></button>
+                                                        &nbsp;
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="text-center border p-2 h-100">
+                                                        <select class="form-control form-control-sm medicine-select" th:field="*{items[__${stat.index}__].medicine}">
+                                                            <option value="">Vui lòng chọn thuốc</option>
+                                                            <option th:each="medicine : ${medicines}" th:value="${medicine.id}" th:text="${medicine.name}"></option>
+                                                        </select>
+                                                        <span class="text-danger" style="font-size: 80%" role="alert">
+                                                                <strong th:if="${#fields.hasErrors('items[__${stat.index}__].medicine')}" th:text="${#fields.errors('items[__${stat.index}__].medicine')[0]}"></strong>
+                                                            </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="text-center border p-2 h-100 text-unit" th:text="*{items[__${stat.index}__].unit}"></div>
+                                                    <input type="hidden" class="unit-input" th:id="'unit' + ${stat.index}" th:field="*{items[__${stat.index}__].unit}">
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="text-center border p-2 h-100">
+                                                        <input type="text" class="form-control form-control-sm quantity-input" th:id="'quantity' + ${stat.index}" th:classappend="${#fields.hasErrors('items[__${stat.index}__].quantity')} ? 'is-invalid' : ''" th:field="*{items[__${stat.index}__].quantity}" placeholder="">
+                                                        <span class="invalid-feedback" role="alert">
+                                                                <strong th:if="${#fields.hasErrors('items[__${stat.index}__].quantity')}" th:text="${#fields.errors('items[__${stat.index}__].quantity')[0]}"></strong>
+                                                            </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="text-center border p-2 h-100 text-price" th:text="*{items[__${stat.index}__].price}">
+                                                    </div>
+                                                    <input type="hidden" class="unit-price-input" th:id="'price' + ${stat.index}" th:field="*{items[__${stat.index}__].price}">
+                                                </div>
+                                                <div class="col">
+                                                    <div class="border px-2 pt-3 py-2 h-100 text-right medicine-total" th:id="'medicine_total' + ${stat.index}"></div>
+                                                </div>
+                                                <input type="hidden" th:field="*{items[__${stat.index}__].id}" th:id="'id' + ${stat.index}">
+                                            </div>
+                                        </th:block>
+                                        <th:block th:if="${receipt.items == null}">
+                                            <div class="row no-gutters flex-nowrap item-row" id="row0" data-row="0">
+                                                <div class="col-auto">
+                                                    <div class="text-center w-50px pt-3">
+                                                        &nbsp;
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="text-center border p-2 h-100">
+                                                        <select class="form-control form-control-sm medicine-select" th:field="*{items[0].medicine}">
+                                                            <option value="">Vui lòng chọn thuốc</option>
+                                                            <option th:each="medicine : ${medicines}" th:value="${medicine.id}" th:text="${medicine.name}"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="text-center border p-2 h-100 text-unit"></div>
+                                                    <input type="hidden" th:field="*{items[0].unit}" id="unit0">
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="text-center border p-2 h-100">
+                                                        <input type="text" class="form-control form-control-sm quantity-input" id="quantity0" th:field="*{items[0].quantity}" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="text-center border p-2 h-100 text-price"></div>
+                                                    <input type="hidden" class="unit-price-input" id="price0" th:field="*{items[0].price}">
+                                                </div>
+                                                <div class="col">
+                                                    <div class="border px-2 pt-3 py-2 h-100 text-right medicine-total" id="medicine_total0"></div>
+                                                </div>
+                                                <input type="hidden" th:field="*{items[0].id}" id="id0">
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                    <div class="my-3">
+                                        <div class="row justify-content-end">
+                                            <div class="col-md-5">
+                                                <div class="form-group row justify-content-end">
+                                                    <label class="col-sm-4 col-lg-3 col-form-label">TỔNG TIỀN</label>
+                                                    <div class="col-sm-7 col-lg-6">
+                                                        <input type="text" value="0" class="form-control form-control-sm" id="receipt_total" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="item_row" th:value="${receipt.items.size() == 0?1:receipt.items.size()}">
+                                    <input type="hidden" th:field="*{id}">
+                                    <div class="text-center mt-3">
+                                        <div class="row align-items-center">
+                                            <div class="col-6 text-right">
+                                                <div class="mt-2">
+                                                    <button type="button" class="btn btn-info w-120px" data-url="#" data-form_id="#form-receipt" id="btnSaveReceipt">
+                                                        <i class="fa-solid fa-circle-plus"></i>
+                                                        Thanh toán
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 text-left">
+                                                <div class="mt-2">
+                                                    <a role="button" href="/receipt" class="btn btn-secondary w-120px">
+                                                        <i class="fa-solid fa-reply"></i>
+                                                        Trở về
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+            </div><!-- /.container-fluid -->
+            <th:block th:insert="~{receipt/modal_create_customer::modal_customer}"></th:block>
+        </section>
+    </div>
+</div>
+<th:block th:replace="~{layout/script::script}">
+</th:block>
+</body>
+</html>
