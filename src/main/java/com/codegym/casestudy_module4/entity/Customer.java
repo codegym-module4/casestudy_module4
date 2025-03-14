@@ -8,8 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,7 +21,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE customers SET deleted_at = Now() WHERE id=?")
-@Where(clause = "deleted_at is null")
+//@Where(clause = "deleted_at is null")
+@FilterDef(name = "deletedCustomerFilter", parameters = @ParamDef(name = "deletedAt", type = LocalDateTime.class))
+@Filter(name = "deletedCustomerFilter", condition = "deleted_at IS NOT NULL AND = :deletedAt")
 public class Customer {
 
     @Id

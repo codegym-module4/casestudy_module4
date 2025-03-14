@@ -7,13 +7,16 @@ import com.codegym.casestudy_module4.repository.IReceiptRepository;
 import com.codegym.casestudy_module4.service.ICustomerService;
 import com.codegym.casestudy_module4.service.IReceiptService;
 import com.codegym.casestudy_module4.specification.ReceiptSpecification;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +28,9 @@ public class ReceiptService implements IReceiptService {
 
     @Autowired
     private IReceiptDetailRepository receiptDetailRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Override
     public List<Receipt> getAll() {
@@ -63,7 +69,11 @@ public class ReceiptService implements IReceiptService {
     }
 
     public Receipt findLastReceipt() {
-        return receiptRepository.findFirstByOrderByIdDesc();
+        Session session = entityManager.unwrap(Session.class);
+        session.disableFilter("deletedReceiptFilter");
+        Receipt receipt = receiptRepository.findFirstByOrderByIdDesc();
+
+        return receipt;
     }
 
     @Override
@@ -75,7 +85,7 @@ public class ReceiptService implements IReceiptService {
     @Override
     public void deleteById(Long id) {
         // Xóa các receipt_detail trước
-        receiptDetailRepository.deleteByReceiptId(id);
+//        receiptDetailRepository.deleteByReceiptId(id);
         // Sau đó mới xóa receipt
         receiptRepository.deleteById(id);
     }

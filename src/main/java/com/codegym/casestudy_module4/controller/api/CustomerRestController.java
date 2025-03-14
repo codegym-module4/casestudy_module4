@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,6 +43,8 @@ public class CustomerRestController {
                     .contentType(MediaType.APPLICATION_JSON) // Chắc chắn trả về JSON
                     .body(errors);
         }
+        customer.setCreatedAt(LocalDateTime.now());
+        customer.setStatus(1);
         Customer res = customerService.updateOrCreate(customer);
 
         return new ResponseEntity<>(res, HttpStatus.CREATED);
