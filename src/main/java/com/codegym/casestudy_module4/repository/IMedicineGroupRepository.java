@@ -18,4 +18,6 @@ public interface IMedicineGroupRepository extends JpaRepository<MedicineGroup, L
 
     @Query("SELECT md FROM medicine_groups md WHERE md.id = :id AND md.deletedAt IS NULL")
     MedicineGroup findNotDeletedById(@Param("id") long id);
+
+    boolean existsByCode(String code);
 }

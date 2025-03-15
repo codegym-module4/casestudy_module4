@@ -31,20 +31,20 @@
                         <div class="mb-3">
                           <label for="code" class="form-label">Mã nhóm thuốc: </label>
                           <input type="text" class="form-control" id="code" name="code"
-                                 th:field="*{code}" maxlength="50" required/>
-                          <p style="color: grey" th:errors="*{code}"></p>
+                                 th:field="*{code}" maxlength="50" readonly/>
+                          <p style="color: red" th:errors="*{code}"></p>
                         </div>
                         <div class="mb-3">
                           <label for="name" class="form-label">Tên nhóm thuốc: </label>
                           <input type="text" class="form-control" id="name" name="name"
                                  th:field="*{name}" required/>
-                          <p style="color: grey" th:errors="*{name}"></p>
+                          <p style="color: red" th:errors="*{name}"></p>
                         </div>
                         <div class="mb-3">
                           <label for="description" class="form-label">Mô tả: </label>
                           <input type="text" class="form-control" id="description"
                                  name="description" th:field="*{description}"/>
-                          <p style="color: grey" th:errors="*{description}"></p>
+                          <p style="color: red" th:errors="*{description}"></p>
                         </div>
                         <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
                       </form>

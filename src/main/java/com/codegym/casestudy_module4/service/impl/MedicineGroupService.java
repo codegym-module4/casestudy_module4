@@ -34,13 +34,17 @@ public class MedicineGroupService implements IMedicineGroupService {
     }
 
     @Override
-    public void save(MedicineGroup s) {
+    public void save(MedicineGroup s)  {
+        if (medicineGroupRepository.existsByCode(s.getCode())) {
+            throw new RuntimeException("Mã nhóm thuốc đã tồn tại!"); // Ném lỗi trực tiếp
+        }
         medicineGroupRepository.save(s);
     }
 
     @Override
     public void update(long id, MedicineGroup medicineGroup) {
         medicineGroup.setId(id);
+        medicineGroup.setCode(findById(id).getCode());
         medicineGroup.setCreatedAt(findById(id).getCreatedAt());
         medicineGroupRepository.save(medicineGroup);
     }
@@ -59,7 +63,6 @@ public class MedicineGroupService implements IMedicineGroupService {
     public List<MedicineGroup> findByName(String name) {
         return List.of();
     }
-
 
     @Override
     public Page<MedicineGroup> findByNameContainingIgnoreCase(String name, Pageable pageable) {
@@ -83,5 +86,12 @@ public class MedicineGroupService implements IMedicineGroupService {
         session.enableFilter("notDeletedMGFilter");
 
         return medicineGroupRepository.findAll(pageable);
+    }
+
+    public void save(MedicineGroup medicineGroup, String code) throws Exception{
+        if (medicineGroupRepository.existsByCode(code)) {
+            throw new Exception("Mã nhóm thuốc đã tồn tại!");
+        }
+        medicineGroupRepository.save(medicineGroup);
     }
 }
