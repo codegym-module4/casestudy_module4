@@ -1,10 +1,13 @@
 package com.codegym.casestudy_module4.controller;
 
 import com.codegym.casestudy_module4.entity.Customer;
+import com.codegym.casestudy_module4.entity.Medicine;
 import com.codegym.casestudy_module4.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +35,18 @@ public class CustomerController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("customer") Customer customer) {
+    public String create(
+            @Validated @ModelAttribute("customer") Customer customer,
+            BindingResult bindingResult,
+            Model model
+    ) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errors", bindingResult.getFieldErrors());
+            model.addAttribute("customer", customer);
+
+            return "customer/create";
+        }
+
         customerService.save(customer);
         return "redirect:/customers";
     }
@@ -48,7 +62,14 @@ public class CustomerController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("customer") Customer customer) {
+    public String update(@Validated @ModelAttribute("customer") Customer customer, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errors", bindingResult.getFieldErrors());
+            model.addAttribute("customer", customer);
+
+            return "customer/edit";
+        }
+
         customerService.update(customer.getId(), customer);
         return "redirect:/customers";
     }

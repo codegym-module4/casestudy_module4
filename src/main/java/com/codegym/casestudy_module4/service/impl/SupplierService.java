@@ -5,6 +5,8 @@ import com.codegym.casestudy_module4.entity.Supplier;
 import com.codegym.casestudy_module4.repository.ISupplierRepository;
 import com.codegym.casestudy_module4.service.ICustomerService;
 import com.codegym.casestudy_module4.service.ISupplierService;
+import jakarta.persistence.EntityManager;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +20,14 @@ public class SupplierService implements ISupplierService {
     @Autowired
     private ISupplierRepository supplierRepository;
 
+    @Autowired
+    private EntityManager entityManager;
+
     @Override
     public List<Supplier> getAll() {
+        Session session = entityManager.unwrap(Session.class);
+        session.enableFilter("notDeletedSupplierFilter");
+
         List<Supplier> suppliers = supplierRepository.findAll();
         return suppliers;
     }
@@ -47,7 +55,7 @@ public class SupplierService implements ISupplierService {
 
     @Override
     public Supplier findById(long id) {
-        return supplierRepository.findById(id).orElse(null);
+        return supplierRepository.findNotDeletedById(id);
     }
 
     @Override
@@ -57,16 +65,24 @@ public class SupplierService implements ISupplierService {
 
     @Override
     public Page<Supplier> findByNameContainingIgnoreCase(String name, Pageable pageable) {
+        Session session = entityManager.unwrap(Session.class);
+        session.enableFilter("notDeletedSupplierFilter");
         return supplierRepository.findAllByNameContainingIgnoreCase(name, pageable);
     }
 
     @Override
     public Page<Supplier> findByCodeContainingIgnoreCase(String code, Pageable pageable) {
+        Session session = entityManager.unwrap(Session.class);
+        session.enableFilter("notDeletedSupplierFilter");
+
         return supplierRepository.findAllByCodeContainingIgnoreCase(code,pageable);
     }
 
     @Override
     public Page<Supplier> findAll(Pageable pageable) {
+        Session session = entityManager.unwrap(Session.class);
+        session.enableFilter("notDeletedSupplierFilter");
+
         return supplierRepository.findAll(pageable);
     }
 
