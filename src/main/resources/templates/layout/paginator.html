@@ -1,29 +1,29 @@
 <th:block th:fragment="pagination (page, url, queryParams)">
-<nav aria-label="Page navigation" th:if="${page.totalPages > 1}">
-  <ul class="pagination pagination-sm justify-content-center">
+  <nav aria-label="Page navigation" th:if="${page.totalPages > 1}">
+    <ul class="pagination pagination-sm justify-content-center">
 
-    <!-- Nút "Trước" -->
-    <li class="page-item" th:classappend="${page.first} ? 'disabled'">
-      <a class="page-link border-0"
-         th:href="@{${url}(page=${page.number} + (${queryParams} != '' ? '&' + ${queryParams} : ''))}"
-         th:if="${!page.first}">Trước</a>
-    </li>
-
-    <!-- Số trang -->
-    <th:block th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}">
-      <li class="page-item" th:classappend="${i == page.number} ? 'active'">
+      <!-- Nút "Trước" -->
+      <li class="page-item" th:classappend="${page.first} ? 'disabled'">
         <a class="page-link border-0"
-           th:href="@{${url}(page=${i+1} + (${queryParams} != '' ? '&' + ${queryParams} : ''))}"
-           th:text="${i + 1}"></a>
+           th:href="@{${url}(page=${page.number} + (${queryParams} != '' ? '&' + ${queryParams} : ''))}"
+           th:if="${!page.first}">Trước</a>
       </li>
-    </th:block>
 
-    <!-- Nút "Tiếp" -->
-    <li class="page-item" th:classappend="${page.last} ? 'disabled'">
-      <a class="page-link border-0"
-         th:href="@{${url}(page=${page.number + 2} + (${queryParams} != '' ? '&' + ${queryParams} : ''))}"
-         th:if="${!page.last}">Sau</a>
-    </li>
-  </ul>
-</nav>
+      <!-- Số trang -->
+      <th:block th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}">
+        <li class="page-item" th:classappend="${i == page.number} ? 'active'">
+          <a class="page-link border-0"
+             th:href="@{${url}(page=${i+1} + (${queryParams} != '' ? '&' + ${queryParams} : ''))}"
+             th:text="${i + 1}"></a>
+        </li>
+      </th:block>
+
+      <!-- Nút "Tiếp" -->
+      <li class="page-item" th:classappend="${page.last} ? 'disabled'">
+        <a class="page-link border-0"
+           th:href="@{${url}(page=${page.number + 2} + (${queryParams} != '' ? '&' + ${queryParams} : ''))}"
+           th:if="${!page.last}">Sau</a>
+      </li>
+    </ul>
+  </nav>
 </th:block>
