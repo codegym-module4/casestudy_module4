@@ -31,7 +31,7 @@
                         <div class="mb-3">
                           <label for="code" class="form-label">Mã nhóm thuốc: </label>
                           <input type="text" class="form-control" id="code" name="code"
-                                 th:field="*{code}" maxlength="50" required/>
+                                 th:field="*{code}" maxlength="50" readonly/>
                           <p style="color: red" th:errors="*{code}"></p>
                         </div>
                         <div class="mb-3">

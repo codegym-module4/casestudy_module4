@@ -17,15 +17,5 @@ public interface IMedicineGroupRepository extends JpaRepository<MedicineGroup, L
     Page<MedicineGroup> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
     Page<MedicineGroup> findAllByCodeContainingIgnoreCase(String code, Pageable pageable);
 
-    // Soft Delete: Cập nhật isDeleted = true
-    @Modifying
-    @Transactional //giúp chạy lệnh UPDATE để thay đổi trạng thái isDeleted.
-    @Query("UPDATE medicine_groups m SET m.isDeleted = true WHERE m.id = :id")
-    void softDeleteById(@Param("id") Long id);
-
-    // Khôi phục dữ liệu đã xóa
-    @Modifying
-    @Transactional
-    @Query("UPDATE medicine_groups m SET m.isDeleted = false WHERE m.id = :id")
-    void restoreById(@Param("id") Long id);
+    boolean existsByCode(String code);
 }

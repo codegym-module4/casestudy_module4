@@ -26,12 +26,16 @@ public class SupplierService implements ISupplierService {
 
     @Override
     public void save(Supplier s) {
+        if (supplierRepository.existsByCode(s.getCode())) {
+            throw new RuntimeException("Mã nhà cung cấp đã tồn tại!");
+        }
         supplierRepository.save(s);
     }
 
     @Override
     public void update(long id, Supplier s) {
         s.setId(id);
+        s.setCode(findById(id).getCode());
         s.setCreatedAt(findById(id).getCreatedAt());
         supplierRepository.save(s);
     }

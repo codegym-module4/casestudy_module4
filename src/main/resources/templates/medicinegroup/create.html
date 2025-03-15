@@ -39,6 +39,7 @@
                                                     <input type="text" class="form-control" id="code" name="code"
                                                            th:field="*{code}" maxlength="50" required/>
                                                     <p style="color: red" th:errors="*{code}"></p>
+                                                    <span style="color: red" th:if="${errorMessage}" th:text="${errorMessage}"></span>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="name" class="form-label">Tên nhóm thuốc: </label>
