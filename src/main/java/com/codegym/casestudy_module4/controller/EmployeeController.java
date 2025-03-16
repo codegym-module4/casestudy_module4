@@ -60,19 +60,19 @@ public class EmployeeController {
         Page<Employee> employees;
         switch (filterBy) {
             case "code":
-                employees = employeeService.findByCodeContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(direction, sortBy)));
+                employees = employeeService.findByCodeContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(direction, sortBy)));
                 break;
             case "fullName":
-                employees = employeeService.findByFullNameContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(direction, sortBy)));
+                employees = employeeService.findByFullNameContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(direction, sortBy)));
                 break;
             case "role":
-                employees = employeeService.findByRoleNameContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(direction, sortBy)));
+                employees = employeeService.findByRoleNameContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(direction, sortBy)));
                 break;
             case "address":
-                employees = employeeService.findByAddressContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(direction, sortBy)));
+                employees = employeeService.findByAddressContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(direction, sortBy)));
                 break;
             case "phone":
-                employees = employeeService.findByPhoneContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(direction, sortBy)));
+                employees = employeeService.findByPhoneContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(direction, sortBy)));
                 break;
             default:
                 employees = Page.empty();
