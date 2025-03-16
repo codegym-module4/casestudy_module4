@@ -76,8 +76,8 @@
                                                 <div class="col-sm-9 col-xl-8">
                                                     <textarea class="form-control form-control-sm" th:classappend="${#fields.hasErrors('symptoms')} ? 'is-invalid' : ''" th:field="*{symptoms}" rows="5"></textarea>
                                                     <span class="invalid-feedback" role="alert">
-                                                            <strong th:if="${#fields.hasErrors('symptoms')}" th:text="${#fields.errors('symptoms')[0]}"></strong>
-                                                        </span>
+                                                        <strong th:if="${#fields.hasErrors('symptoms')}" th:text="${#fields.errors('symptoms')[0]}"></strong>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

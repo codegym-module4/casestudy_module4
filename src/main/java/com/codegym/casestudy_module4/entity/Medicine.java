@@ -6,9 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -20,7 +18,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE medicines SET deleted_at = Now() WHERE id=?")
-@Where(clause = "deleted_at is null")
+//@Where(clause = "deleted_at is null")
+@FilterDef(name = "notDeletedMedicineFilter")
+@Filter(name = "notDeletedMedicineFilter", condition = "deleted_at IS NULL")
 public class Medicine {
 
     @Id

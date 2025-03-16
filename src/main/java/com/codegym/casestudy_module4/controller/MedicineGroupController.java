@@ -24,7 +24,6 @@ public class MedicineGroupController {
     @Autowired
     private IMedicineGroupService medicineGroupService;
 
-
     @GetMapping("/list")
     public String showList(Model model,
                            @RequestParam(value = "code", defaultValue = "") String code,
@@ -78,10 +77,15 @@ public class MedicineGroupController {
             model.addAttribute("errors", bindingResult.getAllErrors());
             return "medicinegroup/create";
         }
-        medicineGroup.setCreatedAt(LocalDateTime.now());
-        medicineGroupService.save(medicineGroup);
-        redirectAttributes.addFlashAttribute("message", "Thêm mới thành công");
-        return "redirect:/medicinegroup/list";
+        try {
+            medicineGroup.setCreatedAt(LocalDateTime.now());
+            medicineGroupService.save(medicineGroup);
+            redirectAttributes.addFlashAttribute("message", "Thêm mới thành công");
+            return "redirect:/medicinegroup/list";
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage()); // Đưa lỗi vào Model để hiển thị trên giao diện
+            return "medicinegroup/create"; // Quay lại trang tạo mới
+        }
     }
 
     @GetMapping("/edit/{id}")

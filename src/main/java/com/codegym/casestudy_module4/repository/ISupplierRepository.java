@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface ISupplierRepository extends JpaRepository<Supplier, Long> {
     Page<Supplier> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
     Page<Supplier> findAllByCodeContainingIgnoreCase(String code, Pageable pageable);
+
+    boolean existsByCode(String code);
 }

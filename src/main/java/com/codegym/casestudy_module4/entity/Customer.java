@@ -1,6 +1,7 @@
 package com.codegym.casestudy_module4.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -47,7 +48,8 @@ public class Customer {
     private String phone;
 
     @Column(name = "age")
-    @Min(value = 0, message = "Tuổi phải lớn hơn không")
+    @Min(value = 0, message = "Tuổi phải lớn hơn 0")
+    @Max(value = 200, message = "Tuổi không quá 200")
     private Integer age;
 
     @Column(name = "note")
