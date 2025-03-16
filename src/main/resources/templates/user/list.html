@@ -30,10 +30,10 @@
                                                 <div class="col-sm-9">
                                                     <select class="form-select form-control-sm" name="filterBy">
                                                         <option value="">-- Chọn bộ lọc--</option>
-                                                        <option value="code" >Mã nhân viên</option>
-                                                        <option value="employeeFullName">Tên nhân viên</option>
-                                                        <option value="roleName">Chức vụ</option>
-                                                        <option value="userName">Tên tài khoản </option>
+                                                        <option value="code" th:selected="${filterBy == 'code'}">Mã nhân viên</option>
+                                                        <option value="employeeFullName" th:selected="${filterBy == 'employeeFullName'}">Tên nhân viên</option>
+                                                        <option value="roleName" th:selected="${filterBy == 'roleName'}">Chức vụ</option>
+                                                        <option value="userName" th:selected="${filterBy == 'userName'}">Tên tài khoản </option>
                                                     </select>
                                                 </div>
                                             </div>

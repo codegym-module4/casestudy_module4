@@ -15,13 +15,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
+
 
 
 @Controller
@@ -42,30 +46,33 @@ public class EmployeeController {
     public String index(
             Model model,
             @RequestParam(name = "searchInput", defaultValue = "") String searchInput,
-            @RequestParam(name = "filterBy", defaultValue = "fullName") String filterBy,
-            @RequestParam(name = "sortBy", defaultValue = "fullName") String sortBy,
+            @RequestParam(name = "filterBy", defaultValue = "code") String filterBy,
+            @RequestParam(name = "sortBy", defaultValue = "code") String sortBy,
+            @RequestParam(name = "sortDirection", defaultValue = "DESC") String sortDirection,
             @RequestParam(name = "page", defaultValue = "0") int page
     ) {
         if (page > 0) {
             page = page - 1;
         }
 
+        Sort.Direction direction = sortDirection.equals("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
+
         Page<Employee> employees;
         switch (filterBy) {
             case "code":
-                employees = employeeService.findByCodeContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(sortBy)));
+                employees = employeeService.findByCodeContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(direction, sortBy)));
                 break;
             case "fullName":
-                employees = employeeService.findByFullNameContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(sortBy)));
+                employees = employeeService.findByFullNameContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(direction, sortBy)));
                 break;
             case "role":
-                employees = employeeService.findByRoleNameContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(sortBy)));
+                employees = employeeService.findByRoleNameContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(direction, sortBy)));
                 break;
             case "address":
-                employees = employeeService.findByAddressContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(sortBy)));
+                employees = employeeService.findByAddressContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(direction, sortBy)));
                 break;
             case "phone":
-                employees = employeeService.findByPhoneContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(sortBy)));
+                employees = employeeService.findByPhoneContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(direction, sortBy)));
                 break;
             default:
                 employees = Page.empty();
@@ -84,13 +91,14 @@ public class EmployeeController {
             System.out.println("Employee ID: " + id + " - Role: " + roleName);
         }
 
-        String queryParams = "searchInput=" + searchInput + "&filterBy=" + filterBy + "&sortBy=" + sortBy;
+        String queryParams = "searchInput=" + searchInput + "&filterBy=" + filterBy + "&sortBy=" + sortBy + "&sortDirection=" + sortDirection;
 
         model.addAttribute("employeeRoles", employeeRoles);
         model.addAttribute("employees", employees);
         model.addAttribute("searchInput", searchInput);
         model.addAttribute("filterBy", filterBy);
         model.addAttribute("sortBy", sortBy);
+        model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("queryParams", queryParams);
 
         return "employee/list";
@@ -129,6 +137,28 @@ public class EmployeeController {
                 return "employee/create";
             }
 
+            //Check dob > 18 tuổi
+            LocalDate dob = employee.getDob();
+            LocalDate currentDate = LocalDate.now();
+
+            long age = ChronoUnit.YEARS.between(dob, currentDate);
+            if (age < 18) {
+                bindingResult.addError(new FieldError("employee", "dob", employee.getDob(), false, null, null, "Nhân viên phải 18 tuổi trở lên"));
+                model.addAttribute("employee", employee);
+                model.addAttribute("errors", bindingResult.getAllErrors());
+                return "employee/create";
+            }
+
+            //Check username trùng lặp
+            User userCheck = userService.findByUsername(username);
+            if (userCheck != null) {
+                bindingResult.addError(new FieldError("employee", "username", username, false, null, null, "Tên đăng nhập đã tồn tại"));
+                model.addAttribute("employee", employee);
+                model.addAttribute("errors", bindingResult.getAllErrors());
+                return "employee/create";
+            }
+
+            //Tạo createAt tự động
             employee.setCreatedAt(LocalDateTime.now());
             employeeService.save(employee);
 
@@ -176,6 +206,20 @@ public class EmployeeController {
                 model.addAttribute("errors", bindingResult.getAllErrors());
                 return "employee/edit";
             }
+
+            //Check dob > 18 tuổi
+            LocalDate dob = employee.getDob();
+            LocalDate currentDate = LocalDate.now();
+
+            long age = ChronoUnit.YEARS.between(dob, currentDate);
+            if (age < 18) {
+                bindingResult.addError(new FieldError("employee", "dob", employee.getDob(), false, null, null, "Nhân viên phải 18 tuổi trở lên"));
+                model.addAttribute("user", userRepository.findByEmployeeId(id));
+                model.addAttribute("employee", employee);
+                model.addAttribute("errors", bindingResult.getAllErrors());
+                return "employee/edit";
+            }
+
             employeeService.update(id, employee);
             redirectAttributes.addFlashAttribute("success", "Đã cập nhật thành công");
             return "redirect:/employee";

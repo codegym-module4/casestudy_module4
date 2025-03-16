@@ -22,18 +22,12 @@
                     <div class="col-12">
                         <div class="card card-default">
                             <div class="card-body">
-                                <div id="error-message">
-                                    <ul>
-                                        <li th:each="error : ${errors}" th:text="${error.defaultMessage}" class="text-danger"></li>
-                                    </ul>
-                                </div>
 
                                 <form th:action="@{/employee/save}" method="post" th:object="${employee}">
 
                                     <div class="form-group">
                                         <label>Mã nhân viên</label>
-                                        <input type="text" class="form-control" th:value="${employee.code}" readonly style="width: 50%;">
-                                        <input type="hidden" th:field="*{code}">
+                                        <input type="text" class="form-control" th:field="*{code}" readonly style="width: 50%;">
                                     </div>
 
 
@@ -41,33 +35,41 @@
                                         <label>Tên nhân viên</label>
                                         <input type="text" class="form-control" th:field="*{fullName}" maxlength="255" pattern="^[a-zA-ZÀ-ỹ0-9\s]+$"
                                                title="Tên chỉ được chứa chữ cái, số và khoảng trắng, không có ký tự đặc biệt" required style="width: 50%;">
+                                        <small class="text-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></small>
                                     </div>
 
 
                                     <div class="form-group">
                                         <label>Địa chỉ</label>
                                         <textarea class="form-control" th:field="*{address}" required style="width: 50%;"></textarea>
+                                        <small class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></small>
                                     </div>
 
                                     <div class="form-group">
                                         <label>Điện thoại</label>
                                         <input type="text" class="form-control" th:field="*{phone}" maxlength="20" pattern="^\d{9,}$"
                                                title="Số điện thoại phải có ít nhất 9 chữ số và chỉ chứa số" required style="width: 50%;">
+                                        <small class="text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></small>
                                     </div>
 
                                     <div class="form-group">
                                         <label>Ngày sinh</label>
                                         <input type="date" class="form-control" th:field="*{dob}" required style="width: 50%;">
+                                        <small class="text-danger" th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></small>
                                     </div>
 
                                     <div class="form-group">
                                         <label>Ngày vào làm</label>
                                         <input type="date" class="form-control" th:field="*{hireDate}" style="width: 50%;">
+                                        <small class="text-danger" th:if="${#fields.hasErrors('hireDate')}" th:errors="*{hireDate}"></small>
                                     </div>
 
                                     <div class="form-group">
                                         <label>Tên tài khoản</label>
                                         <input type="text" class="form-control" name="username" required style="width: 50%;">
+                                        <small class="text-danger" th:each="error : ${errors}"
+                                               th:if="${error.field == 'username'}"
+                                               th:text="${error.defaultMessage}"></small>
                                     </div>
 
                                     <div class="form-group">
