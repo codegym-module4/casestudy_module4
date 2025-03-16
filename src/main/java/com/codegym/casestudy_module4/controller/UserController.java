@@ -42,16 +42,16 @@ public class UserController {
         Page<User> users;
         switch (filterBy) {
             case "code":
-                users = userService.findByCodeContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(direction, "code")));
+                users = userService.findByCodeContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(direction, "code")));
                 break;
             case "userName":
-                users = userService.findByUsernameContainingIgnoreCase(searchInput, PageRequest.of(page, 2, Sort.by(direction, "code")));
+                users = userService.findByUsernameContainingIgnoreCase(searchInput, PageRequest.of(page, 20, Sort.by(direction, "code")));
                 break;
             case "employeeFullName":
-                users = userService.findByEmployeeFullName(searchInput, PageRequest.of(page, 2, Sort.by(direction, "code")));
+                users = userService.findByEmployeeFullName(searchInput, PageRequest.of(page, 20, Sort.by(direction, "code")));
                 break;
             case "roleName":
-                users = userService.findByRoleName(searchInput, PageRequest.of(page, 2, Sort.by(direction, "code")));
+                users = userService.findByRoleName(searchInput, PageRequest.of(page, 20, Sort.by(direction, "code")));
                 break;
             default:
                 users = Page.empty();
