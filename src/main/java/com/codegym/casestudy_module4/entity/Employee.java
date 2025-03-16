@@ -52,6 +52,7 @@ public class Employee {
 
     @Column(name = "hire_date")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @PastOrPresent(message = "Ngày bắt đầu làm việc phải nhỏ hơn hoặc bằng ngày hiện tại.")
     private LocalDate hireDate;
 
     @Column(name = "created_at")
