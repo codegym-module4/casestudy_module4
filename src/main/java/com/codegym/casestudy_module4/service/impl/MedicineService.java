@@ -63,6 +63,8 @@ public class MedicineService implements IMedicineService {
 
     @Override
     public Page<Medicine> findByName(String name, PageRequest of) {
+        Session session = entityManager.unwrap(Session.class);
+        session.enableFilter("notDeletedMedicineFilter");
         return medicineRepository.findAllByNameContaining(name, of);
     }
 
@@ -93,7 +95,6 @@ public class MedicineService implements IMedicineService {
     public Page<Medicine> filterByCode(Pageable pageable, String name) {
         Session session = entityManager.unwrap(Session.class);
         session.enableFilter("notDeletedMedicineFilter");
-
         return medicineRepository.findAll(MedicineSpecification.codeLike(name), pageable);
     }
 

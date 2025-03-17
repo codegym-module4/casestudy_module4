@@ -6,15 +6,19 @@ import com.codegym.casestudy_module4.entity.Supplier;
 import com.codegym.casestudy_module4.service.impl.MedicineGroupService;
 import com.codegym.casestudy_module4.service.impl.MedicineService;
 import com.codegym.casestudy_module4.service.impl.SupplierService;
+import com.codegym.casestudy_module4.ulti.ValidationMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/medicines")
@@ -44,15 +48,20 @@ public class ViewMedicineController {
     }
 
     @GetMapping(value = "/details/update/{id}")
-    public String accessUpdate(Model model, @PathVariable("id") long id) {
+    public String accessUpdate(Model model,
+                               @PathVariable("id") long id,
+                               @ModelAttribute("listErrorMes") Map<String, String> listErrorMes) {
         try {
+            if (listErrorMes == null || listErrorMes.isEmpty()) {
+                listErrorMes = new HashMap<>();
+            }
             Medicine medicine = medicineService.findById(id);
             List<MedicineGroup> medicineGroups = medicineGroupService.getAll();
             List<Supplier> suppliers = supplierService.getAll();
-
             model.addAttribute("medicine", medicine);
             model.addAttribute("medicineGroups", medicineGroups);
             model.addAttribute("suppliers", suppliers);
+            model.addAttribute("listErrorMes", listErrorMes);
         } catch (Exception e) {
             System.err.println("Error fetching medicines: " + e.getMessage());
             model.addAttribute("errorMessage", "Gặp lỗi trong quá trình truy xuất database");
@@ -62,14 +71,18 @@ public class ViewMedicineController {
     }
 
     @PostMapping("/details/updated")
-    public String updateMedicine(@ModelAttribute("medicine") Medicine medicine, HttpServletRequest request, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
-        if (bindingResult.hasErrors()) {
-            System.out.println(">>>>>>>>>>>>>>" + bindingResult.getAllErrors());
-            model.addAttribute("errors", bindingResult.getAllErrors());
-            redirectAttributes.addFlashAttribute("message", "Đã có lỗi xảy ra trong quá trình chỉnh sửa. Vui lòng thử lại!");
-            return "redirect:medicines/list";
-        }
+    public String updateMedicine(@Validated @ModelAttribute("medicine") Medicine medicine,
+                                 BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes
+    ) {
 
+        if (bindingResult.hasErrors()) {
+            Map<String, String> listErrorsMes = ValidationMessage.getErrorMes(bindingResult);
+            redirectAttributes.addFlashAttribute("listErrorMes", listErrorsMes);
+            Medicine exist = medicineService.findByCode(medicine.getCode());
+            return "redirect:/medicines/details/update/" + exist.getId();
+
+        }
         Medicine exist = medicineService.findByCode(medicine.getCode());
         medicine.getCode();
         medicineService.update(exist.getId(), medicine);

@@ -29,24 +29,24 @@ public class Medicine {
     private Integer id;
 
 
-    @NotBlank(message = "'Mã thuốc' không được để trống")
+    @NotBlank(message = "Mã thuốc không được để trống")
     @Column(name = "code")
     private String code;
 
 
-    @NotBlank(message = "'Tên thuốc' không được để trống")
+    @NotBlank(message = "Tên thuốc không được để trống")
     @Column(name = "name")
     private String name;
 
-    @NotBlank(message = "'Hoạt chất thuốc' không được để trống")
+    @NotBlank(message = "Hoạt chất thuốc không được để trống")
     @Column(name = "active_ingredient")
     private String activeIngredient;
 
-    @NotBlank(message = "'Đơn vị' không được để trống")
+    @NotBlank(message = "Đơn vị không được để trống")
     @Column(name = "unit")
     private String unit;
 
-    @NotBlank(message = "'Quy đổi đơn vị' không được để trống")
+    @NotBlank(message = "Quy đổi đơn vị không được để trống")
     @Column(name = "conversion_unit")
     private String conversionUnit;
 
@@ -57,12 +57,14 @@ public class Medicine {
     @Column(name = "import_price")
     private Integer importPrice;
 
+    @NotNull
     @Column(name = "converted_import_price")
     private Integer convertedImportPrice;
 
     @Column(name = "discount_rate")
     private Integer discountRate;
 
+    @NotNull
     @Column(name = "vat_rate")
     private Integer vatRate;
 
@@ -81,18 +83,21 @@ public class Medicine {
     @Column(name = "retail_price")
     private Integer retailPrice;
 
+
     @Column(name = "wholesale_profit_rate")
     private Integer wholesaleProfitRate;
 
     @Column(name = "wholesale_price")
     private Integer wholesalePrice;
 
+    @NotNull
     @Column(name = "quantity")
     private Integer quantity;
 
+    @NotNull
     @Column(name = "expiry_date")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @Future(message = "Ngày hết hạn phải ở tương lai.")
+    @Future(message = "Ngày hết hạn không đúng định dạng")
     private LocalDate expiredDate;
 
     @Column(name = "description")
@@ -101,10 +106,11 @@ public class Medicine {
     @Column(name = "status")
     private String status;
 
-    @NotBlank(message = "'Xuất xứ' không được để trống")
+    @NotBlank(message = "Xuất xứ không được để trống")
     @Column(name = "madein")
     private String madein;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "medicine_group_id")
     private MedicineGroup medicineGroup;
