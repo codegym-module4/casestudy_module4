@@ -95,7 +95,7 @@
                                 <!---->
                                 <div class="mt-2">
                                     <div class="mt-4">
-                                        <div class="table-responsive" style="max-height: 1200px;">
+                                        <div class="table-responsive" style="max-height: 600px;">
                                             <table class="table table-bordered table-hover table-valign-middle table-head-fixed text-nowrap text-center">
                                                 <thead>
                                                 <tr>
@@ -147,13 +147,13 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div th:insert="~{layout/paginator :: pagination(page=${listMedicines},url=${url},queryParams=${queryParams})}">
-                                        </div>
                                     </div>
+                                    <div th:insert="~{layout/paginator :: pagination(page=${listMedicines},url=${url},queryParams=${queryParams})}"></div>
                                 </div>
 
                             </div>
                             <!-- /.card-body -->
+
                         </div>
                     </div>
                     <!-- ./col -->
