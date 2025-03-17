@@ -34,7 +34,7 @@ public class MedicineGroupController {
             page = page - 1;
         }
 
-        Pageable pageable = PageRequest.of(page, 5);
+        Pageable pageable = PageRequest.of(page, 20);
         Page<MedicineGroup> medicineGroups;
 
         if (!code.isEmpty()) {
