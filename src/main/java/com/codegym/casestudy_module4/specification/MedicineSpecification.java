@@ -16,8 +16,6 @@ import java.util.List;
 
 public class MedicineSpecification {
 
-//    @PersistenceContext
-//    public static EntityManager entityManager;
 
     // Filter: "="
     public static Specification<Medicine> nameLike(String name) {

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,8 +48,9 @@ public class MedicinesController {
                            @RequestParam(name = "page", defaultValue = "1") int page, HttpServletRequest request
     ) {
         try {
+
             String url = request.getRequestURI();
-            Page<Medicine> listMedicines = medicineService.findByName(name, PageRequest.of(page - 1, 20));
+            Page<Medicine> listMedicines = medicineService.findByName(name, PageRequest.of(page - 1, 20, Sort.by(Sort.Direction.DESC, "code")));
             search.remove("page");
             String queryParams = search.entrySet().stream()
                     .map(entry -> entry.getKey() + "=" + entry.getValue())
@@ -76,7 +78,7 @@ public class MedicinesController {
     ) {
         try {
 
-            Pageable pageable = PageRequest.of(page - 1, 20);
+            Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(Sort.Direction.DESC, "code"));
             String url = request.getRequestURI();
             switch (query) {
                 case "name":
@@ -102,6 +104,7 @@ public class MedicinesController {
                         model.addAttribute("url", url);
                         model.addAttribute("listMedicines", listMedicines);
                     }
+                    break;
                 case "group":
                     if (!value.isEmpty()) {
                         Page<Medicine> listMedicines = medicineService.filterByGroup(pageable, value);
