@@ -4,16 +4,19 @@ import com.codegym.casestudy_module4.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface IUserRepository extends JpaRepository<User, Long> {
 
     User findAllById (long id);
 
-    User findByUsername(String username);
+    @Query("SELECT u from User u where u.username = :username and u.deletedAt is null")
+    User findByUsername(@Param("username") String username);
 
     @Query("SELECT r.roleName FROM User u JOIN u.role r WHERE u.employee.id = :id")
     String findRoleNameById(@Param("id") Long id);
@@ -32,4 +35,9 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u JOIN u.role r WHERE LOWER(r.roleName) LIKE LOWER(CONCAT('%', :roleName, '%'))")
     Page<User> findAllByRoleName(@Param("roleName")String searchInput, Pageable pageable);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE User u SET u.deletedAt = now() WHERE u.employee.id = :employeeId")
+    void deleteUserByEmployeeId(@Param("employeeId") Long employeeId);
 }

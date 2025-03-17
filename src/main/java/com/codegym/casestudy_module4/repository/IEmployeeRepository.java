@@ -26,13 +26,9 @@ public interface IEmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT MAX(CAST(SUBSTRING(e.code, 4) AS int)) FROM employees e")
     Integer findMaxCode();
 
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM User u WHERE u.employee.id = :employeeId")
-    void deleteUserByEmployeeId(@Param("employeeId") Long employeeId);
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM employees e WHERE e.id = :employeeId")
+    @Query("UPDATE employees e SET e.deletedAt = now() WHERE e.id = :employeeId")
     void deleteEmployeeById(@Param("employeeId") Long employeeId);
 }

@@ -5,6 +5,9 @@
         .form-control {
             width: 50%;
         }
+        .text-danger {
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed text-sm">
@@ -16,9 +19,9 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="page-title m-0">Thay đổi thông tin nhân viên</h1>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
+                    </div>
+                </div>
+            </div>
         </div>
 
         <section class="content">
@@ -27,31 +30,20 @@
                     <div class="col-12">
                         <div class="card card-default">
                             <div class="card-body">
-                                <div id="error-message">
-                                    <ul>
-                                        <li th:each="error : ${errors}" th:text="${error.defaultMessage}" class="text-danger"></li>
-                                    </ul>
-                                </div>
 
-                                <!-- Form cho user -->
                                 <form method="post" th:object="${user}">
-
                                     <div class="form-group">
                                         <label>Tên tài khoản</label>
                                         <input type="text" class="form-control" th:value="*{username}" readonly style="width: 50%;">
                                     </div>
 
-
                                     <div class="form-group">
                                         <label>Chức vụ</label>
                                         <input type="text" class="form-control" th:value="${user.role.roleName}" readonly style="width: 50%;">
                                     </div>
-
                                 </form>
 
-                                <!-- Form cho employee -->
                                 <form th:action="@{/employee/edit/{id}(id=${employee.id})}" method="post" th:object="${employee}">
-
                                     <div class="form-group">
                                         <label>Mã nhân viên</label>
                                         <input type="text" class="form-control" th:value="*{code}" readonly style="width: 50%;">
@@ -60,29 +52,55 @@
 
                                     <div class="form-group">
                                         <label>Tên nhân viên</label>
-                                        <input type="text" class="form-control" th:field="*{fullName}" maxlength="255" pattern="^[a-zA-ZÀ-ỹ0-9\s]+$"
+                                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('fullName')} ? 'is-invalid' : ''" th:field="*{fullName}" maxlength="255" pattern="^[a-zA-ZÀ-ỹ0-9\s]+$"
                                                title="Tên chỉ được chứa chữ cái, số và khoảng trắng, không có ký tự đặc biệt" required style="width: 50%;">
+                                        <!--  <small class="text-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></small>-->
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong th:if="${#fields.hasErrors('fullName')}" th:text="${#fields.errors('fullName')[0]}"></strong>
+                                        </span>
                                     </div>
 
                                     <div class="form-group">
                                         <label>Địa chỉ</label>
-                                        <textarea class="form-control" th:field="*{address}" required style="width: 50%;"></textarea>
+                                        <textarea class="form-control" th:classappend="${#fields.hasErrors('address')} ? 'is-invalid' : ''" th:field="*{address}" required style="width: 50%;"></textarea>
+                                        <!-- <small class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></small>-->
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong th:if="${#fields.hasErrors('address')}" th:text="${#fields.errors('address')[0]}"></strong>
+                                        </span>
                                     </div>
 
                                     <div class="form-group">
                                         <label>Điện thoại</label>
-                                        <input type="text" class="form-control" th:field="*{phone}" maxlength="20" pattern="^\d{9,}$"
+                                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('phone')} ? 'is-invalid' : ''" th:field="*{phone}" maxlength="20" pattern="^\d{9,}$"
                                                title="Số điện thoại phải có ít nhất 9 chữ số và chỉ chứa số" required style="width: 50%;">
+                                        <!--                                        <small class="text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></small>-->
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong th:if="${#fields.hasErrors('phone')}" th:text="${#fields.errors('phone')[0]}"></strong>
+                                        </span>
                                     </div>
 
                                     <div class="form-group">
                                         <label>Ngày sinh</label>
-                                        <input type="date" class="form-control" th:field="*{dob}" required style="width: 50%;">
+                                        <small class="text-muted" style="display: block; margin-bottom: 5px;">
+                                            Ngày sinh cũ: <span th:text="${#temporals.format(employee.dob, 'dd/MM/yyyy')}"></span>
+                                        </small>
+                                        <input type="date" class="form-control" th:classappend="${#fields.hasErrors('dob')} ? 'is-invalid' : ''" th:field="*{dob}" required style="width: 50%;">
+                                        <!--                                        <small class="text-danger" th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></small>-->
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong th:if="${#fields.hasErrors('dob')}" th:text="${#fields.errors('dob')[0]}"></strong>
+                                        </span>
                                     </div>
 
                                     <div class="form-group">
                                         <label>Ngày vào làm</label>
-                                        <input type="date" class="form-control" th:field="*{hireDate}" style="width: 50%;">
+                                        <small class="text-muted" style="display: block; margin-bottom: 5px;">
+                                            Ngày vào làm cũ: <span th:text="${#temporals.format(employee.hireDate, 'dd/MM/yyyy')}"></span>
+                                        </small>
+                                        <input type="date" class="form-control" th:classappend="${#fields.hasErrors('hireDate')} ? 'is-invalid' : ''" th:field="*{hireDate}" style="width: 50%;">
+                                        <!--                                        <small class="text-danger" th:if="${#fields.hasErrors('hireDate')}" th:errors="*{hireDate}"></small>-->
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong th:if="${#fields.hasErrors('hireDate')}" th:text="${#fields.errors('hireDate')[0]}"></strong>
+                                        </span>
                                     </div>
 
                                     <div class="form-group">
@@ -91,19 +109,16 @@
                                         <input type="hidden" th:field="*{createdAt}">
                                     </div>
 
-
                                     <div class="button-group">
                                         <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
                                         <a href="/employee" class="btn btn-default">Trở về</a>
                                     </div>
                                 </form>
-                                </div>
                             </div>
-                            <!-- /.card-body -->
                         </div>
-                    <!-- ./col -->
+                    </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
         </section>
     </div>
 </div>

@@ -14,9 +14,15 @@
                             <div class="row form-group align-items-center">
                                 <label class="col-sm-3 col-form-label">Nhóm khách hàng</label>
                                 <div class="col-sm-9">
-                                    <input type="text" readonly class="form-control form-control-sm" value="Khách theo đơn">
+                                    <input type="text" readonly class="form-control form-control-sm"
+                                           th:value="${customer.customerType == 2 ? 'Khách theo đơn' : (customer.customerType == 3 ? 'Khách sỉ' : 'Khách lẻ')}">
                                     <input type="hidden" id="customer_type" th:field="*{customerType}">
                                 </div>
+
+                                <!--                                <div class="col-sm-9">-->
+<!--                                    <input type="text" readonly class="form-control form-control-sm" value="Khách theo đơn">-->
+<!--                                    <input type="hidden" id="customer_type" th:field="*{customerType}">-->
+<!--                                </div>-->
                             </div>
                             <div class="row form-group align-items-center">
                                 <label class="col-sm-3 col-form-label">Mã khách hàng</label>

@@ -36,42 +36,60 @@
                                                   method="post">
                                                 <div class="mb-3">
                                                     <label for="code" class="form-label">Mã NCC: </label>
-                                                    <input type="text" class="form-control" id="code" name="code"
+                                                    <input type="text" class="form-control" id="code" th:classappend="${#fields.hasErrors('code') || errorMessage != null} ? 'is-invalid' : ''"
                                                            th:field="*{code}" maxlength="50" required/>
-                                                    <p style="color: red" th:errors="*{code}"></p>
-                                                    <span style="color: red" th:if="${errorMessage}" th:text="${errorMessage}"></span>
+<!--                                                    <p style="color: red" th:errors="*{code}"></p>-->
+<!--                                                    <span style="color: red" th:if="${errorMessage}" th:text="${errorMessage}"></span>-->
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong th:if="${#fields.hasErrors('code')}" th:text="${#fields.errors('code')[0]}"></strong>
+                                                    </span>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="name" class="form-label">Tên NCC: </label>
-                                                    <input type="text" class="form-control" id="name" name="name"
+                                                    <input type="text" class="form-control" id="name" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
                                                            th:field="*{name}" required/>
-                                                    <p style="color: red" th:errors="*{name}"></p>
+<!--                                                    <p style="color: red" th:errors="*{name}"></p>-->
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong th:if="${#fields.hasErrors('name')}" th:text="${#fields.errors('name')[0]}"></strong>
+                                                    </span>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="email" class="form-label">Email: </label>
-                                                    <input type="text" class="form-control" id="email" name="name"
+                                                    <input type="text" class="form-control" id="email" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
                                                            th:field="*{email}" required/>
-                                                    <p style="color: red" th:errors="*{email}"></p>
+<!--                                                    <p style="color: red" th:errors="*{email}"></p>-->
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong th:if="${#fields.hasErrors('email')}" th:text="${#fields.errors('email')[0]}"></strong>
+                                                    </span>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="address" class="form-label">Địa chỉ: </label>
-                                                    <input type="text" class="form-control" id="address"
+                                                    <input type="text" class="form-control" id="address" th:classappend="${#fields.hasErrors('address')} ? 'is-invalid' : ''"
                                                            name="description" th:field="*{address}" required/>
-                                                    <p style="color: red" th:errors="*{address}"></p>
+<!--                                                    <p style="color: red" th:errors="*{address}"></p>-->
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong th:if="${#fields.hasErrors('address')}" th:text="${#fields.errors('address')[0]}"></strong>
+                                                    </span>
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="phone" class="form-label">SĐT: </label>
-                                                    <input type="text" class="form-control" id="phone"
+                                                    <input type="text" class="form-control" id="phone" th:classappend="${#fields.hasErrors('phone')} ? 'is-invalid' : ''"
                                                            name="description" th:field="*{phone}"/>
-                                                    <p style="color: red" th:errors="*{phone}"></p>
+<!--                                                    <p style="color: red" th:errors="*{phone}"></p>-->
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong th:if="${#fields.hasErrors('phone')}" th:text="${#fields.errors('phone')[0]}"></strong>
+                                                    </span>
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="note" class="form-label">Mô tả: </label>
-                                                    <input type="text" class="form-control" id="note"
+                                                    <input type="text" class="form-control" id="note" th:classappend="${#fields.hasErrors('note')} ? 'is-invalid' : ''"
                                                            name="description" th:field="*{note}"/>
-                                                    <p style="color: red" th:errors="*{note}"></p>
+<!--                                                    <p style="color: red" th:errors="*{note}"></p>-->
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong th:if="${#fields.hasErrors('note')}" th:text="${#fields.errors('note')[0]}"></strong>
+                                                    </span>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary">Thêm mới</button>
                                                 <button type="reset" class="btn btn-danger">Nhập lại</button>

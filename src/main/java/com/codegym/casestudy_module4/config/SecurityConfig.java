@@ -48,6 +48,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
                                .requestMatchers("/","/receipt/**", "/logout", "/receipt/order/**","/medicines/**", "/api/**","/employee/**","/user/**", "/user/edit/**","/medicinegroup/**","/supplier/**","/customers/**").authenticated())
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/medicinegroup/**", "/medicines/**", "/customers/**", "/supplier/**", "/employee/**", "/user/**") // Các URL cần ROLE_ADMIN
+                        .hasRole("ADMIN")
+                )
                 .formLogin((formLogin) ->
                         formLogin
                                 .usernameParameter("username")

@@ -68,7 +68,7 @@
                                                         </span>
                                                 </div>
                                                 <div class="col-1">
-                                                    <button type="button" class="btn btn-primary">
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCreateUser">
                                                         <i class="fa-solid fa-plus"></i>
                                                     </button>
                                                 </div>
@@ -253,6 +253,7 @@
         </section>
     </div>
 </div>
+<th:block th:insert="~{receipt/modal_create_customer::modal_customer}"></th:block>
 <th:block th:replace="~{layout/script::script}">
 </th:block>
 </body>

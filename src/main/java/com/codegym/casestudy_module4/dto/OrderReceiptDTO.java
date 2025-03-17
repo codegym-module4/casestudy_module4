@@ -88,4 +88,5 @@ public class OrderReceiptDTO {
         this.createdAt = createdAt;
         this.items = items;
     }
+
 }

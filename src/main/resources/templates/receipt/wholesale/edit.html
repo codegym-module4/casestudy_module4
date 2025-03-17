@@ -21,7 +21,7 @@
                     <div class="col-12">
                         <div class="card card-default">
                             <div class="card-body">
-                                <form method="post" th:action="@{/receipt/wholesale/create}" id="form-receipt" th:object="${receipt}">
+                                <form method="post" th:action="@{/receipt/wholesale/edit}" id="form-receipt" th:object="${receipt}">
                                     <input type="hidden" id="wholesale" value="1">
                                     <div class="row align-items-start">
                                         <div class="col-md-4">
@@ -68,7 +68,7 @@
                                                         </span>
                                                 </div>
                                                 <div class="col-1">
-                                                    <button type="button" class="btn btn-primary">
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCreateUser">
                                                         <i class="fa-solid fa-plus"></i>
                                                     </button>
                                                 </div>
@@ -255,6 +255,7 @@
         </section>
     </div>
 </div>
+<th:block th:insert="~{receipt/modal_create_customer::modal_customer}"></th:block>
 <th:block th:replace="~{layout/script::script}">
 </th:block>
 </body>

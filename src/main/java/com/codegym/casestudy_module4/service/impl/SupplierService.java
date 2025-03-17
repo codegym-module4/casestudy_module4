@@ -87,4 +87,13 @@ public class SupplierService implements ISupplierService {
         return supplierRepository.findAll(pageable);
     }
 
+    @Override
+    public boolean existsByCode(String code) {
+        return supplierRepository.existsByCode(code);
+    }
+
+    @Override
+    public Supplier findByCode(String code) {
+        return supplierRepository.findByCode(code);
+    }
 }

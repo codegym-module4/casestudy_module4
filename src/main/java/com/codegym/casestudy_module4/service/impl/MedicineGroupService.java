@@ -94,4 +94,14 @@ public class MedicineGroupService implements IMedicineGroupService {
         }
         medicineGroupRepository.save(medicineGroup);
     }
+
+    @Override
+    public boolean existsByCode(String code) {
+        return medicineGroupRepository.existsByCode(code);
+    }
+
+    @Override
+    public MedicineGroup findByCode(String code) {
+        return medicineGroupRepository.findByCode(code);
+    }
 }
