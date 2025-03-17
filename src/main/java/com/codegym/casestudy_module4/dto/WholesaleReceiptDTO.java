@@ -24,7 +24,7 @@ public class WholesaleReceiptDTO {
 
         private String code;
 
-        @NotNull(message = "Khách hàng không được để trống")
+//        @NotNull(message = "Khách hàng không được để trống")
         private Customer customer;
 
         private Employee employee;
@@ -72,6 +72,15 @@ public class WholesaleReceiptDTO {
             this.createdAt = createdAt;
             this.items = items;
         }
+    public WholesaleReceiptDTO(Long id,String code, Customer customer, Employee employee, String note, LocalDateTime createdAt, List<MedicineDTO> items) {
+        this.id = id;
+        this.code = code;
+        this.customer = customer;
+        this.employee = employee;
+        this.note = note;
+        this.createdAt = createdAt;
+        this.items = items;
+    }
     }
 
 
