@@ -51,12 +51,16 @@ public class WholesaleReceiptController {
         Customer lastCustomer = customerService.findLastCustomer();
         long lastCustomerId = lastCustomer == null?0:lastCustomer.getId();
         String customerCode = "KSI" + String.valueOf(lastCustomerId + 1);
+        Customer newCustomer = new Customer();
+        newCustomer.setCode(customerCode);
+        newCustomer.setCustomerType(3);
         List<Customer> customers = customerService.findAllByCustomerType(3);
         List<Medicine> medicines = medicineService.getAll();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByUsername(username);
         receipt.setEmployee(user.getEmployee());
         model.addAttribute("receipt", receipt);
+        model.addAttribute("customer", newCustomer);
         model.addAttribute("customerCode", customerCode);
         model.addAttribute("customers", customers);
         model.addAttribute("medicines", medicines);
@@ -82,6 +86,14 @@ public class WholesaleReceiptController {
             List<Medicine> medicines = medicineService.getAll();
             model.addAttribute("customers", customers);
             model.addAttribute("medicines", medicines);
+            Customer lastCustomer = customerService.findLastCustomer();
+            long lastCustomerId = lastCustomer == null?0:lastCustomer.getId();
+            String customerCode = "KSI" + String.valueOf(lastCustomerId + 1);
+            Customer newCustomer = new Customer();
+            newCustomer.setCode(customerCode);
+            newCustomer.setCustomerType(3);
+            model.addAttribute("customer", newCustomer);
+
             return "/receipt/wholesale/create";
         }
         Receipt newReceipt = new Receipt(
@@ -143,8 +155,10 @@ public class WholesaleReceiptController {
         model.addAttribute("customerCode", customerCode);
         model.addAttribute("customers", customers);
         model.addAttribute("medicines", medicines);
-        model.addAttribute("action", "/receipt/wholesale/edit");
-        model.addAttribute("title", "Chỉnh sửa hóa đơn");
+        Customer newCustomer = new Customer();
+        newCustomer.setCode(customerCode);
+        newCustomer.setCustomerType(3);
+        model.addAttribute("customer", newCustomer);
 
         return "/receipt/wholesale/edit";
     }
@@ -163,8 +177,13 @@ public class WholesaleReceiptController {
             List<Medicine> medicines = medicineService.getAll();
             model.addAttribute("customers", customers);
             model.addAttribute("medicines", medicines);
-            model.addAttribute("action", "/receipt/wholesale/edit");
-            model.addAttribute("title", "Chỉnh sửa hóa đơn");
+            Customer lastCustomer = customerService.findLastCustomer();
+            long lastCustomerId = lastCustomer == null?0:lastCustomer.getId();
+            String customerCode = "KSI" + String.valueOf(lastCustomerId + 1);
+            Customer newCustomer = new Customer();
+            newCustomer.setCode(customerCode);
+            newCustomer.setCustomerType(3);
+            model.addAttribute("customer", newCustomer);
             return "/receipt/wholesale/edit";
         }
         Receipt dataReceipt = new Receipt(
