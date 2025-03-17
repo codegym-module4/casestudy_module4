@@ -34,7 +34,7 @@ public class SupplierController {
             page = page - 1;
         }
 
-        Pageable pageable = PageRequest.of(page, 5);
+        Pageable pageable = PageRequest.of(page, 20);
         Page<Supplier> suppliers;
 
         if (!code.isEmpty()) {
