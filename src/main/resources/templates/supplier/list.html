@@ -60,7 +60,7 @@
                                                     <td colspan="8">Không tìm thấy dữ liệu</td>
                                                 </tr>
                                                 <tr>
-                                                    <th class="bg-light">STT</th>
+                                                    <th class="bg-light">ID</th>
                                                     <th class="bg-light">Mã NCC</th>
                                                     <th class="bg-light">Tên NCC</th>
                                                     <th class="bg-light">Email</th>
@@ -75,8 +75,8 @@
                                                 <tr th:if="${suppliers.isEmpty()}">
                                                     <td colspan="8">Không tìm thấy dữ liệu</td>
                                                 </tr>
-                                                <tr th:each="supplier, temp : ${suppliers}">
-                                                    <td th:text="${temp.count}"></td>
+                                                <tr th:each="supplier : ${suppliers}">
+                                                    <td th:text="${supplier.id}"></td>
                                                     <td th:text="${supplier.code}"></td>
                                                     <td th:text="${supplier.name}"></td>
                                                     <td th:text="${supplier.email}"></td>

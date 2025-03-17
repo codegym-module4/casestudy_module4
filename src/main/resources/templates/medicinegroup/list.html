@@ -58,7 +58,7 @@
                                             <table class="table table-bordered table-hover table-valign-middle table-head-fixed text-nowrap text-center">
                                                 <thead>
                                                 <tr>
-                                                    <th class="bg-light">STT</th>
+                                                    <th class="bg-light">ID</th>
                                                     <th class="bg-light">Mã nhóm thuốc</th>
                                                     <th class="bg-light">Tên nhóm thuốc</th>
                                                     <th class="bg-light">Mô tả</th>
@@ -70,8 +70,8 @@
                                                 <tr th:if="${medicineGroups.isEmpty()}">
                                                     <td colspan="8">Không tìm thấy dữ liệu</td>
                                                 </tr>
-                                                <tr th:each="medicineGroup, temp : ${medicineGroups}">
-                                                    <td th:text="${temp.count}"></td>
+                                                <tr th:each="medicineGroup : ${medicineGroups}">
+                                                    <td th:text="${medicineGroup.id}"></td>
                                                     <td th:text="${medicineGroup.code}"></td>
                                                     <td th:text="${medicineGroup.name}"></td>
                                                     <td th:text="${medicineGroup.description}"></td>
