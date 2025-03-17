@@ -51,13 +51,16 @@ public class OrderReceiptController {
         Customer lastCustomer = customerService.findLastCustomer();
         long lastCustomerId = lastCustomer == null?0:lastCustomer.getId();
         String customerCode = "KTD" + String.valueOf(lastCustomerId + 1);
+        Customer newCustomer = new Customer();
+        newCustomer.setCode(customerCode);
+        newCustomer.setCustomerType(2);
         List<Customer> customers = customerService.findAllByCustomerType(2);
         List<Medicine> medicines = medicineService.getAll();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByUsername(username);
         receipt.setEmployee(user.getEmployee());
         model.addAttribute("receipt", receipt);
-        model.addAttribute("customerCode", customerCode);
+        model.addAttribute("customer", newCustomer);
         model.addAttribute("customers", customers);
         model.addAttribute("medicines", medicines);
         model.addAttribute("action", "/receipt/order/create");
@@ -86,6 +89,14 @@ public class OrderReceiptController {
             model.addAttribute("medicines", medicines);
             model.addAttribute("action", "/receipt/order/create");
             model.addAttribute("title", "Tạo mới hóa đơn");
+            Customer lastCustomer = customerService.findLastCustomer();
+            long lastCustomerId = lastCustomer == null?0:lastCustomer.getId();
+            String customerCode = "KTD" + String.valueOf(lastCustomerId + 1);
+            Customer newCustomer = new Customer();
+            newCustomer.setCode(customerCode);
+            newCustomer.setCustomerType(2);
+            model.addAttribute("customer", newCustomer);
+
             return "/receipt/order_receipt/form";
         }
         Receipt newReceipt = new Receipt(
@@ -147,13 +158,17 @@ public class OrderReceiptController {
         Customer lastCustomer = customerService.findLastCustomer();
         long lastCustomerId = lastCustomer == null?0:lastCustomer.getId();
         String customerCode = "KTD" + String.valueOf(lastCustomerId + 1);
+        Customer newCustomer = new Customer();
+        newCustomer.setCode(customerCode);
+        newCustomer.setCustomerType(2);
+
         List<Customer> customers = customerService.findAllByCustomerType(2);
         List<Medicine> medicines = medicineService.getAll();
 //        String username = SecurityContextHolder.getContext().getAuthentication().getName();
 //        User user = userService.findByUsername(username);
 //        receipt.setEmployee(user.getEmployee());
         model.addAttribute("receipt", receiptDTO);
-        model.addAttribute("customerCode", customerCode);
+        model.addAttribute("customer", newCustomer);
         model.addAttribute("customers", customers);
         model.addAttribute("medicines", medicines);
         model.addAttribute("action", "/receipt/order/update");
@@ -178,6 +193,14 @@ public class OrderReceiptController {
             model.addAttribute("medicines", medicines);
             model.addAttribute("action", "/receipt/order/update");
             model.addAttribute("title", "Chỉnh sửa hóa đơn");
+            Customer lastCustomer = customerService.findLastCustomer();
+            long lastCustomerId = lastCustomer == null?0:lastCustomer.getId();
+            String customerCode = "KTD" + String.valueOf(lastCustomerId + 1);
+            Customer newCustomer = new Customer();
+            newCustomer.setCode(customerCode);
+            newCustomer.setCustomerType(2);
+            model.addAttribute("customer", newCustomer);
+
             return "/receipt/order_receipt/form";
         }
         Receipt dataReceipt = new Receipt(

@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLDeleteAll;
+import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -14,6 +17,8 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE receipt_detail SET deleted_at = Now() WHERE id=?")
+@Where(clause = "deleted_at is null")
 public class ReceiptDetail {
 
     @Id
@@ -41,6 +46,10 @@ public class ReceiptDetail {
     @Column(name = "created_at")
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime createdAt;
+
+    @Column(name = "deleted_at")
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime deletedAt;
 
     public ReceiptDetail(Receipt receipt, Medicine medicine, String unit, Integer price, Integer quantity) {
         this.receipt = receipt;

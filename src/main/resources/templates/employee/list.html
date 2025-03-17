@@ -30,11 +30,11 @@
                                                 <div class="col-sm-9">
                                                     <select class="form-select form-control-sm" name="filterBy">
                                                         <option value="">-- Chọn bộ lọc--</option>
-                                                        <option value="code" >Mã nhân viên</option>
-                                                        <option value="fullName">Tên nhân viên</option>
-                                                        <option value="role">Chức vụ</option>
-                                                        <option value="address">Địa chỉ</option>
-                                                        <option value="phone">Điện thoại</option>
+                                                        <option value="code" th:selected="${filterBy == 'code'}">Mã nhân viên</option>
+                                                        <option value="fullName" th:selected="${filterBy == 'fullName'}">Tên nhân viên</option>
+                                                        <option value="role" th:selected="${filterBy == 'role'}">Chức vụ</option>
+                                                        <option value="address" th:selected="${filterBy == 'address'}">Địa chỉ</option>
+                                                        <option value="phone" th:selected="${filterBy == 'phone'}">Điện thoại</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -56,12 +56,12 @@
                                                 <div class="col-sm-9">
                                                     <select class="form-select form-control-sm" name="sortBy">
                                                         <option value="">-- Chọn loại sắp xếp --</option>
-                                                        <option value="code" >Mã nhân viên</option>
-                                                        <option value="fullName">Tên nhân viên</option>
-                                                        <option value="role">Chức vụ</option>
-                                                        <option value="hireDate">Ngày vào làm</option>
-                                                        <option value="address">Địa chỉ</option>
-                                                        <option value="phone">Điện thoại</option>
+                                                        <option value="code" th:selected="${sortBy == 'code'}">Mã nhân viên</option>
+                                                        <option value="fullName" th:selected="${sortBy == 'fullName'}">Tên nhân viên</option>
+                                                        <option value="role" th:selected="${sortBy == 'role'}">Chức vụ</option>
+                                                        <option value="hireDate" th:selected="${sortBy == 'hireDate'}">Ngày vào làm</option>
+                                                        <option value="address" th:selected="${sortBy == 'address'}">Địa chỉ</option>
+                                                        <option value="phone" th:selected="${sortBy == 'phone'}">Điện thoại</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -104,7 +104,7 @@
                                                     <td th:text="${#temporals.format(employee.createdAt, 'dd/MM/yyyy HH:mm:ss')}"></td>
                                                     <td>
                                                         <a th:href="@{/employee/edit/{id}(id=${employee.id})}" class="btn btn-sm btn-warning">Sửa</a>
-                                                        <a th:href="@{/employee/delete/{id}(id=${employee.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa không?');")>Xóa</a>
+                                                        <a th:href="@{/employee/delete/{id}(id=${employee.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</a>
                                                     </td>
                                                 </tr>
                                                 </tbody>

@@ -34,12 +34,12 @@ public class SupplierController {
             page = page - 1;
         }
 
-        Pageable pageable = PageRequest.of(page, 5);
+        Pageable pageable = PageRequest.of(page, 20);
         Page<Supplier> suppliers;
 
         if (!code.isEmpty()) {
             suppliers = supplierService.findByCodeContainingIgnoreCase(code, pageable);
-        } else if (!name.isEmpty()){
+        } else if (!name.isEmpty()) {
             suppliers = supplierService.findByNameContainingIgnoreCase(name, pageable);
         } else {
             suppliers = supplierService.findAll(pageable);
@@ -70,7 +70,7 @@ public class SupplierController {
     }
 
     @PostMapping("/create")
-    public String createSupplier( @ModelAttribute("supplier") @Valid Supplier supplier,
+    public String createSupplier(@ModelAttribute("supplier") @Valid Supplier supplier,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes,
                                  Model model) {
@@ -78,10 +78,15 @@ public class SupplierController {
             model.addAttribute("errors", bindingResult.getAllErrors());
             return "supplier/create";
         }
-        supplier.setCreatedAt(LocalDateTime.now());
-        supplierService.save(supplier);
-        redirectAttributes.addFlashAttribute("message", "Thêm mới thành công");
-        return "redirect:/supplier/list";
+        try {
+            supplier.setCreatedAt(LocalDateTime.now());
+            supplierService.save(supplier);
+            redirectAttributes.addFlashAttribute("message", "Thêm mới thành công");
+            return "redirect:/supplier/list";
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "supplier/create"; // Quay lại trang tạo mới
+        }
     }
 
     @GetMapping("/edit/{id}")

@@ -3,6 +3,8 @@ package com.codegym.casestudy_module4.service.impl;
 import com.codegym.casestudy_module4.entity.Customer;
 import com.codegym.casestudy_module4.repository.ICustomerRepository;
 import com.codegym.casestudy_module4.service.ICustomerService;
+import jakarta.persistence.EntityManager;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,14 @@ public class CustomerService implements ICustomerService {
     @Autowired
     private ICustomerRepository customerRepository;
 
+    @Autowired
+    private EntityManager entityManager;
+
     @Override
     public List<Customer> getAll() {
+        Session session = entityManager.unwrap(Session.class);
+        session.enableFilter("notDeletedCustomerFilter");
+
         return customerRepository.findAll();
     }
 
@@ -69,11 +77,14 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer findById(long id) {
-        return customerRepository.findById(id).orElse(null);
+        return customerRepository.findNotDeletedById(id);
     }
 
     @Override
     public List<Customer> findByName(String name) {
+        Session session = entityManager.unwrap(Session.class);
+        session.enableFilter("notDeletedCustomerFilter");
+
         return customerRepository.findByNameContainingIgnoreCase(name);
     }
 
@@ -82,6 +93,13 @@ public class CustomerService implements ICustomerService {
     }
 
     public List<Customer> findAllByCustomerType(int customerType) {
+        Session session = entityManager.unwrap(Session.class);
+        session.enableFilter("notDeletedCustomerFilter");
         return customerRepository.findAllByCustomerType(customerType);
+    }
+
+    @Override
+    public Customer updateOrCreate(Customer customer) {
+        return customerRepository.save(customer);
     }
 }

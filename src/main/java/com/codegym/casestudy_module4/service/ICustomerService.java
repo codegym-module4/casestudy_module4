@@ -15,5 +15,6 @@ public interface ICustomerService extends IService<Customer> {
     void remove(Long id);
     Customer findById(long id);
     List<Customer> findByName(String name);
+    Customer updateOrCreate(Customer customer);
 
 }

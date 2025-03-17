@@ -154,6 +154,43 @@
             $('.medicine-list-error strong').text("Hãy chọn ít nhất 1 loại thuốc để tạo hóa đơn");
         }
     });
+
+    $(document).on("click", ".btnCreateUser", function (e) {
+        let formId = $(this).data("form_id");
+        setDataInitialize();
+        $.ajax({
+            method: $(formId).attr('method'),
+            url: $(formId).attr('action'),
+            data: $(formId).serialize(),
+            dataType: 'json'
+        }).done(function (data) {
+            let id = parseInt(data['id']) + 1;
+            let code = ($('#wholesale').length?"KSI":"KTD") + id;
+            $(formId + " input").val('');
+            $(formId + " #code-input, .code-value").val(code);
+            $(formId + " #customer_type").val(2);
+            let option = `<option value="${data['id']}">${data['name']}</option>`;
+            $("#customer").append(option);
+            $("#customer").val(data['id']);
+            alert("Thêm khách hàng thành công");
+            $('#modalCreateUser').modal("hide");
+        }).fail(function (jqXhr, json, errorThrown) {
+            if (jqXhr.responseJSON.errors) {
+                if (jqXhr.responseJSON.message == 'Validation failed') {
+                    console.log(jqXhr.responseJSON.validator)
+                    $.each(jqXhr.responseJSON.validator, function (key, value) {
+                        var element = 'input';
+                        var input = formId + ' ' + element + '[name="' + key + '"]';
+                        $(input).addClass('is-invalid');
+                        $(input + '+span strong').text(value);
+                        return;
+                    });
+                } else {
+                    alert(jqXhr.responseJSON.message);
+                }
+            }
+        });
+    });
     calculateTotal();
 })();
 
@@ -179,4 +216,12 @@ function updateTotal() {
             $element.find('.medicine-total').text(quantity * price);
         }
     });
+}
+function setDataInitialize()
+{
+    $('.invalid-feedback strong').text('');
+    $('div.invalid-feedback').text('');
+    $('.text-danger strong').text('');
+    $('input').removeClass('is-invalid');
+    $('textarea').removeClass('is-invalid');
 }
