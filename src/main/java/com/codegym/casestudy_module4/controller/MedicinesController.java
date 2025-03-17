@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,15 +44,17 @@ public class MedicinesController {
     public String showList(Model model,
                            @RequestParam(value = "name", defaultValue = "") String name,
                            @RequestParam Map<String, String> search,
-                           @RequestParam(name = "page", defaultValue = "1") int page
+                           @RequestParam(name = "page", defaultValue = "1") int page, HttpServletRequest request
     ) {
         try {
-            Page<Medicine> listMedicines = medicineService.findByName(name, PageRequest.of(page - 1, 6));
+            String url = request.getRequestURI();
+            Page<Medicine> listMedicines = medicineService.findByName(name, PageRequest.of(page - 1, 20));
             search.remove("page");
             String queryParams = search.entrySet().stream()
                     .map(entry -> entry.getKey() + "=" + entry.getValue())
                     .collect(Collectors.joining("&"));
-            model.addAttribute("page", page - 1);
+//            model.addAttribute("page", page - 1);
+            model.addAttribute("url", url);
             model.addAttribute("queryParams", queryParams);
             model.addAttribute("listMedicines", listMedicines);
         } catch (Exception e) {
@@ -72,17 +76,12 @@ public class MedicinesController {
     ) {
         try {
 
-            Pageable pageable = PageRequest.of(page - 1, 5);
+            Pageable pageable = PageRequest.of(page - 1, 20);
             String url = request.getRequestURI();
             switch (query) {
                 case "name":
                     if (!value.isEmpty()) {
                         Page<Medicine> listMedicines = medicineService.filterByName(pageable, value);
-                        int totalPages = listMedicines.getTotalPages();
-                        if (page >= totalPages) {
-                            redirectAttributes.addFlashAttribute("errorMessage", "Trang bạn yêu cầu vượt quá số trang hiện có!");
-                            return "redirect:/medicines/list";
-                        }
                         if (listMedicines.isEmpty()) {
                             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy kết quả phù hợp!");
                             return "redirect:/medicines/list";
@@ -95,11 +94,6 @@ public class MedicinesController {
                 case "code":
                     if (!value.isEmpty()) {
                         Page<Medicine> listMedicines = medicineService.filterByCode(pageable, value);
-                        int totalPages = listMedicines.getTotalPages();
-                        if (page >= totalPages) {
-                            redirectAttributes.addFlashAttribute("errorMessage", "Trang bạn yêu cầu vượt quá số trang hiện có!");
-                            return "redirect:/medicines/list";
-                        }
                         if (listMedicines.isEmpty()) {
                             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy kết quả phù hợp!");
                             return "redirect:/medicines/list";
@@ -111,11 +105,6 @@ public class MedicinesController {
                 case "group":
                     if (!value.isEmpty()) {
                         Page<Medicine> listMedicines = medicineService.filterByGroup(pageable, value);
-                        int totalPages = listMedicines.getTotalPages();
-                        if (page >= totalPages) {
-                            redirectAttributes.addFlashAttribute("errorMessage", "Trang bạn yêu cầu vượt quá số trang hiện có!");
-                            return "redirect:/medicines/list";
-                        }
                         if (listMedicines.isEmpty()) {
                             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy kết quả phù hợp!");
                             return "redirect:/medicines/list";
@@ -128,11 +117,6 @@ public class MedicinesController {
                 case "ingredients":
                     if (!value.isEmpty()) {
                         Page<Medicine> listMedicines = medicineService.filterByIngredients(pageable, value);
-                        int totalPages = listMedicines.getTotalPages();
-                        if (page >= totalPages) {
-                            redirectAttributes.addFlashAttribute("errorMessage", "Trang bạn yêu cầu vượt quá số trang hiện có!");
-                            return "redirect:/medicines/list";
-                        }
                         if (listMedicines.isEmpty()) {
                             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy kết quả phù hợp!");
                             return "redirect:/medicines/list";
@@ -162,11 +146,6 @@ public class MedicinesController {
                 case "min_retail_price":
                     if (!value.isEmpty()) {
                         Page<Medicine> listMedicines = medicineService.filterByRetailPriceMin(pageable, Integer.parseInt(value));
-                        int totalPages = listMedicines.getTotalPages();
-                        if (page >= totalPages) {
-                            redirectAttributes.addFlashAttribute("errorMessage", "Trang bạn yêu cầu vượt quá số trang hiện có!");
-                            return "redirect:/medicines/list";
-                        }
                         if (listMedicines.isEmpty()) {
                             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy kết quả phù hợp!");
                             return "redirect:/medicines/list";
@@ -179,11 +158,6 @@ public class MedicinesController {
                 case "min_wholesale_price":
                     if (!value.isEmpty()) {
                         Page<Medicine> listMedicines = medicineService.filterByWholesalePriceMin(pageable, Integer.parseInt(value));
-                        int totalPages = listMedicines.getTotalPages();
-                        if (page >= totalPages) {
-                            redirectAttributes.addFlashAttribute("errorMessage", "Trang bạn yêu cầu vượt quá số trang hiện có!");
-                            return "redirect:/medicines/list";
-                        }
                         if (listMedicines.isEmpty()) {
                             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy kết quả phù hợp!");
                             return "redirect:/medicines/list";
@@ -197,11 +171,6 @@ public class MedicinesController {
                 case "max_import_price":
                     if (!value.isEmpty()) {
                         Page<Medicine> listMedicines = medicineService.filterByImportPriceMax(pageable, Integer.parseInt(value));
-                        int totalPages = listMedicines.getTotalPages();
-                        if (page >= totalPages) {
-                            redirectAttributes.addFlashAttribute("errorMessage", "Trang bạn yêu cầu vượt quá số trang hiện có!");
-                            return "redirect:/medicines/list";
-                        }
                         if (listMedicines.isEmpty()) {
                             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy kết quả phù hợp!");
                             return "redirect:/medicines/list";
@@ -214,11 +183,6 @@ public class MedicinesController {
                 case "max_retail_price":
                     if (!value.isEmpty()) {
                         Page<Medicine> listMedicines = medicineService.filterByRetailPriceMax(pageable, Integer.parseInt(value));
-                        int totalPages = listMedicines.getTotalPages();
-                        if (page >= totalPages) {
-                            redirectAttributes.addFlashAttribute("errorMessage", "Trang bạn yêu cầu vượt quá số trang hiện có!");
-                            return "redirect:/medicines/list";
-                        }
                         if (listMedicines.isEmpty()) {
                             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy kết quả phù hợp!");
                             return "redirect:/medicines/list";
@@ -231,11 +195,6 @@ public class MedicinesController {
                 case "max_wholesale_price":
                     if (!value.isEmpty()) {
                         Page<Medicine> listMedicines = medicineService.filterByWholesalePriceMax(pageable, Integer.parseInt(value));
-                        int totalPages = listMedicines.getTotalPages();
-                        if (page >= totalPages) {
-                            redirectAttributes.addFlashAttribute("errorMessage", "Trang bạn yêu cầu vượt quá số trang hiện có!");
-                            return "redirect:/medicines/list";
-                        }
                         if (listMedicines.isEmpty()) {
                             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy kết quả phù hợp!");
                             return "redirect:/medicines/list";
@@ -249,11 +208,6 @@ public class MedicinesController {
                 case "equal_import_price":
                     if (!value.isEmpty()) {
                         Page<Medicine> listMedicines = medicineService.filterByImportPriceEqual(pageable, Integer.parseInt(value));
-                        int totalPages = listMedicines.getTotalPages();
-                        if (page >= totalPages) {
-                            redirectAttributes.addFlashAttribute("errorMessage", "Trang bạn yêu cầu vượt quá số trang hiện có!");
-                            return "redirect:/medicines/list";
-                        }
                         if (listMedicines.isEmpty()) {
                             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy kết quả phù hợp!");
                             return "redirect:/medicines/list";
@@ -266,11 +220,6 @@ public class MedicinesController {
                 case "equal_retail_price":
                     if (!value.isEmpty()) {
                         Page<Medicine> listMedicines = medicineService.filterByRetailPriceEqual(pageable, Integer.parseInt(value));
-                        int totalPages = listMedicines.getTotalPages();
-                        if (page >= totalPages) {
-                            redirectAttributes.addFlashAttribute("errorMessage", "Trang bạn yêu cầu vượt quá số trang hiện có!");
-                            return "redirect:/medicines/list";
-                        }
                         if (listMedicines.isEmpty()) {
                             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy kết quả phù hợp!");
                             return "redirect:/medicines/list";
@@ -283,11 +232,6 @@ public class MedicinesController {
                 case "equal_wholesale_price":
                     if (!value.isEmpty()) {
                         Page<Medicine> listMedicines = medicineService.filterByWholesalePriceEqual(pageable, Integer.parseInt(value));
-                        int totalPages = listMedicines.getTotalPages();
-                        if (page >= totalPages) {
-                            redirectAttributes.addFlashAttribute("errorMessage", "Trang bạn yêu cầu vượt quá số trang hiện có!");
-                            return "redirect:/medicines/list";
-                        }
                         if (listMedicines.isEmpty()) {
                             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy kết quả phù hợp!");
                             return "redirect:/medicines/list";
@@ -313,7 +257,12 @@ public class MedicinesController {
 
 
     @GetMapping("/createView")
-    public String createMedicine(Model model, @ModelAttribute("listErrorMes") List<String> listErrorMes) {
+    public String createMedicine(Model model,
+                                 @ModelAttribute("listErrorMes") Map<String, String> listErrorMes
+    ) {
+        if (listErrorMes == null || listErrorMes.isEmpty()) {
+            listErrorMes = new HashMap<>();
+        }
         List<MedicineGroup> medicineGroups = medicineGroupService.getAll();
         List<Supplier> suppliers = supplierService.getAll();
         model.addAttribute("medicine", new Medicine());
@@ -329,15 +278,12 @@ public class MedicinesController {
             @Validated @ModelAttribute("medicine") Medicine medicine, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         if (bindingResult.hasErrors()) {
             System.out.println(">>>>>>>>>>>>>>" + bindingResult.getAllErrors());
-            List<String> listErrorsMes = ValidationMessage.getErrorMessages(bindingResult);
-            System.out.println("++++++++++++++++++++++++" + listErrorsMes);
+            Map<String, String> listErrorsMes = ValidationMessage.getErrorMes(bindingResult);
             redirectAttributes.addFlashAttribute("listErrorMes", listErrorsMes);
-//            model.addAttribute("listErrorMes", listErrorsMes);
-//            model.addAttribute("errors", bindingResult.getAllErrors());
             return "redirect:/medicines/createView";
         }
         medicine.setCreatedAt(LocalDateTime.now());
-        medicine.setStatus("Available");
+        medicine.setStatus("1");
         medicineService.save(medicine);
         redirectAttributes.addFlashAttribute("message", "Thêm mới thành công!");
         return "redirect:/medicines/list";

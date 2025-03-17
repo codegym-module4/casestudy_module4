@@ -49,7 +49,7 @@
                                         <div class="form-group col-md-6">
                                             <label for="medicineGroup">Nhóm thuốc</label>
                                             <select disabled id="medicineGroup" class="form-control">
-                                                <option th:text="${medicine.medicineGroup.name}"
+                                                <option th:text="${medicine.medicineGroup.deletedAt == null ? medicine.medicineGroup.name : 'Không'}"
                                                         selected></option>
                                                 <option>Nhóm 2</option>
                                                 <option>Nhóm 3</option>
@@ -179,7 +179,7 @@
                                         <div class="form-group col-md-6">
                                             <label for="supplier">Nhà sản xuất</label>
                                             <input disabled type="text" class="form-control" id="supplier"
-                                                   th:value="${medicine.supplier.name}"
+                                                   th:value="${medicine.supplier.deletedAt == null ? medicine.supplier.name : 'Không'}"
                                                    placeholder="Nhà sản xuất">
                                         </div>
                                         <div class="form-group col-md-6">
@@ -212,7 +212,8 @@
                                             </a>
                                         </div>
                                         <div class="form-group d-inline-block mr-4">
-                                            <a th:onclick="|window.location.href='/medicines/details/delete/' + ${medicine.id}|"
+                                            <a th:href="@{'/medicines/details/delete/' + ${medicine.id}}"
+                                               onclick="return confirm('Bạn có chắc muốn xóa không?')"
                                                class="btn btn-danger">
                                                 <i class="fas fa-trash-alt"></i>
                                                 Xóa
@@ -243,4 +244,5 @@
 </body>
 <th:block th:replace="~{layout/script::script}">
 </th:block>
+
 </html>

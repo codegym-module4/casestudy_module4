@@ -55,7 +55,8 @@ public class SupplierService implements ISupplierService {
 
     @Override
     public Supplier findById(long id) {
-        return supplierRepository.findNotDeletedById(id);
+//        return supplierRepository.findNotDeletedById(id);
+        return null;
     }
 
     @Override
@@ -75,7 +76,7 @@ public class SupplierService implements ISupplierService {
         Session session = entityManager.unwrap(Session.class);
         session.enableFilter("notDeletedSupplierFilter");
 
-        return supplierRepository.findAllByCodeContainingIgnoreCase(code,pageable);
+        return supplierRepository.findAllByCodeContainingIgnoreCase(code, pageable);
     }
 
     @Override

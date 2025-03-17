@@ -122,7 +122,7 @@
                                                 </tr>
                                                 <tr th:each="medicine : ${listMedicines}">
                                                     <td th:text="${medicine.code}"></td>
-                                                    <td th:text="${medicine.medicineGroup.name}"></td>
+                                                    <td th:text="${medicine.medicineGroup.deletedAt == null ? medicine.medicineGroup.name : 'Không' }"></td>
                                                     <td th:text="${medicine.name}"></td>
                                                     <td th:text="${medicine.activeIngredient}"></td>
                                                     <td th:text="${medicine.unit}"></td>
