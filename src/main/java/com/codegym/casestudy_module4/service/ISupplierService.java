@@ -9,4 +9,6 @@ public interface ISupplierService extends IService<Supplier> {
     Page<Supplier> findByNameContainingIgnoreCase(String name, Pageable pageable);
     Page<Supplier> findByCodeContainingIgnoreCase(String code, Pageable pageable);
     Page<Supplier> findAll(Pageable pageable);
+    boolean existsByCode(String code);
+    Supplier findByCode(String code);
 }

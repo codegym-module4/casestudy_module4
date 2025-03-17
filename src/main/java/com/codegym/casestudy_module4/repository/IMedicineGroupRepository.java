@@ -20,4 +20,6 @@ public interface IMedicineGroupRepository extends JpaRepository<MedicineGroup, L
     MedicineGroup findNotDeletedById(@Param("id") long id);
 
     boolean existsByCode(String code);
+
+    MedicineGroup findByCode(String code);
 }

@@ -10,4 +10,6 @@ public interface IMedicineGroupService extends IService<MedicineGroup> {
     Page<MedicineGroup> findByNameContainingIgnoreCase(String name, Pageable pageable);
     Page<MedicineGroup> findByCodeContainingIgnoreCase(String code, Pageable pageable);
     Page<MedicineGroup> findAll(Pageable pageable);
+    boolean existsByCode(String code);
+    MedicineGroup findByCode(String code);
 }

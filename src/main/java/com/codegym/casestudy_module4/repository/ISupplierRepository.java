@@ -18,4 +18,6 @@ public interface ISupplierRepository extends JpaRepository<Supplier, Long> {
     Supplier findNotDeletedById(@Param("id") long id);
 
     boolean existsByCode(String code);
+
+    Supplier findByCode(String code);
 }

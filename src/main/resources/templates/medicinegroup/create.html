@@ -36,22 +36,31 @@
                                                   method="post">
                                                 <div class="mb-3">
                                                     <label for="code" class="form-label">Mã nhóm thuốc: </label>
-                                                    <input type="text" class="form-control" id="code" name="code"
+                                                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('code')} ? 'is-invalid' : ''" id="code" name="code"
                                                            th:field="*{code}" maxlength="50" required/>
-                                                    <p style="color: red" th:errors="*{code}"></p>
-                                                    <span style="color: red" th:if="${errorMessage}" th:text="${errorMessage}"></span>
+<!--                                                    <p style="color: red" th:errors="*{code}"></p>-->
+<!--                                                    <span style="color: red" th:if="${errorMessage}" th:text="${errorMessage}"></span>-->
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong th:if="${#fields.hasErrors('code')}" th:text="${#fields.errors('code')[0]}"></strong>
+                                                    </span>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="name" class="form-label">Tên nhóm thuốc: </label>
-                                                    <input type="text" class="form-control" id="name" name="name"
+                                                    <input type="text" class="form-control" id="name" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
                                                            th:field="*{name}" required/>
-                                                    <p style="color: red" th:errors="*{name}"></p>
+<!--                                                    <p style="color: red" th:errors="*{name}"></p>-->
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong th:if="${#fields.hasErrors('name')}" th:text="${#fields.errors('name')[0]}"></strong>
+                                                    </span>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="description" class="form-label">Mô tả: </label>
-                                                    <input type="text" class="form-control" id="description"
+                                                    <input type="text" class="form-control" id="description" th:classappend="${#fields.hasErrors('description')} ? 'is-invalid' : ''"
                                                            name="description" th:field="*{description}"/>
-                                                    <p style="color: red" th:errors="*{description}"></p>
+<!--                                                    <p style="color: red" th:errors="*{description}"></p>-->
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong th:if="${#fields.hasErrors('description')}" th:text="${#fields.errors('description')[0]}"></strong>
+                                                    </span>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary">Thêm mới</button>
                                             </form>
