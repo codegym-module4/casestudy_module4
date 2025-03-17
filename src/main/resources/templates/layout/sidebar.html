@@ -33,7 +33,7 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-compact" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item">
+          <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
             <a href="/user" class="nav-link"
                th:classappend="${thymeleafHelper.getControllerName() == 'UserController' ? 'active':''}"
             >
@@ -41,7 +41,7 @@
               <p>Quản lý tài khoản</p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
             <a href="/employee" class="nav-link"
                th:classappend="${thymeleafHelper.getControllerName() == 'EmployeeController' ? 'active':''}"
             >
@@ -49,7 +49,7 @@
               <p>Quản lý nhân viên</p>
             </a>
           </li>
-          <li class="nav-item menu-is-opening menu-open">
+          <li class="nav-item menu-is-opening menu-open" sec:authorize="hasRole('ROLE_ADMIN')">
             <a href="#" class="nav-link"
                th:classappend="${thymeleafHelper.getControllerName() == 'CustomerController' ? 'active':''}"
             >
@@ -78,7 +78,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
             <a href="/supplier/list" class="nav-link"
                th:classappend="${thymeleafHelper.getControllerName() == 'SupplierController' ? 'active':''}"
             >
@@ -86,7 +86,7 @@
               <p>Quản lý nhà cung cấp</p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
             <a href="/medicines/list" class="nav-link"
                th:classappend="${thymeleafHelper.getControllerName() == 'MedicineController' ? 'active':''}"
             >
@@ -94,7 +94,7 @@
               <p>Quản lý thuốc</p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
             <a href="/medicinegroup/list" class="nav-link"
                th:classappend="${thymeleafHelper.getControllerName() == 'MedicineGroupController' ? 'active':''}"
             >
