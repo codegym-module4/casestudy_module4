@@ -55,8 +55,7 @@ public class SupplierService implements ISupplierService {
 
     @Override
     public Supplier findById(long id) {
-//        return supplierRepository.findNotDeletedById(id);
-        return null;
+        return supplierRepository.findNotDeletedById(id);
     }
 
     @Override
