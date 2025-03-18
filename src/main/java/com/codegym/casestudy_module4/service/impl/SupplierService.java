@@ -1,6 +1,7 @@
 package com.codegym.casestudy_module4.service.impl;
 
 import com.codegym.casestudy_module4.entity.Customer;
+import com.codegym.casestudy_module4.entity.Medicine;
 import com.codegym.casestudy_module4.entity.Supplier;
 import com.codegym.casestudy_module4.repository.ISupplierRepository;
 import com.codegym.casestudy_module4.service.ICustomerService;
@@ -43,7 +44,6 @@ public class SupplierService implements ISupplierService {
     @Override
     public void update(long id, Supplier s) {
         s.setId(id);
-        s.setCode(findById(id).getCode());
         s.setCreatedAt(findById(id).getCreatedAt());
         supplierRepository.save(s);
     }
