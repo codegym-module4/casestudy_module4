@@ -41,7 +41,6 @@ public class MedicineGroupService implements IMedicineGroupService {
     @Override
     public void update(long id, MedicineGroup medicineGroup) {
         medicineGroup.setId(id);
-        medicineGroup.setCode(findById(id).getCode());
         medicineGroup.setCreatedAt(findById(id).getCreatedAt());
         medicineGroupRepository.save(medicineGroup);
     }
