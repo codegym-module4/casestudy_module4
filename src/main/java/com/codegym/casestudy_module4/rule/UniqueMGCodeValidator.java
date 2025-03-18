@@ -26,7 +26,7 @@ public class UniqueMGCodeValidator implements ConstraintValidator<UniqueMGCode, 
         MedicineGroup md = medicineGroupService.findByCode(medicineGroup.getCode());
         if (md != null) {
             if (medicineGroup.getId() != null) {
-                return !Objects.equals(md.getId(), medicineGroup.getId());
+                return Objects.equals(md.getId(), medicineGroup.getId());
             }
             return false;
         }

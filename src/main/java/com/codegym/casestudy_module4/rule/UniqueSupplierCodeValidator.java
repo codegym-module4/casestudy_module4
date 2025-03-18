@@ -25,7 +25,7 @@ public class UniqueSupplierCodeValidator implements ConstraintValidator<UniqueSu
         Supplier s = supplierService.findByCode(supplier.getCode());
         if (s != null) {
             if (supplier.getId() != null) {
-                return !Objects.equals(s.getId(), supplier.getId());
+                return Objects.equals(s.getId(), supplier.getId());
             }
             return false;
         }
