@@ -1,6 +1,5 @@
 package com.codegym.casestudy_module4.entity;
 
-import com.codegym.casestudy_module4.annotation.UniqueMGCode;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -23,7 +22,6 @@ import java.time.LocalDateTime;
 //@Where(clause = "deleted_at is null")
 @FilterDef(name = "notDeletedMGFilter")
 @Filter(name = "notDeletedMGFilter", condition = "deleted_at IS NULL")
-@UniqueMGCode
 public class MedicineGroup {
 
     @Id

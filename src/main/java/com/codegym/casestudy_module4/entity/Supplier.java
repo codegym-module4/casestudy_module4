@@ -1,6 +1,5 @@
 package com.codegym.casestudy_module4.entity;
 
-import com.codegym.casestudy_module4.annotation.UniqueSupplierCode;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,7 +25,6 @@ import java.time.LocalDateTime;
 //@Where(clause = "deleted_at is null")
 @FilterDef(name = "notDeletedSupplierFilter")
 @Filter(name = "notDeletedSupplierFilter", condition = "deleted_at IS NULL")
-@UniqueSupplierCode
 public class Supplier {
 
     @Id

@@ -36,12 +36,15 @@
                                                   method="post">
                                                 <div class="mb-3">
                                                     <label for="code" class="form-label">Mã nhóm thuốc: </label>
-                                                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('code')} ? 'is-invalid' : ''" id="code" name="code"
+                                                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('code') || errorMessage != null} ? 'is-invalid' : ''" id="code" name="code"
                                                            th:field="*{code}" maxlength="50" required/>
 <!--                                                    <p style="color: red" th:errors="*{code}"></p>-->
 <!--                                                    <span style="color: red" th:if="${errorMessage}" th:text="${errorMessage}"></span>-->
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong th:if="${#fields.hasErrors('code')}" th:text="${#fields.errors('code')[0]}"></strong>
+                                                    </span>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong th:if="${errorMessage}" th:text="${errorMessage}"></strong>
                                                     </span>
                                                 </div>
                                                 <div class="mb-3">

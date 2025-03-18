@@ -43,6 +43,9 @@
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong th:if="${#fields.hasErrors('code')}" th:text="${#fields.errors('code')[0]}"></strong>
                                                     </span>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong th:if="${errorMessage}" th:text="${errorMessage}"></strong>
+                                                    </span>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="name" class="form-label">Tên NCC: </label>

@@ -30,13 +30,8 @@
                                                   method="post">
                                                 <div class="mb-3">
                                                     <label for="code" class="form-label">Mã NCC: </label>
-                                                    <input type="text" class="form-control" id="code" th:classappend="${#fields.hasErrors('code')} ? 'is-invalid' : ''"
+                                                    <input type="text" class="form-control" id="code"
                                                            th:field="*{code}" maxlength="50" readonly/>
-                                                    <!--                                                    <p style="color: red" th:errors="*{code}"></p>-->
-                                                    <!--                                                    <span style="color: red" th:if="${errorMessage}" th:text="${errorMessage}"></span>-->
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong th:if="${#fields.hasErrors('code')}" th:text="${#fields.errors('code')[0]}"></strong>
-                                                    </span>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="name" class="form-label">Tên NCC: </label>
