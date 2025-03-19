@@ -135,8 +135,8 @@ public class UserController {
         if (!isMatch) {
             redirectAttributes.addFlashAttribute("error", "Mật khẩu cũ không đúng");
             return "redirect:/user/changePassword/" + id;
-        } else if (!newPassword1.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$")) {
-            redirectAttributes.addFlashAttribute("error", "Mật khẩu mới phải có ít nhất 6 ký tự, gồm chữ, số và ký tự đặc biệt");
+        } else if (!newPassword1.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
+            redirectAttributes.addFlashAttribute("error", "Mật khẩu mới phải có ít nhất 8 ký tự, gồm chữ, số");
             return "redirect:/user/changePassword/" + id;
         } else if (encoder.matches(newPassword1, currentPassword)) {
             redirectAttributes.addFlashAttribute("error", "Mật khẩu mới không được trùng với mật khẩu cũ");

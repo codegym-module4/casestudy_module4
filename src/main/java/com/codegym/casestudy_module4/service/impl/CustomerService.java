@@ -30,12 +30,12 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public void save(Customer customer) {
-        if (customer.getPhone() == null || !customer.getPhone().matches("\\d{10}")) {
-            throw new IllegalArgumentException("Số điện thoại phải gồm 10 chữ số");
-        }
-        if (customerRepository.existsByPhone(customer.getPhone())) {
-            throw new IllegalArgumentException("Số điện thoại đã tồn tại");
-        }
+//        if (customer.getPhone() == null || !customer.getPhone().matches("\\d{10}")) {
+//            throw new IllegalArgumentException("Số điện thoại phải gồm 10 chữ số");
+//        }
+//        if (customerRepository.existsByPhone(customer.getPhone())) {
+//            throw new IllegalArgumentException("Số điện thoại đã tồn tại");
+//        }
         customer.setCreatedAt(LocalDateTime.now());
         customer.setStatus(1);
 

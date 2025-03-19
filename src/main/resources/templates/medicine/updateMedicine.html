@@ -82,7 +82,7 @@
                                         <div class="form-group col-md-6">
                                             <label for=expiredDate>Ngày hết hạn <span
                                                     th:attr="style='font-style: italic; color: #dc3545; font-size: 1em;'">(*)</span></label>
-                                            <input type="text" class="form-control" id="expiredDate"
+                                            <input type="text" class="form-control datepicker datetimepicker-input" data-toggle="datetimepicker" id="expiredDate"
                                                    name="expiredDate" th:field="*{expiredDate}"
                                                    placeholder="Ngày hết hạn"
                                                    th:classappend="${listErrorMes.containsKey('expiredDate')} ? 'is-invalid' : ''"
